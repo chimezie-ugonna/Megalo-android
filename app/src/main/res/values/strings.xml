@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">Megalo</string>
+    <string name="server_url" translatable="false">https://megalo-production.herokuapp.com/api/v1/</string>
+</resources>
