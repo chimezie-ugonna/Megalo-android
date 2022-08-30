@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_text">35sp</dimen>
+    <dimen name="header_text">30sp</dimen>
+    <dimen name="sub_header_text">25sp</dimen>
+    <dimen name="big_text">20sp</dimen>
+    <dimen name="normal_text">15sp</dimen>
+    <dimen name="small_text">10sp</dimen>
+    <dimen name="big_padding">15sp</dimen>
+    <dimen name="normal_padding">10sp</dimen>
+    <dimen name="enormous_padding">150sp</dimen>
+    <dimen name="small_padding">5sp</dimen>
+    <dimen name="icon_size">50sp</dimen>
+    <dimen name="small_icon_size">30sp</dimen>
+    <dimen name="logo_size">200sp</dimen>
+    <dimen name="stroke_size">1sp</dimen>
+    <dimen name="dialog_width">300sp</dimen>
+    <dimen name="dialog_side_padding">30sp</dimen>
+    <dimen name="loader_animation_width">200sp</dimen>
+    <dimen name="loader_animation_height">100sp</dimen>
+</resources>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "973752355569",
+    "project_id": "megalo-beta",
+    "storage_bucket": "megalo-beta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973752355569:android:56b1581e6c81b7280af750",
+        "android_client_info": {
+          "package_name": "invest.megalo.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973752355569-4h0s1c3v48i030ha0q58k3ggouohu5vi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "invest.megalo.beta",
+            "certificate_hash": "3ce7fd0889ed69659d0cd5d475dcf545cdbde84b"
+          }
+        },
+        {
+          "client_id": "973752355569-9gmuuk4jg63a0gmig4elghud0l6kmvt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKOSzl_LIHYe_6f7kZNgZC0nDTAnv_VY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973752355569-9gmuuk4jg63a0gmig4elghud0l6kmvt3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_your_phone_number">Trage deine Telefonnummer ein</string>
+    <string name="proceed">Fortfahren</string>
+    <string name="invest_in_real_estate_from_anywhere_anytime_and_with_any_budget">Investieren Sie von überall, jederzeit und mit jedem Budget in Immobilien.</string>
+    <string name="empty_phone_field_error_message">Bitte geben Sie eine Telefonnummer ein.</string>
+    <string name="invalid_phone_number_error_message">Diese Telefonnummer ist ungültig.</string>
+    <string name="no_internet_error_message">Es besteht keine Internetverbindung.</string>
+    <string name="unknown_error_message">Ein unbekannter Fehler ist aufgetreten.</string>
+    <string name="back">Zurück</string>
+    <string name="server_error_message">Vorgang fehlgeschlagen, da ein Serverfehler aufgetreten ist.</string>
+    <string name="otp_verification_header_text">Geben Sie den 6-stelligen Code ein, der Ihnen unter %s zugesandt wurde.</string>
+    <string name="incorrect_code_error_message">Dieser Code ist falsch.</string>
+    <string name="code_sent_message">Code erfolgreich gesendet.</string>
+    <string name="resend_code_single_counter_text">Code in &lt;b>%s&lt;/b> Sekunde erneut senden.</string>
+    <string name="resend_code_multiple_counter_text">Code in &lt;b>%s&lt;/b> Sekunden erneut senden.</string>
+    <string name="resend_code">Code erneut senden</string>
+    <string name="enter_your_full_name">Geben Sie Ihren vollständigen Namen ein</string>
+    <string name="enter_your_email">Geben sie ihre E-Mail Adresse ein</string>
+    <string name="enter_your_details_below">Geben Sie unten Ihre Daten ein.</string>
+    <string name="please_enter_your_full_name">bitte tragen Sie Ihren vollen Namen ein</string>
+    <string name="please_enter_your_email">Bitte geben Sie ihre E-Mail-Adresse ein</string>
+    <string name="please_enter_a_valid_email">Bitte geben Sie eine gültige Email-Adresse ein</string>
+    <string name="please_enter_your_first_and_last_name">Bitte geben Sie Ihren Vor- und Nachnamen ein</string>
+    <string name="log_out">Ausloggen</string>
+    <string name="go_back">Geh zurück</string>
+    <string name="processing">wird bearbeitet</string>
+    <string name="resending_verification_code">Bestätigungscode erneut senden.</string>
+    <string name="checking_verification_code">Überprüfung des Bestätigungscodes.</string>
+    <string name="logging_you_in">Melden Sie sich an.</string>
+    <string name="creating_your_account">Erstellen von Ihrem Konto.</string>
+    <string name="logging_you_out">Dich abmelden.</string>
+</resources>

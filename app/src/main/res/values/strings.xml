@@ -1,4 +1,35 @@
 <resources>
     <string name="app_name" translatable="false">Megalo</string>
+    <string name="app_version" translatable="false">1.0.0</string>
     <string name="server_url" translatable="false">https://megalo-production.herokuapp.com/api/v1/</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="proceed">Proceed</string>
+    <string name="invest_in_real_estate_from_anywhere_anytime_and_with_any_budget">Invest in real estate from anywhere, at anytime and with any budget.</string>
+    <string name="empty_phone_field_error_message">Please enter a phone number.</string>
+    <string name="invalid_phone_number_error_message">This phone number is invalid.</string>
+    <string name="no_internet_error_message">There is no internet connection.</string>
+    <string name="unknown_error_message">An unknown error occurred.</string>
+    <string name="back">Back</string>
+    <string name="server_error_message">Operation failed because a server error occurred.</string>
+    <string name="otp_verification_header_text">Enter the 6-digit code sent to you at %s</string>
+    <string name="incorrect_code_error_message">This code is incorrect.</string>
+    <string name="code_sent_message">Code sent successfully.</string>
+    <string name="resend_code_single_counter_text">Resend code in &lt;b>%s&lt;/b> second.</string>
+    <string name="resend_code_multiple_counter_text">Resend code in &lt;b>%s&lt;/b> seconds.</string>
+    <string name="resend_code">Resend code</string>
+    <string name="enter_your_full_name">Enter your full name</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_details_below">Enter your details below</string>
+    <string name="please_enter_your_full_name">Please enter your full name</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_a_valid_email">Please enter a valid email</string>
+    <string name="please_enter_your_first_and_last_name">Please enter your first and last name</string>
+    <string name="log_out">Log Out</string>
+    <string name="go_back">Go Back</string>
+    <string name="processing">Processing</string>
+    <string name="resending_verification_code">Resending verification code.</string>
+    <string name="checking_verification_code">Checking verification code.</string>
+    <string name="logging_you_in">Logging you in.</string>
+    <string name="creating_your_account">Creating your account.</string>
+    <string name="logging_you_out">Logging you out.</string>
 </resources>

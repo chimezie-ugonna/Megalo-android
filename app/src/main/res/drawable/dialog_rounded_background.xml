@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="@dimen/dialog_width"
+        android:gravity="center">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/white_night" />
+            <corners android:radius="@dimen/big_padding" />
+        </shape>
+    </item>
+
+</layer-list>
