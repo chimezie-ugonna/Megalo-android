@@ -6,16 +6,22 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
+import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.hbb20.CountryCodePicker
 import invest.megalo.R
-import invest.megalo.model.CustomSnackBar
-import invest.megalo.model.InternetCheck
-import invest.megalo.model.ServerConnection
-import invest.megalo.model.Session
+import invest.megalo.adapter.OnBoardingSlidesAdapter
+import invest.megalo.model.*
 import org.json.JSONObject
 
 
@@ -27,23 +33,87 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loader: ProgressBar
     lateinit var errorMessage: TextView
     private var phoneFieldState: String = "normal"
-    /*private val onActivityResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            /*if (requestCode == 1) {
-                val credential = data.getParcelableExtra<Credential>(Credential.EXTRA_KEY)
-                // credential.getId();  <-- will need to process phone number string
-            }*/
-        } else {
-
+    private lateinit var recyclerView: RecyclerView
+    lateinit var firstTextParent: LinearLayout
+    lateinit var secondTextParent: LinearLayout
+    lateinit var thirdTextParent: LinearLayout
+    lateinit var firstIndicator: TextView
+    lateinit var secondIndicator: TextView
+    lateinit var thirdIndicator: TextView
+    private val phoneNumberHintIntentResultLauncher: ActivityResultLauncher<IntentSenderRequest> =
+        registerForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            try {
+                val phoneNumber =
+                    Identity.getSignInClient(this).getPhoneNumberFromIntent(result.data)
+                ccp.fullNumber = phoneNumber
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        SetAppTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        firstTextParent = findViewById(R.id.first_text_parent)
+        secondTextParent = findViewById(R.id.second_text_parent)
+        thirdTextParent = findViewById(R.id.third_text_parent)
+        firstIndicator = findViewById(R.id.first_indicator)
+        secondIndicator = findViewById(R.id.second_indicator)
+        thirdIndicator = findViewById(R.id.third_indicator)
+        recyclerView = findViewById(R.id.recycler_view)
+        val images = ArrayList<Int>()
+        images.add(R.drawable.first_slide)
+        images.add(R.drawable.second_slide)
+        images.add(R.drawable.third_slide)
+        recyclerView.apply {
+            PagerSnapHelper().attachToRecyclerView(this)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val llm = recyclerView.layoutManager as LinearLayoutManager
+                    when (llm.findFirstCompletelyVisibleItemPosition()) {
+                        0 -> {
+                            firstTextParent.visibility = View.VISIBLE
+                            secondTextParent.visibility = View.GONE
+                            thirdTextParent.visibility = View.GONE
+
+                            firstIndicator.alpha = 1f
+                            secondIndicator.alpha = 0.40f
+                            thirdIndicator.alpha = 0.40f
+                        }
+
+                        1 -> {
+                            firstTextParent.visibility = View.GONE
+                            secondTextParent.visibility = View.VISIBLE
+                            thirdTextParent.visibility = View.GONE
+
+                            firstIndicator.alpha = 0.40f
+                            secondIndicator.alpha = 1f
+                            thirdIndicator.alpha = 0.40f
+                        }
+
+                        2 -> {
+                            firstTextParent.visibility = View.GONE
+                            secondTextParent.visibility = View.GONE
+                            thirdTextParent.visibility = View.VISIBLE
+
+                            firstIndicator.alpha = 0.40f
+                            secondIndicator.alpha = 0.40f
+                            thirdIndicator.alpha = 1f
+                        }
+                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+
+                }
+            })
+            adapter = OnBoardingSlidesAdapter(this@MainActivity, images)
+        }
 
         ccp = findViewById(R.id.ccp)
         phone = findViewById(R.id.phone)
@@ -54,10 +124,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (phone.hasFocus()) {
+                phoneFieldState = if (phone.hasFocus()) {
                     phone.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                    "active"
                 } else {
                     phone.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                    "normal"
                 }
                 errorMessage.text = ""
                 errorMessage.visibility = View.GONE
@@ -112,6 +184,7 @@ class MainActivity : AppCompatActivity() {
                             ccp.setCcpClickable(true)
                             proceedParent.isEnabled = true
                             phone.isEnabled = true
+                            it.printStackTrace()
                             CustomSnackBar(
                                 this@MainActivity,
                                 findViewById(R.id.parent),
@@ -131,34 +204,28 @@ class MainActivity : AppCompatActivity() {
 
         if (Session(this).loggedIn()) {
             startActivity(Intent(this, Home::class.java))
+        } else if (Session(this).devicePhoneNumber() != "") {
+            ccp.fullNumber = Session(this).devicePhoneNumber()
+        } else {
+            requestPhoneNumberHint()
         }
     }
 
-    // Construct a request for phone numbers and show the picker
-    /*private fun requestHint() {
-        val hintRequest: HintRequest = HintRequest.Builder()
-            .setPhoneNumberIdentifierSupported(true)
-            .build()
-        val intent: PendingIntent = Auth.CredentialsApi.getHintPickerIntent(
-            apiClient, hintRequest
-        )
-        startIntentSenderForResult(
-            intent.intentSender,
-            RESOLVE_HINT, null, 0, 0, 0
-        )
-        SignInClient.getPhoneNumberHintIntent(GetPhoneNumberHintIntentRequest)
-    }
+    private fun requestPhoneNumberHint() {
+        val request: GetPhoneNumberHintIntentRequest =
+            GetPhoneNumberHintIntentRequest.builder().build()
 
-    // Obtain the phone number from the result
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RESOLVE_HINT) {
-            if (resultCode == RESULT_OK) {
-                val credential = data.getParcelableExtra<Credential>(Credential.EXTRA_KEY)
-                // credential.getId();  <-- will need to process phone number string
+        Identity.getSignInClient(this)
+            .getPhoneNumberHintIntent(request)
+            .addOnSuccessListener {
+                phoneNumberHintIntentResultLauncher.launch(
+                    IntentSenderRequest.Builder(it.intentSender).build()
+                )
             }
-        }
-    }*/
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
 
     fun otpSent(l: Int) {
         loader.visibility = View.INVISIBLE

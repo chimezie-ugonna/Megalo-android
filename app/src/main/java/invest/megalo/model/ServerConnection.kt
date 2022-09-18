@@ -176,6 +176,8 @@ class ServerConnection(
                     header["Authorization"] = "Bearer $decryptedData"
                 }
                 header["Accept"] = "application/json"
+                header["access-type"] = "mobile"
+                header["device-os"] = "android"
                 header["device-token"] = Session(context).deviceToken().toString()
                 header["device-brand"] = Build.BRAND
                 header["device-model"] = Build.MODEL

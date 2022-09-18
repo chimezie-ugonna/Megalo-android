@@ -70,6 +70,36 @@
         android:textSize="@dimen/normal_text"
         android:visibility="gone" />
 
+    <EditText
+        android:id="@+id/dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email_error_message"
+        android:layout_marginTop="@dimen/normal_padding"
+        android:background="@drawable/light_gray_solid_curved_corners"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="@string/select_your_birthdate"
+        android:importantForAutofill="no"
+        android:inputType="none"
+        android:longClickable="false"
+        android:maxLines="1"
+        android:padding="@dimen/normal_padding"
+        android:textSize="@dimen/big_text"
+        tools:ignore="KeyboardInaccessibleWidget,LabelFor" />
+
+    <TextView
+        android:id="@+id/dob_error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dob"
+        android:layout_marginTop="@dimen/normal_padding"
+        android:gravity="start"
+        android:textColor="@color/red"
+        android:textSize="@dimen/normal_text"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/back"
         android:layout_width="wrap_content"
@@ -78,6 +108,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/app_green_circle"
+        android:foreground="@drawable/white_ripple_circle"
         android:padding="@dimen/small_padding">
 
         <ImageView
@@ -97,6 +128,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/app_green_circle"
+        android:foreground="@drawable/white_ripple_circle"
         android:padding="@dimen/small_padding">
 
         <ImageView

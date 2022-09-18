@@ -2,14 +2,14 @@
 <resources>
     <string name="enter_your_phone_number">Trage deine Telefonnummer ein</string>
     <string name="proceed">Fortfahren</string>
-    <string name="invest_in_real_estate_from_anywhere_anytime_and_with_any_budget">Investieren Sie von überall, jederzeit und mit jedem Budget in Immobilien.</string>
+    <string name="invest_in_real_estate_from_anywhere_anytime_and_on_any_budget">Investieren Sie in Immobilien von überall, jederzeit und mit jedem Budget.</string>
     <string name="empty_phone_field_error_message">Bitte geben Sie eine Telefonnummer ein.</string>
     <string name="invalid_phone_number_error_message">Diese Telefonnummer ist ungültig.</string>
     <string name="no_internet_error_message">Es besteht keine Internetverbindung.</string>
     <string name="unknown_error_message">Ein unbekannter Fehler ist aufgetreten.</string>
     <string name="back">Zurück</string>
     <string name="server_error_message">Vorgang fehlgeschlagen, da ein Serverfehler aufgetreten ist.</string>
-    <string name="otp_verification_header_text">Geben Sie den 6-stelligen Code ein, der Ihnen unter %s zugesandt wurde.</string>
+    <string name="otp_verification_header_text">Geben Sie den 6-stelligen Code ein, der Ihnen unter &lt;b>%s&lt;/b> zugesandt wurde</string>
     <string name="incorrect_code_error_message">Dieser Code ist falsch.</string>
     <string name="code_sent_message">Code erfolgreich gesendet.</string>
     <string name="resend_code_single_counter_text">Code in &lt;b>%s&lt;/b> Sekunde erneut senden.</string>
@@ -17,7 +17,7 @@
     <string name="resend_code">Code erneut senden</string>
     <string name="enter_your_full_name">Geben Sie Ihren vollständigen Namen ein</string>
     <string name="enter_your_email">Geben sie ihre E-Mail Adresse ein</string>
-    <string name="enter_your_details_below">Geben Sie unten Ihre Daten ein.</string>
+    <string name="enter_your_details_below">Geben Sie unten Ihre Daten ein</string>
     <string name="please_enter_your_full_name">bitte tragen Sie Ihren vollen Namen ein</string>
     <string name="please_enter_your_email">Bitte geben Sie ihre E-Mail-Adresse ein</string>
     <string name="please_enter_a_valid_email">Bitte geben Sie eine gültige Email-Adresse ein</string>
@@ -30,4 +30,17 @@
     <string name="logging_you_in">Melden Sie sich an.</string>
     <string name="creating_your_account">Erstellen von Ihrem Konto.</string>
     <string name="logging_you_out">Dich abmelden.</string>
+    <string name="select_your_birthdate">Wählen Sie Ihr Geburtsdatum aus</string>
+    <string name="please_select_your_birthdate">Bitte wählen Sie Ihr Geburtsdatum aus</string>
+    <string name="home">Heim</string>
+    <string name="investments">Investitionen</string>
+    <string name="profile">Profil</string>
+    <string name="welcome_to">Willkommen zu</string>
+    <string name="access_a_piece_of_real_estate_at_any_moment">Greifen Sie jederzeit auf eine Immobilie zu.</string>
+    <string name="we_take_care_of_the_paperwork">Wir kümmern uns um den Papierkram.</string>
+    <string name="get_incredible_monthly_returns_on_our_profits_and_returns_when_properties_are_sold">Erhalten Sie unglaubliche monatliche Renditen auf unsere Gewinne und Renditen, wenn Immobilien verkauft werden.</string>
+    <string name="if_you_own_a_part_you_get_your_part">Wenn Sie einen Teil besitzen, bekommen Sie Ihren Teil.</string>
+    <string name="select">Auswählen</string>
+    <string name="cancel">Absagen</string>
+    <string name="sms_retriever_timed_out">Zeitüberschreitung beim SMS-Abruf.</string>
 </resources>

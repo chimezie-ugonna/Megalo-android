@@ -9,7 +9,6 @@
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/red_solid"
         android:padding="@dimen/normal_padding"
         tools:ignore="UselessParent">
 
@@ -19,9 +18,7 @@
             android:layout_height="@dimen/small_icon_size"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:contentDescription="@null"
-            android:src="@mipmap/red_clear" />
-        <!--android:foreground="@drawable/error_red_ripple_circle"-->
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/text"

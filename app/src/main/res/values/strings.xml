@@ -1,17 +1,20 @@
 <resources>
     <string name="app_name" translatable="false">Megalo</string>
+    <string name="in_app_name" translatable="false">MEGALO</string>
     <string name="app_version" translatable="false">1.0.0</string>
     <string name="server_url" translatable="false">https://megalo-production.herokuapp.com/api/v1/</string>
+    <string name="date_format" translatable="false">%s/%s/%s</string>
+    <string name="date_picker" translatable="false">Date picker</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
-    <string name="invest_in_real_estate_from_anywhere_anytime_and_with_any_budget">Invest in real estate from anywhere, at anytime and with any budget.</string>
+    <string name="invest_in_real_estate_from_anywhere_anytime_and_on_any_budget">Invest in real estate from anywhere, anytime and on any budget.</string>
     <string name="empty_phone_field_error_message">Please enter a phone number.</string>
     <string name="invalid_phone_number_error_message">This phone number is invalid.</string>
     <string name="no_internet_error_message">There is no internet connection.</string>
     <string name="unknown_error_message">An unknown error occurred.</string>
     <string name="back">Back</string>
     <string name="server_error_message">Operation failed because a server error occurred.</string>
-    <string name="otp_verification_header_text">Enter the 6-digit code sent to you at %s</string>
+    <string name="otp_verification_header_text">Enter the 6-digit code sent to you at &lt;b>%s&lt;/b></string>
     <string name="incorrect_code_error_message">This code is incorrect.</string>
     <string name="code_sent_message">Code sent successfully.</string>
     <string name="resend_code_single_counter_text">Resend code in &lt;b>%s&lt;/b> second.</string>
@@ -32,4 +35,17 @@
     <string name="logging_you_in">Logging you in.</string>
     <string name="creating_your_account">Creating your account.</string>
     <string name="logging_you_out">Logging you out.</string>
+    <string name="select_your_birthdate">Select your birthdate</string>
+    <string name="please_select_your_birthdate">Please select your birthdate</string>
+    <string name="home">Home</string>
+    <string name="investments">Investments</string>
+    <string name="profile">Profile</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="access_a_piece_of_real_estate_at_any_moment">Access a piece of real estate at any moment.</string>
+    <string name="we_take_care_of_the_paperwork">We take care of the paperwork.</string>
+    <string name="get_incredible_monthly_returns_on_our_profits_and_returns_when_properties_are_sold">Get incredible monthly returns on our profits and returns when properties are sold.</string>
+    <string name="if_you_own_a_part_you_get_your_part">If you own a part, you get your part.</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
+    <string name="sms_retriever_timed_out">SMS retriever timed out.</string>
 </resources>

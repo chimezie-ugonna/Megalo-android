@@ -1,21 +1,25 @@
 package invest.megalo.controller.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
-import android.view.ActionMode
-import android.view.Menu
-import android.view.MenuItem
+import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.volley.Request
+import com.chaos.view.PinView
+import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.gms.tasks.Task
 import invest.megalo.R
 import invest.megalo.model.*
 import org.json.JSONObject
@@ -24,17 +28,20 @@ import org.json.JSONObject
 class OtpVerification : AppCompatActivity() {
     private var formattedPhoneNumber = ""
     private var fullPhoneNumber = ""
+    private lateinit var pinView: PinView
     private lateinit var header: TextView
-    private lateinit var e1: EditText
-    private lateinit var e2: EditText
-    private lateinit var e3: EditText
-    private lateinit var e4: EditText
-    private lateinit var e5: EditText
-    private lateinit var e6: EditText
     private lateinit var errorMessage: TextView
     private lateinit var resend: TextView
     private lateinit var back: FrameLayout
     private lateinit var loader: CustomLoader
+    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val b = intent.extras
+            val otp = b!!.getString("otp")
+            pinView.setText(otp)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         SetAppTheme(this)
         super.onCreate(savedInstanceState)
@@ -45,59 +52,39 @@ class OtpVerification : AppCompatActivity() {
         fullPhoneNumber = bundle?.get("full_phone_number").toString()
 
         header = findViewById(R.id.header)
-        header.text = getString(R.string.otp_verification_header_text, formattedPhoneNumber)
+        header.text = Html.fromHtml(
+            getString(
+                R.string.otp_verification_header_text,
+                formattedPhoneNumber
+            ), FROM_HTML_MODE_LEGACY
+        )
 
         loader = CustomLoader(this)
         errorMessage = findViewById(R.id.error_message)
-        e1 = findViewById(R.id.e1)
-        e2 = findViewById(R.id.e2)
-        e3 = findViewById(R.id.e3)
-        e4 = findViewById(R.id.e4)
-        e5 = findViewById(R.id.e5)
-        e6 = findViewById(R.id.e6)
+        pinView = findViewById(R.id.pin_view)
+        pinView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-        e1.disableCopyPaste()
-        e2.disableCopyPaste()
-        e3.disableCopyPaste()
-        e4.disableCopyPaste()
-        e5.disableCopyPaste()
-        e6.disableCopyPaste()
+            }
 
-        e1.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e1, e2))
-        e2.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e1, e3))
-        e3.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e2, e4))
-        e4.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e3, e5))
-        e5.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e4, e6))
-        e6.addTextChangedListener(GenericTextWatcher(this, e1, e2, e3, e4, e5, e6, e5, e6))
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                errorMessage.text = ""
+                errorMessage.visibility = View.GONE
+                pinView.setItemBackgroundColor(
+                    ContextCompat.getColor(
+                        this@OtpVerification,
+                        R.color.lightGray
+                    )
+                )
+                if (s.toString().length >= 6) {
+                    proceed()
+                }
+            }
 
-        e1.setOnKeyListener(GenericKeyListener(e1, e1, e2))
-        e2.setOnKeyListener(GenericKeyListener(e1, e2, e3))
-        e3.setOnKeyListener(GenericKeyListener(e2, e3, e4))
-        e4.setOnKeyListener(GenericKeyListener(e3, e4, e5))
-        e5.setOnKeyListener(GenericKeyListener(e4, e5, e6))
-        e6.setOnKeyListener(GenericKeyListener(e5, e6, e6))
+            override fun afterTextChanged(s: Editable?) {
 
-        e1.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-        e2.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-        e3.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-        e4.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-        e5.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-        e6.setOnFocusChangeListener { _, _ ->
-            resetFields()
-        }
-
-        e1.requestFocus()
-        resetFields()
+            }
+        })
 
         back = findViewById(R.id.back)
         back.setOnClickListener { finish() }
@@ -115,6 +102,20 @@ class OtpVerification : AppCompatActivity() {
         resend.isEnabled = false
         resend.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
         counter(30)
+
+        val client = SmsRetriever.getClient(this)
+        val task: Task<Void> = client.startSmsRetriever()
+        task.addOnSuccessListener {
+            registerReceiver(broadcastReceiver, IntentFilter("passOtp"))
+        }
+        task.addOnFailureListener {
+            it.printStackTrace()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
     }
 
     private fun counter(count: Int) {
@@ -144,53 +145,20 @@ class OtpVerification : AppCompatActivity() {
         }
     }
 
-    private fun resetFields() {
-        if (e1.hasFocus()) {
-            e1.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e1.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        if (e2.hasFocus()) {
-            e2.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e2.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        if (e3.hasFocus()) {
-            e3.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e3.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        if (e4.hasFocus()) {
-            e4.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e4.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        if (e5.hasFocus()) {
-            e5.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e5.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        if (e6.hasFocus()) {
-            e6.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
-        } else {
-            e6.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
-        }
-        errorMessage.visibility = View.GONE
-    }
-
     fun proceed() {
         if (InternetCheck(this, findViewById(R.id.parent)).status()) {
             loader.show(getString(R.string.checking_verification_code))
             ServerConnection(
                 this, "verifyOtp", Request.Method.POST, "user/verify_otp",
                 JSONObject().put("phone_number", fullPhoneNumber)
-                    .put("otp", "${e1.text}${e2.text}${e3.text}${e4.text}${e5.text}${e6.text}")
+                    .put("otp", pinView.text)
             )
         }
     }
 
     fun otpVerified(l: Int, userExists: Boolean) {
         if (l == 1) {
+            Session(this).devicePhoneNumber(fullPhoneNumber)
             if (userExists) {
                 loader.setMessage(getString(R.string.logging_you_in))
                 ServerConnection(
@@ -206,12 +174,12 @@ class OtpVerification : AppCompatActivity() {
             }
         } else {
             loader.dismiss()
-            e1.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
-            e2.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
-            e3.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
-            e4.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
-            e5.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
-            e6.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
+            pinView.setItemBackground(
+                ContextCompat.getDrawable(
+                    this@OtpVerification,
+                    R.drawable.light_gray_solid_red_stroke_curved_corners
+                )
+            )
             errorMessage.text = getString(R.string.incorrect_code_error_message)
             errorMessage.visibility = View.VISIBLE
         }
@@ -252,26 +220,6 @@ class OtpVerification : AppCompatActivity() {
                 resources.getString(R.string.server_error_message),
                 "error"
             )
-        }
-    }
-
-    private fun TextView.disableCopyPaste() {
-        isLongClickable = false
-        setTextIsSelectable(false)
-        customSelectionActionModeCallback = object : ActionMode.Callback {
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu): Boolean {
-                return false
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu): Boolean {
-                return false
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
-                return false
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {}
         }
     }
 }

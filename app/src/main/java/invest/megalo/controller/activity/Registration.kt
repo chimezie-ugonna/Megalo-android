@@ -1,9 +1,11 @@
 package invest.megalo.controller.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -14,9 +16,11 @@ import invest.megalo.R
 import invest.megalo.model.*
 import org.json.JSONObject
 
+
 class Registration : AppCompatActivity() {
     private lateinit var name: EditText
     private lateinit var email: EditText
+    lateinit var dob: EditText
     private lateinit var proceed: FrameLayout
     private lateinit var back: FrameLayout
     private var phoneNumber = ""
@@ -24,7 +28,11 @@ class Registration : AppCompatActivity() {
     private var nameFieldState: String = "normal"
     lateinit var emailErrorMessage: TextView
     private var emailFieldState: String = "normal"
+    private lateinit var dobErrorMessage: TextView
+    private var dobFieldState: String = "normal"
     private lateinit var loader: CustomLoader
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         SetAppTheme(this)
         super.onCreate(savedInstanceState)
@@ -44,8 +52,14 @@ class Registration : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (name.hasFocus()) {
                     name.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                    nameFieldState = "active"
+                    if (dobFieldState == "active") {
+                        dob.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                        dobFieldState = "normal"
+                    }
                 } else {
                     name.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                    nameFieldState = "normal"
                 }
                 nameErrorMessage.text = ""
                 nameErrorMessage.visibility = View.GONE
@@ -60,6 +74,10 @@ class Registration : AppCompatActivity() {
                 if (nameFieldState == "normal") {
                     name.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
                     nameFieldState = "active"
+                    if (dobFieldState == "active") {
+                        dob.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                        dobFieldState = "normal"
+                    }
                 }
             } else {
                 if (nameFieldState == "active") {
@@ -79,8 +97,14 @@ class Registration : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (email.hasFocus()) {
                     email.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                    emailFieldState = "active"
+                    if (dobFieldState == "active") {
+                        dob.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                        dobFieldState = "normal"
+                    }
                 } else {
                     email.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                    emailFieldState = "normal"
                 }
                 emailErrorMessage.text = ""
                 emailErrorMessage.visibility = View.GONE
@@ -95,6 +119,10 @@ class Registration : AppCompatActivity() {
                 if (emailFieldState == "normal") {
                     email.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
                     emailFieldState = "active"
+                    if (dobFieldState == "active") {
+                        dob.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                        dobFieldState = "normal"
+                    }
                 }
             } else {
                 if (emailFieldState == "active") {
@@ -103,6 +131,43 @@ class Registration : AppCompatActivity() {
                 }
             }
         }
+
+        dob = findViewById(R.id.dob)
+        dobErrorMessage = findViewById(R.id.dob_error_message)
+        dob.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                name.clearFocus()
+                email.clearFocus()
+                dob.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                dobFieldState = "active"
+                dobErrorMessage.text = ""
+                dobErrorMessage.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+        })
+        dob.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                Dialog(
+                    v,
+                    this,
+                    resources.getString(R.string.date_picker),
+                    resources.getString(R.string.select_your_birthdate),
+                    "",
+                    getString(R.string.select),
+                    getString(R.string.cancel),
+                    false
+                )
+            }
+            false
+        }
+
 
         back = findViewById(R.id.back)
         back.setOnClickListener { finish() }
@@ -159,13 +224,22 @@ class Registration : AppCompatActivity() {
                 }
             }
 
-            if (name.text.isNotEmpty() && nameFieldState != "error" && email.text.isNotEmpty() && emailFieldState != "error") {
+            if (dob.text.isEmpty()) {
+                dob.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
+                dobErrorMessage.text = getString(R.string.please_select_your_birthdate)
+                dobErrorMessage.visibility = View.VISIBLE
+                dobFieldState = "error"
+            }
+
+            if (name.text.isNotEmpty() && nameFieldState != "error" && email.text.isNotEmpty() && emailFieldState != "error" && dob.text.isNotEmpty() && dobFieldState != "error") {
                 if (InternetCheck(this, findViewById(R.id.parent)).status()) {
                     loader.show(getString(R.string.creating_your_account))
                     ServerConnection(
                         this, "register", Request.Method.POST, "user/create",
                         JSONObject().put("phone_number", phoneNumber)
-                            .put("full_name", name.text.trim()).put("email", email.text.trim())
+                            .put("full_name", name.text.trim())
+                            .put("dob", dob.text.trim())
+                            .put("email", email.text.trim())
                             .put("type", "user")
                     )
                 }

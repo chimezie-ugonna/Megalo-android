@@ -5,41 +5,162 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/white_black"
     tools:context=".controller.activity.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/onboarding_background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/normal_padding">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/sub_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="?attr/black_white"
-            android:textSize="@dimen/title_text"
-            android:textStyle="bold" />
+            android:layout_gravity="top"
+            android:background="@drawable/app_green_solid_straight"
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/logo_size"
-            android:layout_height="@dimen/logo_size"
-            android:contentDescription="@null"
-            android:src="@drawable/megalo_logo" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/enormous_padding"
-            android:gravity="center"
-            android:text="@string/invest_in_real_estate_from_anywhere_anytime_and_with_any_budget"
-            android:textColor="?attr/black_white"
-            android:textSize="@dimen/sub_header_text" />
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/first_text_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_padding"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:layout_marginEnd="@dimen/normal_padding"
+                        android:gravity="center"
+                        android:text="@string/welcome_to"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_padding"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:layout_marginEnd="@dimen/normal_padding"
+                        android:gravity="center"
+                        android:letterSpacing="1"
+                        android:text="@string/in_app_name"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/title_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_padding"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:layout_marginEnd="@dimen/normal_padding"
+                        android:gravity="start"
+                        android:text="@string/invest_in_real_estate_from_anywhere_anytime_and_on_any_budget"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/second_text_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_padding"
+                    android:layout_marginTop="@dimen/normal_padding"
+                    android:layout_marginEnd="@dimen/normal_padding"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/access_a_piece_of_real_estate_at_any_moment"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:text="@string/we_take_care_of_the_paperwork"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/third_text_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_padding"
+                    android:layout_marginTop="@dimen/normal_padding"
+                    android:layout_marginEnd="@dimen/normal_padding"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/get_incredible_monthly_returns_on_our_profits_and_returns_when_properties_are_sold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:text="@string/if_you_own_a_part_you_get_your_part"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sub_header_text" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginTop="@dimen/big_padding"
+                android:layout_marginEnd="@dimen/normal_padding"
+                android:layout_marginBottom="@dimen/big_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/first_indicator"
+                    android:layout_width="40sp"
+                    android:layout_height="@dimen/slide_indicator"
+                    android:background="@drawable/white_solid" />
+
+                <TextView
+                    android:id="@+id/second_indicator"
+                    android:layout_width="40sp"
+                    android:layout_height="@dimen/slide_indicator"
+                    android:layout_marginStart="@dimen/slide_indicator"
+                    android:alpha="0.40"
+                    android:background="@drawable/white_solid" />
+
+                <TextView
+                    android:id="@+id/third_indicator"
+                    android:layout_width="40sp"
+                    android:layout_height="@dimen/slide_indicator"
+                    android:layout_marginStart="@dimen/slide_indicator"
+                    android:alpha="0.40"
+                    android:background="@drawable/white_solid" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sub_parent"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottom_sheet_layout"
@@ -114,6 +235,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/app_green_circle"
+            android:foreground="@drawable/white_ripple_circle"
             android:padding="@dimen/small_padding">
 
             <ImageView

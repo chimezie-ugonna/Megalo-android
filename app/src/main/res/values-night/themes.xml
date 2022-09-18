@@ -6,15 +6,30 @@
         <item name="android:navigationBarColor">@color/black</item>
         <item name="colorAccent">@color/appGreen</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
 
         <item name="white_black">@color/black</item>
         <item name="black_white">@color/white</item>
         <item name="white_night">@color/night</item>
     </style>
 
+    <style name="Theme.Megalo.Night.Onboarding" parent="Theme.Megalo.Night">
+        <item name="android:statusBarColor">@color/appGreen</item>
+        <item name="android:navigationBarColor">@color/night</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:background">@color/night</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textSize">@dimen/big_text</item>
+    </style>
+
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
-        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/night</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -22,6 +37,6 @@
     </style>
 
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/dialog_rounded_background</item>
+        <item name="android:background">@drawable/dialog_top_rounded_background</item>
     </style>
 </resources>

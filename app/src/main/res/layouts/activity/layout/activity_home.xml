@@ -4,17 +4,109 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/white_black"
     tools:context=".controller.activity.Home">
 
-    <TextView
-        android:id="@+id/log_out"
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_nav" />
+
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/log_out"
-        android:textColor="?attr/black_white"
-        android:textSize="@dimen/sub_header_text" />
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/home"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bottom_navigation_item_background"
+            android:foreground="@drawable/app_green_ripple_straight"
+            android:padding="@dimen/normal_padding">
+
+            <ImageView
+                android:id="@+id/home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/home"
+                android:src="@drawable/home" />
+
+            <TextView
+                android:id="@+id/home_dot"
+                android:layout_width="@dimen/normal_padding"
+                android:layout_height="@dimen/normal_padding"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginBottom="@dimen/normal_padding"
+                android:background="@drawable/notification_dot"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/investments"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.30"
+            android:background="@drawable/bottom_navigation_item_background"
+            android:foreground="@drawable/app_green_ripple_straight"
+            android:padding="@dimen/normal_padding">
+
+            <ImageView
+                android:id="@+id/investments_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/investments"
+                android:src="@drawable/investments" />
+
+            <TextView
+                android:id="@+id/investments_dot"
+                android:layout_width="@dimen/normal_padding"
+                android:layout_height="@dimen/normal_padding"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginBottom="@dimen/normal_padding"
+                android:background="@drawable/notification_dot"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/profile"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.30"
+            android:background="@drawable/bottom_navigation_item_background"
+            android:foreground="@drawable/app_green_ripple_straight"
+            android:padding="@dimen/normal_padding">
+
+            <ImageView
+                android:id="@+id/profile_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/profile"
+                android:src="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/profile_dot"
+                android:layout_width="@dimen/normal_padding"
+                android:layout_height="@dimen/normal_padding"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginBottom="@dimen/normal_padding"
+                android:background="@drawable/notification_dot"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

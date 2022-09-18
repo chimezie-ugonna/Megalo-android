@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import invest.megalo.R
 
@@ -30,6 +31,11 @@ class CustomSnackBar(
         if (type == "error") {
             parent.setBackgroundResource(R.drawable.red_solid)
             img.setImageResource(R.mipmap.red_clear)
+            img?.foreground =
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.red_ripple_circle
+                )
             img.setOnClickListener { snack.dismiss() }
         } else {
             parent.setBackgroundResource(R.drawable.green_solid)

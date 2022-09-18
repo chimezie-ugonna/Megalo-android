@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
@@ -18,122 +19,34 @@
         android:textColor="?attr/black_white"
         android:textSize="@dimen/sub_header_text" />
 
-    <LinearLayout
-        android:id="@+id/code_parent"
-        android:layout_width="match_parent"
+    <com.chaos.view.PinView
+        android:id="@+id/pin_view"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/big_padding"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/e1"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-        <EditText
-            android:id="@+id/e2"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-        <EditText
-            android:id="@+id/e3"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-        <EditText
-            android:id="@+id/e4"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-        <EditText
-            android:id="@+id/e5"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-        <EditText
-            android:id="@+id/e6"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_weight="1"
-            android:background="@drawable/light_gray_solid_curved_corners"
-            android:gravity="center"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:longClickable="false"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:padding="@dimen/normal_padding"
-            android:textSize="@dimen/big_text"
-            tools:ignore="LabelFor" />
-
-    </LinearLayout>
+        android:cursorVisible="true"
+        android:inputType="number"
+        android:itemBackground="@color/lightGray"
+        android:textColor="@color/black"
+        android:textSize="@dimen/big_text"
+        android:textStyle="bold"
+        app:cursorColor="@color/appGreen"
+        app:hideLineWhenFilled="true"
+        app:itemCount="6"
+        app:itemRadius="@dimen/small_padding"
+        app:itemSpacing="@dimen/normal_padding"
+        app:lineColor="@drawable/pin_view_selector"
+        app:lineWidth="@dimen/stroke_size"
+        app:viewType="rectangle" />
 
     <TextView
         android:id="@+id/error_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/code_parent"
+        android:layout_below="@+id/pin_view"
         android:layout_marginTop="@dimen/normal_padding"
         android:gravity="center"
         android:textColor="@color/red"
@@ -158,6 +71,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/app_green_circle"
+        android:foreground="@drawable/white_ripple_circle"
         android:padding="@dimen/small_padding">
 
         <ImageView

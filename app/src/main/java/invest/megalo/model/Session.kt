@@ -56,4 +56,13 @@ class Session(context: Context) {
     fun loggedIn(): Boolean {
         return sp.getBoolean("loggedIn", false)
     }
+
+    fun devicePhoneNumber(data: String) {
+        spe.putString("devicePhoneNumber", data)
+        spe.commit()
+    }
+
+    fun devicePhoneNumber(): String? {
+        return sp.getString("devicePhoneNumber", "")
+    }
 }
