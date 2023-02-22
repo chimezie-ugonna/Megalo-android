@@ -45,7 +45,8 @@ class Dialog(
                 title?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
                 title?.setTypeface(null, Typeface.BOLD)
                 title?.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.sub_header_text)
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.resources.getDimension(R.dimen.sub_header_text)
                 )
                 title?.gravity = Gravity.CENTER
                 title?.text = title_

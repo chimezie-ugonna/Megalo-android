@@ -16,7 +16,6 @@ import com.idenfy.idenfySdk.CoreSdkInitialization.IdenfyController
 import com.idenfy.idenfySdk.api.initialization.IdenfySettingsV2
 import com.idenfy.idenfySdk.api.response.AutoIdentificationStatus
 import com.idenfy.idenfySdk.api.response.IdenfyIdentificationResult
-import com.idenfy.idenfySdk.api.response.ManualIdentificationStatus
 import com.idenfy.idenfySdk.api.ui.IdenfyUISettingsV2
 import com.idenfy.idenfySdk.camerasession.commoncamerasession.presentation.model.IdenfyInstructionsType
 import invest.megalo.R
@@ -52,44 +51,17 @@ class Home : AppCompatActivity() {
         if (it.resultCode == IdenfyController.IDENFY_IDENTIFICATION_RESULT_CODE) {
             val idenfyIdentificationResult: IdenfyIdentificationResult =
                 it.data!!.getParcelableExtra(IdenfyController.IDENFY_IDENTIFICATION_RESULT)!!
-            when (idenfyIdentificationResult.manualIdentificationStatus) {
-                ManualIdentificationStatus.APPROVED -> {
-                }
-                ManualIdentificationStatus.FAILED -> {
-                }
-                ManualIdentificationStatus.WAITING -> {
-                }
-                ManualIdentificationStatus.INACTIVE -> {
-                }
-            }
-            when (idenfyIdentificationResult.autoIdentificationStatus) {
-                AutoIdentificationStatus.APPROVED -> {
-                    Dialog(
-                        findViewById(R.id.parent),
-                        this,
-                        getString(R.string.identification_document_review_ongoing),
-                        getString(R.string.document_review_ongoing),
-                        getString(R.string.your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed),
-                        getString(R.string.got_it),
-                        "",
-                        false
-                    )
-                }
-                AutoIdentificationStatus.FAILED -> {
-                    Dialog(
-                        findViewById(R.id.parent),
-                        this,
-                        getString(R.string.identification_document_review_ongoing),
-                        getString(R.string.document_review_ongoing),
-                        getString(R.string.your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed),
-                        getString(R.string.got_it),
-                        "",
-                        false
-                    )
-                }
-                AutoIdentificationStatus.UNVERIFIED -> {
-                }
-                else -> {}
+            if (idenfyIdentificationResult.autoIdentificationStatus == AutoIdentificationStatus.APPROVED || idenfyIdentificationResult.autoIdentificationStatus == AutoIdentificationStatus.FAILED) {
+                Dialog(
+                    findViewById(R.id.parent),
+                    this,
+                    getString(R.string.identification_document_review_ongoing),
+                    getString(R.string.document_review_ongoing),
+                    getString(R.string.your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed),
+                    getString(R.string.got_it),
+                    "",
+                    false
+                )
             }
         }
     }
