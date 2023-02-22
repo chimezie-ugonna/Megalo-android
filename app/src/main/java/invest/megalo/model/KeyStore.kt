@@ -24,12 +24,10 @@ class KeyStore(private val context: Context) {
             deleteKey()
         }
         val keyGenerator = KeyGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_AES,
-            "AndroidKeyStore"
+            KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore"
         )
         val keyGenParameterSpec = KeyGenParameterSpec.Builder(
-            alias,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         ).run {
             setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
             setBlockModes(KeyProperties.BLOCK_MODE_CBC)
@@ -44,14 +42,19 @@ class KeyStore(private val context: Context) {
 
     private fun getKey(): SecretKey {
         val keyStoreSecretKeyEntry = keyStore.getEntry(
-            alias,
-            null
+            alias, null
         ) as KeyStore.SecretKeyEntry
         return keyStoreSecretKeyEntry.secretKey
     }
 
     fun deleteKey() {
         keyStore.deleteEntry(alias)
+        Session(context).encryptedTokenIv(
+            ""
+        )
+        Session(context).encryptedToken(
+            ""
+        )
     }
 
     fun encryptData(data: String) {

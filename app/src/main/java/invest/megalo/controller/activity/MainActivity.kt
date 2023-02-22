@@ -1,15 +1,27 @@
 package invest.megalo.controller.activity
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.ContentResolver
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.AudioAttributes
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -40,18 +52,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var firstIndicator: TextView
     lateinit var secondIndicator: TextView
     lateinit var thirdIndicator: TextView
-    private val phoneNumberHintIntentResultLauncher: ActivityResultLauncher<IntentSenderRequest> =
-        registerForActivityResult(
-            ActivityResultContracts.StartIntentSenderForResult()
-        ) { result ->
-            try {
-                val phoneNumber =
-                    Identity.getSignInClient(this).getPhoneNumberFromIntent(result.data)
-                ccp.fullNumber = phoneNumber
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+    private val phoneNumberHintIntentResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        try {
+            val phoneNumber = Identity.getSignInClient(this).getPhoneNumberFromIntent(result.data)
+            ccp.fullNumber = phoneNumber
+            Session(this).devicePhoneNumber(phoneNumber)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -125,10 +136,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 phoneFieldState = if (phone.hasFocus()) {
-                    phone.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
                     "active"
                 } else {
-                    phone.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_light_gray_stroke_curved_corners)
                     "normal"
                 }
                 errorMessage.text = ""
@@ -142,12 +153,12 @@ class MainActivity : AppCompatActivity() {
         phone.setOnFocusChangeListener { _, b ->
             if (b) {
                 if (phoneFieldState == "normal") {
-                    phone.setBackgroundResource(R.drawable.light_gray_solid_app_green_stroke_curved_corners)
+                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
                     phoneFieldState = "active"
                 }
             } else {
                 if (phoneFieldState == "active") {
-                    phone.setBackgroundResource(R.drawable.light_gray_solid_curved_corners)
+                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_light_gray_stroke_curved_corners)
                     phoneFieldState = "normal"
                 }
             }
@@ -158,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         proceedParent = findViewById(R.id.proceed_parent)
         proceedParent.setOnClickListener {
             if (phone.text.isEmpty()) {
-                phone.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
+                phone.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
                 errorMessage.text = getString(R.string.empty_phone_field_error_message)
                 errorMessage.visibility = View.VISIBLE
                 phoneFieldState = "error"
@@ -174,8 +185,12 @@ class MainActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 Session(this).deviceToken(task.result)
                                 ServerConnection(
-                                    this, "sendOtp", Request.Method.POST, "user/send_otp",
-                                    JSONObject().put("phone_number", ccp.fullNumberWithPlus)
+                                    this,
+                                    "sendOtp",
+                                    Request.Method.POST,
+                                    "user/send_otp",
+                                    JSONObject().put("type", "sms")
+                                        .put("phone_number", ccp.fullNumberWithPlus)
                                 )
                             }
                         }.addOnFailureListener {
@@ -194,12 +209,34 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    phone.setBackgroundResource(R.drawable.light_gray_solid_red_stroke_curved_corners)
+                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
                     errorMessage.text = getString(R.string.invalid_phone_number_error_message)
                     errorMessage.visibility = View.VISIBLE
                     phoneFieldState = "error"
                 }
             }
+        }
+
+        val scheduler: JobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        if (scheduler.getPendingJob(1) == null) {
+            scheduler.schedule(
+                JobInfo.Builder(1, ComponentName(this, DeviceTokenUpdatingService::class.java))
+                    .setPeriodic(7 * 24 * 60 * 60 * 1000L).setPersisted(true).build()
+            )
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "General"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val attribute =
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
+            val sound = Uri.parse(
+                ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.notifications
+            )
+            val mChannel = NotificationChannel("megalo_general_channel_id", name, importance)
+            mChannel.setSound(sound, attribute)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
         }
 
         if (Session(this).loggedIn()) {
@@ -209,45 +246,101 @@ class MainActivity : AppCompatActivity() {
         } else {
             requestPhoneNumberHint()
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    Dialog(
+                        findViewById(R.id.parent),
+                        this,
+                        getString(R.string.permission_rationale),
+                        getString(R.string.notifications_permission_required),
+                        getString(R.string.notifications_permission_rationale_text),
+                        getString(R.string.proceed),
+                        getString(R.string.cancel),
+                        false
+                    )
+                } else {
+                    requestPermission()
+                }
+            }
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
     }
 
     private fun requestPhoneNumberHint() {
         val request: GetPhoneNumberHintIntentRequest =
             GetPhoneNumberHintIntentRequest.builder().build()
 
-        Identity.getSignInClient(this)
-            .getPhoneNumberHintIntent(request)
-            .addOnSuccessListener {
-                phoneNumberHintIntentResultLauncher.launch(
-                    IntentSenderRequest.Builder(it.intentSender).build()
-                )
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
+        Identity.getSignInClient(this).getPhoneNumberHintIntent(request).addOnSuccessListener {
+            phoneNumberHintIntentResultLauncher.launch(
+                IntentSenderRequest.Builder(it.intentSender).build()
+            )
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
     }
 
-    fun otpSent(l: Int) {
+    fun otpSent(l: Int, statusCode: Int? = 0) {
         loader.visibility = View.INVISIBLE
         proceed.visibility = View.VISIBLE
         ccp.setCcpClickable(true)
         proceedParent.isEnabled = true
         phone.isEnabled = true
         if (l == 1) {
+            Session(this).devicePhoneNumber(ccp.fullNumberWithPlus)
             val intent = Intent(this, OtpVerification::class.java)
             intent.putExtra("formatted_phone_number", ccp.formattedFullNumber)
             intent.putExtra("full_phone_number", ccp.fullNumberWithPlus)
             startActivity(intent)
         } else {
-            CustomSnackBar(
-                this@MainActivity,
-                findViewById(R.id.parent),
-                resources.getString(R.string.server_error_message),
-                "error"
-            )
+            when (statusCode) {
+                0 -> {
+                    CustomSnackBar(
+                        this@MainActivity,
+                        findViewById(R.id.parent),
+                        getString(R.string.unusual_error_message),
+                        "error"
+                    )
+                }
+                in 400..499 -> {
+                    CustomSnackBar(
+                        this@MainActivity,
+                        findViewById(R.id.parent),
+                        getString(R.string.client_error_message),
+                        "error"
+                    )
+                }
+                else -> {
+                    CustomSnackBar(
+                        this@MainActivity,
+                        findViewById(R.id.parent),
+                        getString(R.string.server_error_message),
+                        "error"
+                    )
+                }
+            }
         }
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("moveTaskToBack(true)"))
     override fun onBackPressed() {
         moveTaskToBack(true)
     }

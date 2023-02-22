@@ -11,7 +11,6 @@
     android:paddingBottom="@dimen/normal_padding">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_view"
         android:layout_width="@dimen/loader_animation_width"
         android:layout_height="@dimen/loader_animation_height"
         android:layout_gravity="center"

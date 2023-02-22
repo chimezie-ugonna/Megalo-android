@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.Megalo" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Megalo" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:navigationBarColor">@color/white</item>
@@ -11,6 +11,9 @@
         <item name="white_black">@color/white</item>
         <item name="black_white">@color/black</item>
         <item name="white_night">@color/white</item>
+        <item name="appGreen_black">@color/appGreen</item>
+        <item name="appGreen_white">@color/appGreen</item>
+        <item name="lightGray_night">@color/lightGray</item>
     </style>
 
     <style name="Theme.Megalo.Onboarding" parent="Theme.Megalo">

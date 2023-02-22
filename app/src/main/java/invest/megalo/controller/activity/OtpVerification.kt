@@ -28,6 +28,9 @@ import org.json.JSONObject
 class OtpVerification : AppCompatActivity() {
     private var formattedPhoneNumber = ""
     private var fullPhoneNumber = ""
+    private var email = ""
+    private var type = "sms"
+    private var update = false
     private lateinit var pinView: PinView
     private lateinit var header: TextView
     private lateinit var errorMessage: TextView
@@ -37,8 +40,10 @@ class OtpVerification : AppCompatActivity() {
     private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             val b = intent.extras
-            val otp = b!!.getString("otp")
-            pinView.setText(otp)
+            if (b != null) {
+                val otp = b.getString("otp")
+                pinView.setText(otp)
+            }
         }
     }
 
@@ -48,14 +53,26 @@ class OtpVerification : AppCompatActivity() {
         setContentView(R.layout.activity_otp_verification)
 
         val bundle = intent.extras
-        formattedPhoneNumber = bundle?.get("formatted_phone_number").toString()
-        fullPhoneNumber = bundle?.get("full_phone_number").toString()
+        if (bundle != null) {
+            if (bundle.getString("formatted_phone_number") != null) {
+                formattedPhoneNumber = bundle.getString("formatted_phone_number").toString()
+            }
+            if (bundle.getString("full_phone_number") != null) {
+                fullPhoneNumber = bundle.getString("full_phone_number").toString()
+            }
+            if (bundle.getString("type") != null) {
+                type = bundle.getString("type").toString()
+            }
+            if (bundle.getString("email") != null) {
+                email = bundle.getString("email").toString()
+            }
+            update = bundle.getBoolean("update")
+        }
 
         header = findViewById(R.id.header)
         header.text = Html.fromHtml(
             getString(
-                R.string.otp_verification_header_text,
-                formattedPhoneNumber
+                R.string.otp_verification_header_text, formattedPhoneNumber
             ), FROM_HTML_MODE_LEGACY
         )
 
@@ -71,10 +88,7 @@ class OtpVerification : AppCompatActivity() {
                 errorMessage.text = ""
                 errorMessage.visibility = View.GONE
                 pinView.setItemBackgroundColor(
-                    ContextCompat.getColor(
-                        this@OtpVerification,
-                        R.color.lightGray
-                    )
+                    ColorResCompat(this@OtpVerification, R.attr.lightGray_night).get()
                 )
                 if (s.toString().length >= 6) {
                     proceed()
@@ -93,15 +107,20 @@ class OtpVerification : AppCompatActivity() {
         resend.setOnClickListener {
             if (InternetCheck(this, findViewById(R.id.parent)).status()) {
                 loader.show(getString(R.string.resending_verification_code))
+                val name = if (type == "sms") "phone_number" else "email"
+                val value = if (type == "sms") fullPhoneNumber else email
                 ServerConnection(
-                    this, "sendOtp", Request.Method.POST, "user/send_otp",
-                    JSONObject().put("phone_number", fullPhoneNumber)
+                    this,
+                    "sendOtp",
+                    Request.Method.POST,
+                    "user/send_otp",
+                    JSONObject().put("type", type).put(name, value).put("update", update)
                 )
             }
         }
         resend.isEnabled = false
         resend.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
-        counter(30)
+        counter()
 
         val client = SmsRetriever.getClient(this)
         val task: Task<Void> = client.startSmsRetriever()
@@ -118,7 +137,7 @@ class OtpVerification : AppCompatActivity() {
         unregisterReceiver(broadcastReceiver)
     }
 
-    private fun counter(count: Int) {
+    private fun counter(count: Int = 30) {
         var index = count
         if (count == 0) {
             resend.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
@@ -128,15 +147,13 @@ class OtpVerification : AppCompatActivity() {
             if (count == 1) {
                 resend.text = Html.fromHtml(
                     getString(
-                        R.string.resend_code_single_counter_text,
-                        count.toString()
+                        R.string.resend_code_single_counter_text, count.toString()
                     ), FROM_HTML_MODE_LEGACY
                 )
             } else {
                 resend.text = Html.fromHtml(
                     getString(
-                        R.string.resend_code_multiple_counter_text,
-                        count.toString()
+                        R.string.resend_code_multiple_counter_text, count.toString()
                     ), FROM_HTML_MODE_LEGACY
                 )
             }
@@ -148,60 +165,135 @@ class OtpVerification : AppCompatActivity() {
     fun proceed() {
         if (InternetCheck(this, findViewById(R.id.parent)).status()) {
             loader.show(getString(R.string.checking_verification_code))
+            val name = if (type == "sms") "phone_number" else "email"
+            val value = if (type == "sms") fullPhoneNumber else email
             ServerConnection(
-                this, "verifyOtp", Request.Method.POST, "user/verify_otp",
-                JSONObject().put("phone_number", fullPhoneNumber)
-                    .put("otp", pinView.text)
+                this,
+                "verifyOtp",
+                Request.Method.POST,
+                "user/verify_otp",
+                JSONObject().put("type", "sms").put(name, value).put("otp", pinView.text)
+                    .put("update", update)
             )
         }
     }
 
-    fun otpVerified(l: Int, userExists: Boolean) {
+    fun otpVerified(l: Int, userExists: Boolean, statusCode: Int? = 0) {
         if (l == 1) {
-            Session(this).devicePhoneNumber(fullPhoneNumber)
-            if (userExists) {
-                loader.setMessage(getString(R.string.logging_you_in))
-                ServerConnection(
-                    this, "logIn", Request.Method.POST, "login/create",
-                    JSONObject().put("phone_number", fullPhoneNumber)
-                )
-            } else {
-                loader.dismiss()
-                finish()
-                val intent = Intent(this, Registration::class.java)
-                intent.putExtra("phone_number", fullPhoneNumber)
-                startActivity(intent)
+            if (!update) {
+                if (userExists) {
+                    loader.setMessage(getString(R.string.logging_you_in))
+                    ServerConnection(
+                        this,
+                        "logIn",
+                        Request.Method.POST,
+                        "login/create",
+                        JSONObject().put("phone_number", fullPhoneNumber)
+                    )
+                } else {
+                    loader.dismiss()
+                    finish()
+                    val intent = Intent(this, Registration::class.java)
+                    intent.putExtra("phone_number", fullPhoneNumber)
+                    startActivity(intent)
+                }
             }
         } else {
             loader.dismiss()
-            pinView.setItemBackground(
-                ContextCompat.getDrawable(
-                    this@OtpVerification,
-                    R.drawable.light_gray_solid_red_stroke_curved_corners
-                )
-            )
-            errorMessage.text = getString(R.string.incorrect_code_error_message)
-            errorMessage.visibility = View.VISIBLE
+            when (statusCode) {
+                0 -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.unusual_error_message),
+                        "error"
+                    )
+                }
+                in 400..499 -> {
+                    when (statusCode) {
+                        403 -> {
+                            pinView.setItemBackground(
+                                ContextCompat.getDrawable(
+                                    this@OtpVerification,
+                                    R.drawable.light_gray_night_solid_red_stroke_curved_corners
+                                )
+                            )
+                            errorMessage.text = getString(R.string.incorrect_code_error_message)
+                            errorMessage.visibility = View.VISIBLE
+                        }
+                        409 -> {
+                            CustomSnackBar(
+                                this@OtpVerification,
+                                findViewById(R.id.parent),
+                                getString(R.string.the_phone_number_you_provided_has_been_taken),
+                                "error"
+                            )
+                        }
+                        420 -> {
+                            if (update) {
+                                finish()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }
+                        }
+                        else -> {
+                            CustomSnackBar(
+                                this@OtpVerification,
+                                findViewById(R.id.parent),
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                    }
+                }
+                else -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.server_error_message),
+                        "error"
+                    )
+                }
+            }
         }
     }
 
-    fun loggedIn(l: Int) {
+    fun loggedIn(l: Int, statusCode: Int? = 0) {
         loader.dismiss()
         if (l == 1) {
             finish()
             Session(this).loggedIn(true)
             startActivity(Intent(this, Home::class.java))
         } else {
-            CustomSnackBar(
-                this@OtpVerification,
-                findViewById(R.id.parent),
-                resources.getString(R.string.server_error_message),
-                "error"
-            )
+            when (statusCode) {
+                0 -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.unusual_error_message),
+                        "error"
+                    )
+                }
+                in 400..499 -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.client_error_message),
+                        "error"
+                    )
+                }
+                else -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.server_error_message),
+                        "error"
+                    )
+                }
+            }
         }
     }
 
-    fun otpSent(l: Int) {
+    fun otpSent(l: Int, statusCode: Int? = 0) {
         loader.dismiss()
         if (l == 1) {
             CustomSnackBar(
@@ -212,14 +304,39 @@ class OtpVerification : AppCompatActivity() {
             )
             resend.isEnabled = false
             resend.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
-            counter(30)
+            counter()
         } else {
-            CustomSnackBar(
-                this@OtpVerification,
-                findViewById(R.id.parent),
-                resources.getString(R.string.server_error_message),
-                "error"
-            )
+            when (statusCode) {
+                0 -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.unusual_error_message),
+                        "error"
+                    )
+                }
+                in 400..499 -> {
+                    if (statusCode == 420 && update) {
+                        finish()
+                        startActivity(Intent(this, MainActivity::class.java))
+                    } else {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.client_error_message),
+                            "error"
+                        )
+                    }
+                }
+                else -> {
+                    CustomSnackBar(
+                        this@OtpVerification,
+                        findViewById(R.id.parent),
+                        getString(R.string.server_error_message),
+                        "error"
+                    )
+                }
+            }
         }
     }
 }

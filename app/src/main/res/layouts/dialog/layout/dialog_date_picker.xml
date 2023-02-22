@@ -24,12 +24,11 @@
         android:theme="@style/MyDatePicker" />
 
     <LinearLayout
-        android:id="@+id/buttons_con"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/negative_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0sp"
@@ -37,7 +36,7 @@
             android:layout_weight="1"
             android:textAllCaps="false" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/positive_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0sp"

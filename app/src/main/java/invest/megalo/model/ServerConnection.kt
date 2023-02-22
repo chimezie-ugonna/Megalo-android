@@ -2,6 +2,7 @@ package invest.megalo.model
 
 import android.content.Context
 import android.os.Build
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -14,7 +15,8 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class ServerConnection(
-    var context: Context, var operation: String,
+    var context: Context,
+    var operation: String,
     var method: Int,
     var extension: String,
     var jsonObject: JSONObject,
@@ -34,12 +36,6 @@ class ServerConnection(
                             } else if (context is OtpVerification) {
                                 (context as OtpVerification).otpSent(1)
                             }
-                        } else {
-                            if (context is MainActivity) {
-                                (context as MainActivity).otpSent(-1)
-                            } else if (context is OtpVerification) {
-                                (context as OtpVerification).otpSent(-1)
-                            }
                         }
                     }
                     "verifyOtp" -> {
@@ -49,13 +45,8 @@ class ServerConnection(
                             )
                             if (context is OtpVerification) {
                                 (context as OtpVerification).otpVerified(
-                                    1,
-                                    it.getJSONObject("data").getBoolean("user_exists")
+                                    1, it.getJSONObject("data").getBoolean("user_exists"), 200
                                 )
-                            }
-                        } else {
-                            if (context is OtpVerification) {
-                                (context as OtpVerification).otpVerified(-1, false)
                             }
                         }
                     }
@@ -67,10 +58,6 @@ class ServerConnection(
                             if (context is Registration) {
                                 (context as Registration).registered(1)
                             }
-                        } else {
-                            if (context is Registration) {
-                                (context as Registration).registered(-1)
-                            }
                         }
                     }
                     "logIn" -> {
@@ -81,97 +68,45 @@ class ServerConnection(
                             if (context is OtpVerification) {
                                 (context as OtpVerification).loggedIn(1)
                             }
-                        } else {
-                            if (context is OtpVerification) {
-                                (context as OtpVerification).loggedIn(-1)
-                            }
                         }
                     }
                     "logOut" -> {
                         if (status) {
-                            KeyStore(context).deleteKey()
-                            Session(context).appTheme("system")
+                            logOutPrerequisites()
                             if (context is Home) {
                                 (context as Home).loggedOut(1)
                             }
-                        } else {
+                        }
+                    }
+                    "verifyIdentity" -> {
+                        if (status) {
                             if (context is Home) {
-                                (context as Home).loggedOut(-1)
+                                (context as Home).initiated(
+                                    1, it.getJSONObject("data").getString("auth_token")
+                                )
                             }
+                        }
+                    }
+                    "updateDeviceToken" -> {
+                        if (status) {
+                            Session(context).deviceToken(
+                                it.getJSONObject("data").getString("device_token")
+                            )
                         }
                     }
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
-                when (operation) {
-                    "sendOtp" -> {
-                        if (context is MainActivity) {
-                            (context as MainActivity).otpSent(-1)
-                        } else if (context is OtpVerification) {
-                            (context as OtpVerification).otpSent(-1)
-                        }
-                    }
-                    "verifyOtp" -> {
-                        if (context is OtpVerification) {
-                            (context as OtpVerification).otpVerified(-1, false)
-                        }
-                    }
-                    "register" -> {
-                        if (context is Registration) {
-                            (context as Registration).registered(-1)
-                        }
-                    }
-                    "logIn" -> {
-                        if (context is OtpVerification) {
-                            (context as OtpVerification).loggedIn(-1)
-                        }
-                    }
-                    "logOut" -> {
-                        if (context is Home) {
-                            (context as Home).loggedOut(-1)
-                        }
-                    }
-                }
+                respond(400)
             }
         }, Response.ErrorListener { error ->
             error.printStackTrace()
-            when (operation) {
-                "sendOtp" -> {
-                    if (context is MainActivity) {
-                        (context as MainActivity).otpSent(-1)
-                    } else if (context is OtpVerification) {
-                        (context as OtpVerification).otpSent(-1)
-                    }
-                }
-                "verifyOtp" -> {
-                    if (context is OtpVerification) {
-                        (context as OtpVerification).otpVerified(-1, false)
-                    }
-                }
-                "register" -> {
-                    if (context is Registration) {
-                        (context as Registration).registered(-1)
-                    }
-                }
-                "logIn" -> {
-                    if (context is OtpVerification) {
-                        (context as OtpVerification).loggedIn(-1)
-                    }
-                }
-                "logOut" -> {
-                    if (context is Home) {
-                        (context as Home).loggedOut(-1)
-                    }
-                }
-            }
-        }
-        ) {
+            val statusCode = error.networkResponse.statusCode
+            respond(statusCode)
+        }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val header: MutableMap<String, String> = HashMap()
-                if (operation != "sendOtp" && operation != "verifyOtp" && Session(context).encryptedTokenIv() != "" && Session(
-                        context
-                    ).encryptedToken() != ""
-                ) {
+                if (Session(context).encryptedTokenIv() != "" && Session(context).encryptedToken() != "") {
                     val decryptedData = KeyStore(context).decryptData()
                     header["Authorization"] = "Bearer $decryptedData"
                 }
@@ -186,6 +121,59 @@ class ServerConnection(
                 return header
             }
         }
+        request.retryPolicy = DefaultRetryPolicy(
+            10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         requestQue.add(request)
+    }
+
+    fun respond(statusCode: Int) {
+        if (statusCode == 420) {
+            logOutPrerequisites()
+        }
+        when (operation) {
+            "sendOtp" -> {
+                if (context is MainActivity) {
+                    (context as MainActivity).otpSent(
+                        -1, statusCode
+                    )
+                } else if (context is OtpVerification) {
+                    (context as OtpVerification).otpSent(
+                        -1, statusCode
+                    )
+                }
+            }
+            "verifyOtp" -> {
+                if (context is OtpVerification) {
+                    (context as OtpVerification).otpVerified(-1, false, statusCode)
+                }
+            }
+            "register" -> {
+                if (context is Registration) {
+                    (context as Registration).registered(-1, statusCode)
+                }
+            }
+            "logIn" -> {
+                if (context is OtpVerification) {
+                    (context as OtpVerification).loggedIn(-1, statusCode)
+                }
+            }
+            "logOut" -> {
+                if (context is Home) {
+                    (context as Home).loggedOut(-1, statusCode)
+                }
+            }
+            "verifyIdentity" -> {
+                if (context is Home) {
+                    (context as Home).initiated(-1, "", statusCode)
+                }
+            }
+        }
+    }
+
+    fun logOutPrerequisites() {
+        KeyStore(context).deleteKey()
+        Session(context).loggedIn(false)
+        Session(context).appTheme("system")
     }
 }

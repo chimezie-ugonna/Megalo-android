@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="?attr/white_black"
     android:padding="@dimen/normal_padding"
-    tools:context=".controller.activity.OtpVerification">
+    tools:context=".controller.activity.OtpVerification"
+    tools:ignore="Overdraw">
 
     <TextView
         android:id="@+id/header"
@@ -29,8 +30,8 @@
         android:layout_marginTop="@dimen/big_padding"
         android:cursorVisible="true"
         android:inputType="number"
-        android:itemBackground="@color/lightGray"
-        android:textColor="@color/black"
+        android:itemBackground="?attr/lightGray_night"
+        android:textColor="?attr/black_white"
         android:textSize="@dimen/big_text"
         android:textStyle="bold"
         app:cursorColor="@color/appGreen"
@@ -79,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/go_back"
-            android:src="@drawable/arrow_back"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/arrow_back" />
     </FrameLayout>
 </RelativeLayout>

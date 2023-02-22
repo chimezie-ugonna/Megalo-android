@@ -14,20 +14,24 @@ class SMSBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent) {
         if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
             val extras = intent.extras
-            val status: Status? = extras!![SmsRetriever.EXTRA_STATUS] as Status?
-            when (status?.statusCode) {
-                CommonStatusCodes.SUCCESS -> {
-                    val message = extras.get(SmsRetriever.EXTRA_SMS_MESSAGE) as String
-                    val pattern = Pattern.compile("\\d{6}")
-                    val matcher = pattern.matcher(message)
-                    if (matcher.find()) {
-                        val i = Intent("passOtp")
-                        i.putExtra("otp", matcher.group(0))
-                        context?.sendBroadcast(i)
+            if (extras != null) {
+                val status: Status? = extras.get(SmsRetriever.EXTRA_STATUS) as Status?
+                if (status != null) {
+                    when (status.statusCode) {
+                        CommonStatusCodes.SUCCESS -> {
+                            val message = extras.getString(SmsRetriever.EXTRA_SMS_MESSAGE) as String
+                            val pattern = Pattern.compile("\\d{6}")
+                            val matcher = pattern.matcher(message)
+                            if (matcher.find()) {
+                                val i = Intent("passOtp")
+                                i.putExtra("otp", matcher.group(0))
+                                context?.sendBroadcast(i)
+                            }
+                        }
+                        CommonStatusCodes.TIMEOUT -> {
+                            println(context?.getString(R.string.sms_retriever_timed_out))
+                        }
                     }
-                }
-                CommonStatusCodes.TIMEOUT -> {
-                    println(context?.getString(R.string.sms_retriever_timed_out))
                 }
             }
         }

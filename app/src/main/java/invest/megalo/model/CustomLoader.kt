@@ -28,6 +28,8 @@ class CustomLoader(val context: Context) {
     }
 
     fun dismiss() {
-        dialog.dismiss()
+        if (dialog.isShowing) {
+            dialog.dismiss()
+        }
     }
 }

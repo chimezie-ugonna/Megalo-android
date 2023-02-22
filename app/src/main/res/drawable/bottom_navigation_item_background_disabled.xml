@@ -1,0 +1,12 @@
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/stroke_removed"
+    android:insetRight="@dimen/stroke_removed"
+    android:insetBottom="@dimen/stroke_removed">
+    <shape>
+        <stroke
+            android:width="@dimen/stroke_size"
+            android:color="@color/appGreenDisabled" />
+
+        <solid android:color="?attr/white_black" />
+    </shape>
+</inset>

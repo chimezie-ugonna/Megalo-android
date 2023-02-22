@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/white_black"
-    tools:context=".controller.fragment.ProfileFragment">
+    tools:context=".controller.fragment.ProfileFragment"
+    tools:ignore="Overdraw">
+
+    <TextView
+        android:id="@+id/verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/verify"
+        android:textColor="?attr/black_white"
+        android:textSize="@dimen/sub_header_text" />
 
 </RelativeLayout>

@@ -163,7 +163,6 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/bottom_sheet_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_top_rounded_background"
@@ -191,15 +190,15 @@
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/light_gray_solid_curved_corners"
+                android:background="@drawable/light_gray_night_solid_light_gray_stroke_curved_corners"
                 android:padding="@dimen/small_padding"
                 app:ccpDialog_backgroundColor="?attr/white_night"
                 app:ccpDialog_keyboardAutoPopup="false"
                 app:ccpDialog_textColor="?attr/black_white"
-                app:ccp_arrowColor="@color/black"
+                app:ccp_arrowColor="?attr/black_white"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_autoDetectLanguage="true"
-                app:ccp_contentColor="@color/black"
+                app:ccp_contentColor="?attr/black_white"
                 app:ccp_countryPreference="NG,CA,DE"
                 app:ccp_hintExampleNumber="true"
                 app:ccp_textSize="@dimen/big_text" />
@@ -209,12 +208,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/normal_padding"
-                android:background="@drawable/light_gray_solid_curved_corners"
+                android:background="@drawable/light_gray_night_solid_light_gray_stroke_curved_corners"
                 android:digits="1234567890"
                 android:importantForAutofill="no"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:padding="@dimen/normal_padding"
+                android:textColor="?attr/black_white"
+                android:textColorHint="?attr/black_white"
                 android:textSize="@dimen/big_text"
                 tools:ignore="LabelFor" />
         </LinearLayout>
@@ -244,8 +245,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/proceed"
-                android:src="@drawable/arrow_forward"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:srcCompat="@drawable/arrow_forward" />
 
             <ProgressBar
                 android:id="@+id/loader"
