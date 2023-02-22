@@ -21,6 +21,7 @@ import com.idenfy.idenfySdk.camerasession.commoncamerasession.presentation.model
 import invest.megalo.R
 import invest.megalo.controller.fragment.HomeFragment
 import invest.megalo.controller.fragment.InvestmentsFragment
+import invest.megalo.controller.fragment.NotificationsFragment
 import invest.megalo.controller.fragment.ProfileFragment
 import invest.megalo.model.*
 import org.json.JSONObject
@@ -36,6 +37,10 @@ class Home : AppCompatActivity() {
     private lateinit var investmentsIcon: ImageView
     private lateinit var investmentsDot: TextView
     private lateinit var investmentsFragment: InvestmentsFragment
+    private lateinit var notifications: FrameLayout
+    private lateinit var notificationsIcon: ImageView
+    private lateinit var notificationsDot: TextView
+    private lateinit var notificationsFragment: NotificationsFragment
     private lateinit var profile: FrameLayout
     private lateinit var profileIcon: ImageView
     private lateinit var profileDot: TextView
@@ -90,6 +95,13 @@ class Home : AppCompatActivity() {
             replaceFragment(investmentsFragment, it)
         }
 
+        notificationsIcon = findViewById(R.id.notifications_icon)
+        notificationsDot = findViewById(R.id.notifications_dot)
+        notifications = findViewById(R.id.notifications)
+        notifications.setOnClickListener {
+            replaceFragment(notificationsFragment, it)
+        }
+
         profileIcon = findViewById(R.id.profile_icon)
         profileDot = findViewById(R.id.profile_dot)
         profile = findViewById(R.id.profile)
@@ -99,6 +111,7 @@ class Home : AppCompatActivity() {
 
         homeFragment = HomeFragment()
         investmentsFragment = InvestmentsFragment()
+        notificationsFragment = NotificationsFragment()
         profileFragment = ProfileFragment()
         replaceFragment(homeFragment)
     }
@@ -239,6 +252,9 @@ class Home : AppCompatActivity() {
                 if (investmentsFragment.isAdded) {
                     fragmentManager.hide(investmentsFragment)
                 }
+                if (notificationsFragment.isAdded) {
+                    fragmentManager.hide(notificationsFragment)
+                }
                 if (profileFragment.isAdded) {
                     fragmentManager.hide(profileFragment)
                 }
@@ -261,6 +277,15 @@ class Home : AppCompatActivity() {
                 )
                 investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
 
+                notifications.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                notificationsIcon.setImageResource(R.drawable.notifications_disabled)
+                notificationsDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
                 profile.background = ContextCompat.getDrawable(
                     this, R.drawable.bottom_navigation_item_background_disabled
                 )
@@ -278,6 +303,9 @@ class Home : AppCompatActivity() {
                 }
                 if (homeFragment.isAdded) {
                     fragmentManager.hide(homeFragment)
+                }
+                if (notificationsFragment.isAdded) {
+                    fragmentManager.hide(notificationsFragment)
                 }
                 if (profileFragment.isAdded) {
                     fragmentManager.hide(profileFragment)
@@ -301,6 +329,67 @@ class Home : AppCompatActivity() {
                 )
                 investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
 
+                notifications.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                notificationsIcon.setImageResource(R.drawable.notifications_disabled)
+                notificationsDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
+                profile.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                profileIcon.setImageResource(R.drawable.profile_disabled)
+                profileDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                profile.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+            }
+            is NotificationsFragment -> {
+                if (notificationsFragment.isAdded) {
+                    fragmentManager.show(notificationsFragment)
+                } else {
+                    fragmentManager.add(R.id.fragment_container, notificationsFragment)
+                }
+                if (homeFragment.isAdded) {
+                    fragmentManager.hide(homeFragment)
+                }
+                if (investmentsFragment.isAdded) {
+                    fragmentManager.hide(investmentsFragment)
+                }
+                if (profileFragment.isAdded) {
+                    fragmentManager.hide(profileFragment)
+                }
+
+                home.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                homeIcon.setImageResource(R.drawable.home_disabled)
+                homeDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                home.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
+                investments.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                investmentsIcon.setImageResource(R.drawable.investments_disabled)
+                investmentsDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
+                notifications.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background
+                )
+                notificationsIcon.setImageResource(R.drawable.notifications)
+                notificationsDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot
+                )
+                notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
                 profile.background = ContextCompat.getDrawable(
                     this, R.drawable.bottom_navigation_item_background_disabled
                 )
@@ -322,6 +411,9 @@ class Home : AppCompatActivity() {
                 if (investmentsFragment.isAdded) {
                     fragmentManager.hide(investmentsFragment)
                 }
+                if (notificationsFragment.isAdded) {
+                    fragmentManager.hide(notificationsFragment)
+                }
 
                 home.background = ContextCompat.getDrawable(
                     this, R.drawable.bottom_navigation_item_background_disabled
@@ -340,6 +432,15 @@ class Home : AppCompatActivity() {
                     this, R.drawable.notification_dot_disabled
                 )
                 investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+
+                notifications.background = ContextCompat.getDrawable(
+                    this, R.drawable.bottom_navigation_item_background_disabled
+                )
+                notificationsIcon.setImageResource(R.drawable.notifications_disabled)
+                notificationsDot.background = ContextCompat.getDrawable(
+                    this, R.drawable.notification_dot_disabled
+                )
+                notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
 
                 profile.background = ContextCompat.getDrawable(
                     this, R.drawable.bottom_navigation_item_background

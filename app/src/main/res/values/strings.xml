@@ -66,4 +66,5 @@
     <string name="document_review_ongoing">Document review ongoing</string>
     <string name="got_it">Got it</string>
     <string name="your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed">Your identification document is now being reviewed, you will be notified when it is completed.</string>
+    <string name="notifications">Notifications</string>
 </resources>
