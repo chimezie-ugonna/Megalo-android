@@ -101,8 +101,7 @@ class ServerConnection(
             }
         }, Response.ErrorListener { error ->
             error.printStackTrace()
-            val statusCode = error.networkResponse.statusCode
-            respond(statusCode)
+            respond(error.networkResponse.statusCode)
         }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val header: MutableMap<String, String> = HashMap()
