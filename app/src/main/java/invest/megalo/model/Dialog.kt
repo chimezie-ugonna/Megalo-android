@@ -4,16 +4,14 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
-import android.view.Gravity
+import android.view.Gravity.CENTER
 import android.view.HapticFeedbackConstants
 import android.view.View
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import invest.megalo.R
+import invest.megalo.controller.activity.Home
 import invest.megalo.controller.activity.MainActivity
 import invest.megalo.controller.activity.Registration
 import java.util.*
@@ -48,7 +46,7 @@ class Dialog(
                     TypedValue.COMPLEX_UNIT_PX,
                     context.resources.getDimension(R.dimen.sub_header_text)
                 )
-                title?.gravity = Gravity.CENTER
+                title?.gravity = CENTER
                 title?.text = title_
 
                 val calendar = Calendar.getInstance()
@@ -110,8 +108,8 @@ class Dialog(
                 }
 
             }
-            context.resources.getString(R.string.permission_rationale) -> {
-                bottomSheetDialog.setContentView(R.layout.dialog_permission_rationale)
+            context.resources.getString(R.string.permission_rationale), context.getString(R.string.confirm_logout) -> {
+                bottomSheetDialog.setContentView(R.layout.dialog_general)
 
                 val title = bottomSheetDialog.findViewById<TextView>(R.id.title)
                 val content = bottomSheetDialog.findViewById<TextView>(R.id.content)
@@ -123,7 +121,7 @@ class Dialog(
                 title?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
                 )
-                title?.gravity = Gravity.CENTER
+                title?.gravity = CENTER
                 title?.text = title_
 
                 content?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
@@ -131,7 +129,7 @@ class Dialog(
                 content?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                content?.gravity = Gravity.CENTER
+                content?.gravity = CENTER
                 content?.text = content_
 
                 positiveButton?.setTypeface(null, Typeface.BOLD)
@@ -147,9 +145,15 @@ class Dialog(
                 )
                 positiveButton?.text = positive_button
                 positiveButton?.setOnClickListener {
-                    if (context is MainActivity) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            context.requestPermission()
+                    if (type == context.getString(R.string.confirm_logout)) {
+                        if (context is Home) {
+                            context.logOut()
+                        }
+                    } else {
+                        if (context is MainActivity) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                context.requestPermission()
+                            }
                         }
                     }
                     bottomSheetDialog.dismiss()
@@ -178,18 +182,42 @@ class Dialog(
                 }
             }
             context.resources.getString(R.string.identification_document_review_ongoing) -> {
-                bottomSheetDialog.setContentView(R.layout.dialog_identification_document_review_ongoing)
+                bottomSheetDialog.setContentView(R.layout.dialog_general)
 
+                val img = bottomSheetDialog.findViewById<ImageView>(R.id.img)
                 val title = bottomSheetDialog.findViewById<TextView>(R.id.title)
                 val content = bottomSheetDialog.findViewById<TextView>(R.id.content)
                 val positiveButton = bottomSheetDialog.findViewById<Button>(R.id.positive_button)
+                val negativeButton = bottomSheetDialog.findViewById<Button>(R.id.negative_button)
+
+                var llp = LinearLayout.LayoutParams(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        context.resources.getDimension(R.dimen.loader_animation_height),
+                        context.resources.displayMetrics
+                    ).toInt(), TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        context.resources.getDimension(R.dimen.loader_animation_height),
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+                llp.gravity = CENTER
+                llp.setMargins(
+                    0, 0, 0, TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        context.resources.getDimension(R.dimen.normal_padding),
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+                img?.layoutParams = llp
+                img?.setImageResource(R.drawable.timer)
 
                 title?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
                 title?.setTypeface(null, Typeface.BOLD)
                 title?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
                 )
-                title?.gravity = Gravity.CENTER
+                title?.gravity = CENTER
                 title?.text = title_
 
                 content?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
@@ -197,7 +225,7 @@ class Dialog(
                 content?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                content?.gravity = Gravity.CENTER
+                content?.gravity = CENTER
                 content?.text = content_
 
                 positiveButton?.setTypeface(null, Typeface.BOLD)
@@ -213,6 +241,28 @@ class Dialog(
                 )
                 positiveButton?.text = positive_button
                 positiveButton?.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                }
+
+                if (negative_button == "") {
+                    llp = LinearLayout.LayoutParams(0, 0, 0.0f)
+                    llp.setMargins(0, 0, 0, 0)
+                    negativeButton?.layoutParams = llp
+                } else {
+                    negativeButton?.setTypeface(null, Typeface.BOLD)
+                    negativeButton?.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
+                    )
+                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    negativeButton?.background = ContextCompat.getDrawable(
+                        context, R.drawable.light_gray_solid
+                    )
+                    negativeButton?.foreground = ContextCompat.getDrawable(
+                        context, R.drawable.black_ripple_curved_corners
+                    )
+                    negativeButton?.text = negative_button
+                }
+                negativeButton?.setOnClickListener {
                     bottomSheetDialog.dismiss()
                 }
             }

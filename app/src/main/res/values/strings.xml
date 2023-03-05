@@ -7,6 +7,7 @@
     <string name="date_picker" translatable="false">Date picker</string>
     <string name="identification_document_review_ongoing" translatable="false">Identification document review ongoing</string>
     <string name="permission_rationale" translatable="false">Permission rationale</string>
+    <string name="confirm_logout" translatable="false">Confirm logout</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
     <string name="invest_in_real_estate_from_anywhere_anytime_and_on_any_budget">Invest in real estate from anywhere, anytime and on any budget.</string>
@@ -67,4 +68,8 @@
     <string name="got_it">Got it</string>
     <string name="your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed">Your identification document is now being reviewed, you will be notified when it is completed.</string>
     <string name="notifications">Notifications</string>
+    <string name="logout_confirmation">Logout confirmation</string>
+    <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

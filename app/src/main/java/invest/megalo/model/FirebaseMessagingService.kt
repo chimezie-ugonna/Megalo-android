@@ -49,7 +49,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(
             Random().nextInt(),
             NotificationCompat.Builder(this, "megalo_general_channel_id")
-                .setSmallIcon(R.drawable.notification_icon).setContentTitle(message.data["title"])
+                .setSmallIcon(R.drawable.logo_notification).setContentTitle(message.data["title"])
                 .setContentText(message.data["body"]).setAutoCancel(true).setVibrate(pattern)
                 .setLights(Color.BLUE, 1, 1).setSound(sound).setContentIntent(pendingIntent).build()
         )

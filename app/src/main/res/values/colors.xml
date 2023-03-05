@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="appBlue">#6DDDF7</color>
     <color name="appGreen">#08F1BA</color>
     <color name="appGreenDisabled">#8008F1BA</color>
-    <color name="appGreenGradient">#4ff3c2</color>
+    <color name="appGreenGradient">#1DE1B3</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>

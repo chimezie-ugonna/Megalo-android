@@ -14,7 +14,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_home, container, false)
-        v.findViewById<TextView>(R.id.log_out).setOnClickListener { (activity as Home).logOut() }
+        v.findViewById<TextView>(R.id.log_out)
+            .setOnClickListener { (activity as Home).logOutConfirmation() }
         return v
     }
 }

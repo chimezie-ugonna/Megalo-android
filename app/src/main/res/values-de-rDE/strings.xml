@@ -58,4 +58,9 @@
     <string name="document_review_ongoing">Dokumentenprüfung läuft</string>
     <string name="got_it">Verstanden</string>
     <string name="your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed">Ihr Ausweisdokument wird jetzt überprüft, Sie werden benachrichtigt, wenn es fertig ist.</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="logout_confirmation">Abmeldebestätigung</string>
+    <string name="are_you_sure_you_want_to_log_out">Möchten Sie sich wirklich abmelden?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>

@@ -116,6 +116,19 @@ class Home : AppCompatActivity() {
         replaceFragment(homeFragment)
     }
 
+    fun logOutConfirmation() {
+        Dialog(
+            findViewById(R.id.parent),
+            this,
+            getString(R.string.confirm_logout),
+            getString(R.string.logout_confirmation),
+            getString(R.string.are_you_sure_you_want_to_log_out),
+            getString(R.string.yes),
+            getString(R.string.no),
+            true
+        )
+    }
+
     fun logOut() {
         if (InternetCheck(this, findViewById(R.id.parent)).status()) {
             loader.show(getString(R.string.logging_you_out))
