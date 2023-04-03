@@ -5,11 +5,9 @@ import android.content.SharedPreferences
 import invest.megalo.R
 
 class Session(context: Context) {
-    private val sp: SharedPreferences =
-        context.getSharedPreferences(
-            context.resources.getString(R.string.app_name),
-            Context.MODE_PRIVATE
-        )
+    private val sp: SharedPreferences = context.getSharedPreferences(
+        context.resources.getString(R.string.app_name), Context.MODE_PRIVATE
+    )
     private val spe: SharedPreferences.Editor = sp.edit()
 
     fun appTheme(state: String) {
@@ -55,6 +53,24 @@ class Session(context: Context) {
 
     fun loggedIn(): Boolean {
         return sp.getBoolean("loggedIn", false)
+    }
+
+    fun onboarded(data: Boolean) {
+        spe.putBoolean("onboarded", data)
+        spe.commit()
+    }
+
+    fun onboarded(): Boolean {
+        return sp.getBoolean("onboarded", false)
+    }
+
+    fun useBiometric(data: Boolean) {
+        spe.putBoolean("useBiometric", data)
+        spe.commit()
+    }
+
+    fun useBiometric(): Boolean {
+        return sp.getBoolean("useBiometric", false)
     }
 
     fun devicePhoneNumber(data: String) {

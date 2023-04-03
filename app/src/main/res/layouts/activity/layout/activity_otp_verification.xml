@@ -10,36 +10,66 @@
     tools:context=".controller.activity.OtpVerification"
     tools:ignore="Overdraw">
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/go_back"
+        android:src="@drawable/arrow_back" />
+
+    <include
+        android:id="@+id/branding_container"
+        layout="@layout/content_branding"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/branding_container"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/large_padding"
+        android:text="@string/verify_your_phone_number"
         android:textColor="?attr/black_white"
-        android:textSize="@dimen/sub_header_text" />
+        android:textSize="@dimen/big_text" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/normal_padding"
+        android:gravity="center"
+        android:textColor="?attr/blackDisabled_whiteDisabled"
+        android:textSize="@dimen/normal_text" />
 
     <com.chaos.view.PinView
         android:id="@+id/pin_view"
         style="@style/PinWidget.PinView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/big_padding"
+        android:layout_marginTop="@dimen/large_padding"
         android:cursorVisible="true"
         android:inputType="number"
-        android:itemBackground="?attr/lightGray_night"
+        android:itemBackground="?attr/white_black"
         android:textColor="?attr/black_white"
+        android:textColorHint="?attr/blackDisabled_whiteDisabled"
         android:textSize="@dimen/big_text"
         android:textStyle="bold"
         app:cursorColor="@color/appGreen"
-        app:hideLineWhenFilled="true"
+        app:hideLineWhenFilled="false"
         app:itemCount="6"
         app:itemRadius="@dimen/small_padding"
         app:itemSpacing="@dimen/normal_padding"
-        app:lineColor="@drawable/pin_view_selector"
+        app:lineColor="@color/code_text_field_state"
         app:lineWidth="@dimen/stroke_size"
         app:viewType="rectangle" />
 
@@ -60,27 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/error_message"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/big_padding"
+        android:layout_marginTop="@dimen/large_padding"
         android:gravity="center"
-        android:textColor="@color/darkGray"
-        android:textSize="@dimen/big_text" />
-
-    <FrameLayout
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/app_green_circle"
-        android:foreground="@drawable/white_ripple_circle"
-        android:padding="@dimen/small_padding">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/go_back"
-            android:visibility="visible"
-            app:srcCompat="@drawable/arrow_back" />
-    </FrameLayout>
+        android:textColor="?attr/blackDisabled_whiteDisabled"
+        android:textSize="@dimen/normal_text" />
 </RelativeLayout>

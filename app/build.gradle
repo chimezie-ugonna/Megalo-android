@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-installations-ktx'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.hbb20:ccp:2.5.0'
+    implementation 'com.hbb20:ccp:2.6.1'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
     implementation 'com.airbnb.android:lottie:3.5.0'

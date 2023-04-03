@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
@@ -7,256 +7,73 @@
     android:layout_height="match_parent"
     tools:context=".controller.activity.MainActivity">
 
-    <RelativeLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/sub_parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@drawable/app_green_solid_straight"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/first_text_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:layout_marginEnd="@dimen/normal_padding"
-                        android:gravity="center"
-                        android:text="@string/welcome_to"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:layout_marginEnd="@dimen/normal_padding"
-                        android:gravity="center"
-                        android:letterSpacing="1"
-                        android:text="@string/in_app_name"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/title_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:layout_marginEnd="@dimen/normal_padding"
-                        android:gravity="start"
-                        android:text="@string/invest_in_real_estate_from_anywhere_anytime_and_on_any_budget"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/second_text_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/normal_padding"
-                    android:layout_marginTop="@dimen/normal_padding"
-                    android:layout_marginEnd="@dimen/normal_padding"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/access_a_piece_of_real_estate_at_any_moment"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:text="@string/we_take_care_of_the_paperwork"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/third_text_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/normal_padding"
-                    android:layout_marginTop="@dimen/normal_padding"
-                    android:layout_marginEnd="@dimen/normal_padding"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/get_incredible_monthly_returns_on_our_profits_and_returns_when_properties_are_sold"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:text="@string/if_you_own_a_part_you_get_your_part"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sub_header_text" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginTop="@dimen/big_padding"
-                android:layout_marginEnd="@dimen/normal_padding"
-                android:layout_marginBottom="@dimen/big_padding"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/first_indicator"
-                    android:layout_width="40sp"
-                    android:layout_height="@dimen/slide_indicator"
-                    android:background="@drawable/white_solid" />
-
-                <TextView
-                    android:id="@+id/second_indicator"
-                    android:layout_width="40sp"
-                    android:layout_height="@dimen/slide_indicator"
-                    android:layout_marginStart="@dimen/slide_indicator"
-                    android:alpha="0.40"
-                    android:background="@drawable/white_solid" />
-
-                <TextView
-                    android:id="@+id/third_indicator"
-                    android:layout_width="40sp"
-                    android:layout_height="@dimen/slide_indicator"
-                    android:layout_marginStart="@dimen/slide_indicator"
-                    android:alpha="0.40"
-                    android:background="@drawable/white_solid" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/sub_parent"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
     <LinearLayout
+        android:id="@+id/adjustment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/dialog_top_rounded_background"
-        android:orientation="vertical"
-        android:padding="@dimen/normal_padding"
-        app:behavior_hideable="false"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/enter_your_phone_number"
-            android:textColor="?attr/black_white"
-            android:textSize="@dimen/sub_header_text" />
+        <View
+            android:id="@+id/prev"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_padding"
-            android:layout_marginBottom="@dimen/normal_padding"
-            android:orientation="horizontal">
+        <View
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/ccp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/light_gray_night_solid_light_gray_stroke_curved_corners"
-                android:padding="@dimen/small_padding"
-                app:ccpDialog_backgroundColor="?attr/white_night"
-                app:ccpDialog_keyboardAutoPopup="false"
-                app:ccpDialog_textColor="?attr/black_white"
-                app:ccp_arrowColor="?attr/black_white"
-                app:ccp_autoDetectCountry="true"
-                app:ccp_autoDetectLanguage="true"
-                app:ccp_contentColor="?attr/black_white"
-                app:ccp_countryPreference="NG,CA,DE"
-                app:ccp_hintExampleNumber="true"
-                app:ccp_textSize="@dimen/big_text" />
-
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:background="@drawable/light_gray_night_solid_light_gray_stroke_curved_corners"
-                android:digits="1234567890"
-                android:importantForAutofill="no"
-                android:inputType="phone"
-                android:maxLines="1"
-                android:padding="@dimen/normal_padding"
-                android:textColor="?attr/black_white"
-                android:textColorHint="?attr/black_white"
-                android:textSize="@dimen/big_text"
-                tools:ignore="LabelFor" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/error_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:textSize="@dimen/normal_text"
-            android:visibility="gone" />
-
-        <FrameLayout
-            android:id="@+id/proceed_parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/app_green_circle"
-            android:foreground="@drawable/white_ripple_circle"
-            android:padding="@dimen/small_padding">
-
-            <ImageView
-                android:id="@+id/proceed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/proceed"
-                android:visibility="visible"
-                app:srcCompat="@drawable/arrow_forward" />
-
-            <ProgressBar
-                android:id="@+id/loader"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center"
-                android:theme="@style/Theme.Megalo.Onboarding.ProgressBar"
-                android:visibility="invisible" />
-        </FrameLayout>
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <LinearLayout
+        android:id="@+id/indicator_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginStart="@dimen/progress_indicator"
+        android:layout_marginEnd="@dimen/progress_indicator"
+        android:orientation="horizontal">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/first_indicator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/progress_indicator"
+            android:layout_weight="1"
+            android:progress="20"
+            app:indicatorColor="@color/appGreen"
+            app:showDelay="@integer/material_motion_duration_long_1"
+            app:trackColor="@color/appGreenDisabled"
+            app:trackCornerRadius="@dimen/small_padding" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/second_indicator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/progress_indicator"
+            android:layout_marginStart="@dimen/progress_indicator"
+            android:layout_marginEnd="@dimen/progress_indicator"
+            android:layout_weight="1"
+            app:indicatorColor="@color/appGreen"
+            app:showDelay="@integer/material_motion_duration_long_1"
+            app:trackColor="@color/appGreenDisabled"
+            app:trackCornerRadius="@dimen/small_padding" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/third_indicator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/progress_indicator"
+            android:layout_weight="1"
+            app:indicatorColor="@color/appGreen"
+            app:showDelay="@integer/material_motion_duration_long_1"
+            app:trackColor="@color/appGreenDisabled"
+            app:trackCornerRadius="@dimen/small_padding" />
+
+    </LinearLayout>
+
+</FrameLayout>

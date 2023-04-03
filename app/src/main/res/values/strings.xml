@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Megalo</string>
-    <string name="in_app_name" translatable="false">MEGALO</string>
+    <string name="in_app_name" translatable="false">Megalo</string>
     <string name="app_version" translatable="false">1.0.0</string>
     <string name="server_url" translatable="false">https://api.investmegalo.com/api/v1/</string>
     <string name="date_format" translatable="false">%s/%s/%s</string>
@@ -8,9 +8,17 @@
     <string name="identification_document_review_ongoing" translatable="false">Identification document review ongoing</string>
     <string name="permission_rationale" translatable="false">Permission rationale</string>
     <string name="confirm_logout" translatable="false">Confirm logout</string>
+    <string name="john_doe" translatable="false">John Doe</string>
+    <string name="johndoe_email_com" translatable="false">johndoe@email.com</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
+    <string name="welcome_to_megalo">Welcome to Megalo</string>
     <string name="invest_in_real_estate_from_anywhere_anytime_and_on_any_budget">Invest in real estate from anywhere, anytime and on any budget.</string>
+    <string name="we_take_care_of_the_paperwork">We take care of the paperwork</string>
+    <string name="access_a_piece_of_real_estate_at_any_moment">Access a piece of real estate at any moment.</string>
+    <string name="if_you_own_a_part_you_get_a_part">If you own a part, you get a part</string>
+    <string name="get_monthly_returns_on_profits_and_returns_when_properties_are_sold">Get monthly returns on profits and returns when properties are sold.</string>
+    <string name="your_access_to_real_estate_investment">Your access to real estate investment</string>
     <string name="empty_phone_field_error_message">Please enter a phone number.</string>
     <string name="invalid_phone_number_error_message">This phone number is invalid.</string>
     <string name="no_internet_error_message">There is no internet connection.</string>
@@ -24,13 +32,10 @@
     <string name="resend_code_single_counter_text">Resend code in &lt;b>%s&lt;/b> second.</string>
     <string name="resend_code_multiple_counter_text">Resend code in &lt;b>%s&lt;/b> seconds.</string>
     <string name="resend_code">Resend code</string>
-    <string name="enter_your_full_name">Enter your full name</string>
-    <string name="enter_your_email">Enter your email</string>
-    <string name="enter_your_details_below">Enter your details below</string>
-    <string name="please_enter_your_full_name">Please enter your full name</string>
-    <string name="please_enter_your_email">Please enter your email</string>
-    <string name="please_enter_a_valid_email">Please enter a valid email</string>
-    <string name="please_enter_your_first_and_last_name">Please enter your first and last name</string>
+    <string name="please_enter_your_full_name">Please enter your full name.</string>
+    <string name="please_enter_your_email">Please enter your email.</string>
+    <string name="please_enter_a_valid_email">Please enter a valid email.</string>
+    <string name="please_enter_your_first_and_last_name">Please enter your first and last name.</string>
     <string name="log_out">Log Out</string>
     <string name="go_back">Go Back</string>
     <string name="processing">Processing</string>
@@ -39,28 +44,18 @@
     <string name="logging_you_in">Logging you in.</string>
     <string name="creating_your_account">Creating your account.</string>
     <string name="logging_you_out">Logging you out.</string>
-    <string name="select_your_birthdate">Select your birthdate</string>
-    <string name="please_select_your_birthdate">Please select your birthdate</string>
+    <string name="select_your_birth_date">Select your birth date</string>
+    <string name="please_select_your_birth_date">Please select your birth date.</string>
     <string name="home">Home</string>
     <string name="investments">Investments</string>
     <string name="profile">Profile</string>
-    <string name="welcome_to">Welcome to</string>
-    <string name="access_a_piece_of_real_estate_at_any_moment">Access a piece of real estate at any moment.</string>
-    <string name="we_take_care_of_the_paperwork">We take care of the paperwork.</string>
-    <string name="get_incredible_monthly_returns_on_our_profits_and_returns_when_properties_are_sold">Get incredible monthly returns on our profits and returns when properties are sold.</string>
-    <string name="if_you_own_a_part_you_get_your_part">If you own a part, you get your part.</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
     <string name="sms_retriever_timed_out">SMS retriever timed out.</string>
-    <string name="identity_verification_process_cancelled">Identity verification process cancelled.</string>
-    <string name="identity_verification_process_failed">Identity verification process failed.</string>
     <string name="verify">Verify</string>
     <string name="initiating_identity_verification">Initiating identity verification</string>
-    <string name="verifying_identity">Verifying identity</string>
-    <string name="identity_verification_process_cancelled2">Identity verification process cancelled because consent was not given.</string>
     <string name="the_phone_number_you_provided_has_been_taken">The phone number you provided has been taken.</string>
-    <string name="enter_referral_code_optional">Enter referral code (Optional)</string>
-    <string name="please_enter_a_valid_referral_code">Please enter a valid referral code</string>
+    <string name="please_enter_a_valid_referral_code">Please enter a valid referral code.</string>
     <string name="notifications_permission_required">Notifications permission required</string>
     <string name="notifications_permission_rationale_text">Megalo requires permission to send you notifications to make your experience better. With this permission, you can get notified on things like when a new property is available, when a property\'s value increases, when you get paid dividends and so much more.</string>
     <string name="your_identity_has_already_been_verified">Your identity has already been verified.</string>
@@ -72,4 +67,14 @@
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="you_will_receive_a_6_digit_code_to_verify_your_phone_number">You will receive a 6-digit code to verify your phone number.</string>
+    <string name="get_started">Get started</string>
+    <string name="begin_your_journey_to_financial_freedom">Begin your journey to financial freedom.</string>
+    <string name="full_name">Full name</string>
+    <string name="email_address">Email address</string>
+    <string name="birth_date">Birth date</string>
+    <string name="referral_code">Referral code</string>
+    <string name="verify_your_phone_number">Verify your phone number</string>
+    <string name="create_account">Create Account</string>
+    <string name="optional">Optional</string>
 </resources>

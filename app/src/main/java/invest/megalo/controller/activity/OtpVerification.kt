@@ -12,10 +12,11 @@ import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.TextWatcher
 import android.view.View
-import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.android.volley.Request
 import com.chaos.view.PinView
 import com.google.android.gms.auth.api.phone.SmsRetriever
@@ -31,11 +32,12 @@ class OtpVerification : AppCompatActivity() {
     private var email = ""
     private var type = "sms"
     private var update = false
+    private var count = 30
+    private lateinit var handler: Handler
     private lateinit var pinView: PinView
-    private lateinit var header: TextView
+    private lateinit var description: TextView
     private lateinit var errorMessage: TextView
     private lateinit var resend: TextView
-    private lateinit var back: FrameLayout
     private lateinit var loader: CustomLoader
     private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -69,8 +71,8 @@ class OtpVerification : AppCompatActivity() {
             update = bundle.getBoolean("update")
         }
 
-        header = findViewById(R.id.header)
-        header.text = Html.fromHtml(
+        description = findViewById(R.id.description)
+        description.text = Html.fromHtml(
             getString(
                 R.string.otp_verification_header_text, formattedPhoneNumber
             ), FROM_HTML_MODE_LEGACY
@@ -85,11 +87,15 @@ class OtpVerification : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                errorMessage.text = ""
-                errorMessage.visibility = View.GONE
-                pinView.setItemBackgroundColor(
-                    ColorResCompat(this@OtpVerification, R.attr.lightGray_night).get()
-                )
+                if (errorMessage.isVisible) {
+                    errorMessage.text = ""
+                    errorMessage.visibility = View.GONE
+                    pinView.setLineColor(
+                        ContextCompat.getColorStateList(
+                            this@OtpVerification, R.color.code_text_field_state
+                        )
+                    )
+                }
                 if (s.toString().length >= 6) {
                     proceed()
                 }
@@ -100,8 +106,9 @@ class OtpVerification : AppCompatActivity() {
             }
         })
 
-        back = findViewById(R.id.back)
-        back.setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.back).setOnClickListener { finish() }
+
+        handler = Handler(Looper.getMainLooper())
 
         resend = findViewById(R.id.resend)
         resend.setOnClickListener {
@@ -119,8 +126,11 @@ class OtpVerification : AppCompatActivity() {
             }
         }
         resend.isEnabled = false
-        resend.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
-        counter()
+        resend.setTextColor(
+            ColorResCompat(
+                this@OtpVerification, R.attr.blackDisabled_whiteDisabled
+            ).get()
+        )
 
         val client = SmsRetriever.getClient(this)
         val task: Task<Void> = client.startSmsRetriever()
@@ -132,13 +142,39 @@ class OtpVerification : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(broadcastReceiver)
+    override fun onResume() {
+        super.onResume()
+        handler.removeCallbacksAndMessages(null)
+        counter()
     }
 
-    private fun counter(count: Int = 30) {
-        var index = count
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            unregisterReceiver(broadcastReceiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        handler.removeCallbacksAndMessages(null)
+        counter()
+    }
+
+    private fun counter() {
         if (count == 0) {
             resend.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
             resend.text = resources.getString(R.string.resend_code)
@@ -157,8 +193,8 @@ class OtpVerification : AppCompatActivity() {
                     ), FROM_HTML_MODE_LEGACY
                 )
             }
-            index--
-            Handler(Looper.getMainLooper()).postDelayed({ counter(index) }, 1000)
+            count--
+            handler.postDelayed({ counter() }, 1000)
         }
     }
 
@@ -212,12 +248,7 @@ class OtpVerification : AppCompatActivity() {
                 in 400..499 -> {
                     when (statusCode) {
                         403 -> {
-                            pinView.setItemBackground(
-                                ContextCompat.getDrawable(
-                                    this@OtpVerification,
-                                    R.drawable.light_gray_night_solid_red_stroke_curved_corners
-                                )
-                            )
+                            pinView.setLineColor(ContextCompat.getColor(this, R.color.red))
                             errorMessage.text = getString(R.string.incorrect_code_error_message)
                             errorMessage.visibility = View.VISIBLE
                         }
@@ -303,7 +334,12 @@ class OtpVerification : AppCompatActivity() {
                 "success"
             )
             resend.isEnabled = false
-            resend.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
+            resend.setTextColor(
+                ColorResCompat(
+                    this@OtpVerification, R.attr.blackDisabled_whiteDisabled
+                ).get()
+            )
+            count = 30
             counter()
         } else {
             when (statusCode) {

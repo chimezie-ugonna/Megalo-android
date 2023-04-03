@@ -1,6 +1,7 @@
 package invest.megalo.controller.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.job.JobInfo
@@ -13,208 +14,125 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
+import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.firebase.messaging.FirebaseMessaging
-import com.hbb20.CountryCodePicker
+import androidx.fragment.app.Fragment
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import invest.megalo.R
-import invest.megalo.adapter.OnBoardingSlidesAdapter
+import invest.megalo.controller.fragment.*
 import invest.megalo.model.*
-import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var ccp: CountryCodePicker
-    private lateinit var phone: EditText
-    private lateinit var proceed: ImageView
-    private lateinit var proceedParent: FrameLayout
-    private lateinit var loader: ProgressBar
-    lateinit var errorMessage: TextView
-    private var phoneFieldState: String = "normal"
-    private lateinit var recyclerView: RecyclerView
-    lateinit var firstTextParent: LinearLayout
-    lateinit var secondTextParent: LinearLayout
-    lateinit var thirdTextParent: LinearLayout
-    lateinit var firstIndicator: TextView
-    lateinit var secondIndicator: TextView
-    lateinit var thirdIndicator: TextView
-    private val phoneNumberHintIntentResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
-    ) { result ->
-        try {
-            val phoneNumber = Identity.getSignInClient(this).getPhoneNumberFromIntent(result.data)
-            ccp.fullNumber = phoneNumber
-            Session(this).devicePhoneNumber(phoneNumber)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    private lateinit var firstIndicator: LinearProgressIndicator
+    private var firstIndicatorProgress = 0
+    private lateinit var secondIndicator: LinearProgressIndicator
+    private var secondIndicatorProgress = 0
+    private lateinit var thirdIndicator: LinearProgressIndicator
+    private var thirdIndicatorProgress = 0
+    private lateinit var onboardingSlide1Fragment: OnboardingSlide1Fragment
+    private lateinit var onboardingSlide2Fragment: OnboardingSlide2Fragment
+    private lateinit var onboardingSlide3Fragment: OnboardingSlide3Fragment
+    private lateinit var onboardingSlide4Fragment: OnboardingSlide4Fragment
+    private lateinit var handler: Handler
+    lateinit var indicatorContainer: LinearLayout
+    private lateinit var prev: View
+    private lateinit var next: View
+    lateinit var adjustmentContainer: LinearLayout
+    private var pressTime = 0L
+    private var limit = 500L
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         SetAppTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        firstTextParent = findViewById(R.id.first_text_parent)
-        secondTextParent = findViewById(R.id.second_text_parent)
-        thirdTextParent = findViewById(R.id.third_text_parent)
         firstIndicator = findViewById(R.id.first_indicator)
         secondIndicator = findViewById(R.id.second_indicator)
         thirdIndicator = findViewById(R.id.third_indicator)
-        recyclerView = findViewById(R.id.recycler_view)
-        val images = ArrayList<Int>()
-        images.add(R.drawable.first_slide)
-        images.add(R.drawable.second_slide)
-        images.add(R.drawable.third_slide)
-        recyclerView.apply {
-            PagerSnapHelper().attachToRecyclerView(this)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val llm = recyclerView.layoutManager as LinearLayoutManager
-                    when (llm.findFirstCompletelyVisibleItemPosition()) {
-                        0 -> {
-                            firstTextParent.visibility = View.VISIBLE
-                            secondTextParent.visibility = View.GONE
-                            thirdTextParent.visibility = View.GONE
+        indicatorContainer = findViewById(R.id.indicator_container)
+        prev = findViewById(R.id.prev)
+        next = findViewById(R.id.next)
+        adjustmentContainer = findViewById(R.id.adjustment_container)
 
-                            firstIndicator.alpha = 1f
-                            secondIndicator.alpha = 0.40f
-                            thirdIndicator.alpha = 0.40f
-                        }
+        onboardingSlide1Fragment = OnboardingSlide1Fragment()
+        onboardingSlide2Fragment = OnboardingSlide2Fragment()
+        onboardingSlide3Fragment = OnboardingSlide3Fragment()
+        onboardingSlide4Fragment = OnboardingSlide4Fragment()
 
-                        1 -> {
-                            firstTextParent.visibility = View.GONE
-                            secondTextParent.visibility = View.VISIBLE
-                            thirdTextParent.visibility = View.GONE
+        handler = Handler(Looper.getMainLooper())
 
-                            firstIndicator.alpha = 0.40f
-                            secondIndicator.alpha = 1f
-                            thirdIndicator.alpha = 0.40f
-                        }
-
-                        2 -> {
-                            firstTextParent.visibility = View.GONE
-                            secondTextParent.visibility = View.GONE
-                            thirdTextParent.visibility = View.VISIBLE
-
-                            firstIndicator.alpha = 0.40f
-                            secondIndicator.alpha = 0.40f
-                            thirdIndicator.alpha = 1f
-                        }
-                    }
-                }
-
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-
-                }
-            })
-            adapter = OnBoardingSlidesAdapter(this@MainActivity, images)
+        prev.setOnClickListener {
+            if (onboardingSlide1Fragment.isAdded) {
+                firstIndicatorProgress = 0
+                secondIndicatorProgress = 0
+                thirdIndicatorProgress = 0
+            } else if (onboardingSlide2Fragment.isAdded) {
+                firstIndicatorProgress = 0
+                secondIndicatorProgress = 0
+                thirdIndicatorProgress = 0
+            } else if (onboardingSlide3Fragment.isAdded) {
+                secondIndicatorProgress = 0
+                thirdIndicatorProgress = 0
+            }
+            handler.removeCallbacksAndMessages(null)
+            incrementProgress()
         }
-
-        ccp = findViewById(R.id.ccp)
-        phone = findViewById(R.id.phone)
-        errorMessage = findViewById(R.id.error_message)
-        phone.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                phoneFieldState = if (phone.hasFocus()) {
-                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    "active"
-                } else {
-                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_light_gray_stroke_curved_corners)
-                    "normal"
+        prev.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    pressTime = System.currentTimeMillis()
+                    handler.removeCallbacksAndMessages(null)
+                    return@setOnTouchListener false
                 }
-                errorMessage.text = ""
-                errorMessage.visibility = View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-        phone.setOnFocusChangeListener { _, b ->
-            if (b) {
-                if (phoneFieldState == "normal") {
-                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    phoneFieldState = "active"
-                }
-            } else {
-                if (phoneFieldState == "active") {
-                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_light_gray_stroke_curved_corners)
-                    phoneFieldState = "normal"
+                MotionEvent.ACTION_UP -> {
+                    val now = System.currentTimeMillis()
+                    incrementProgress()
+                    return@setOnTouchListener limit < now - pressTime
                 }
             }
+            return@setOnTouchListener false
         }
-        ccp.registerCarrierNumberEditText(phone)
-        loader = findViewById(R.id.loader)
-        proceed = findViewById(R.id.proceed)
-        proceedParent = findViewById(R.id.proceed_parent)
-        proceedParent.setOnClickListener {
-            if (phone.text.isEmpty()) {
-                phone.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                errorMessage.text = getString(R.string.empty_phone_field_error_message)
-                errorMessage.visibility = View.VISIBLE
-                phoneFieldState = "error"
-            } else {
-                if (ccp.isValidFullNumber) {
-                    if (InternetCheck(this, findViewById(R.id.parent)).status()) {
-                        loader.visibility = View.VISIBLE
-                        proceed.visibility = View.INVISIBLE
-                        ccp.setCcpClickable(false)
-                        proceedParent.isEnabled = false
-                        phone.isEnabled = false
-                        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Session(this).deviceToken(task.result)
-                                ServerConnection(
-                                    this,
-                                    "sendOtp",
-                                    Request.Method.POST,
-                                    "user/send_otp",
-                                    JSONObject().put("type", "sms")
-                                        .put("phone_number", ccp.fullNumberWithPlus)
-                                )
-                            }
-                        }.addOnFailureListener {
-                            loader.visibility = View.INVISIBLE
-                            proceed.visibility = View.VISIBLE
-                            ccp.setCcpClickable(true)
-                            proceedParent.isEnabled = true
-                            phone.isEnabled = true
-                            it.printStackTrace()
-                            CustomSnackBar(
-                                this@MainActivity,
-                                findViewById(R.id.parent),
-                                resources.getString(R.string.unknown_error_message),
-                                "error"
-                            )
-                        }
-                    }
-                } else {
-                    phone.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                    errorMessage.text = getString(R.string.invalid_phone_number_error_message)
-                    errorMessage.visibility = View.VISIBLE
-                    phoneFieldState = "error"
+        next.setOnClickListener {
+            if (onboardingSlide1Fragment.isAdded) {
+                firstIndicatorProgress = 99
+                secondIndicatorProgress = 0
+                thirdIndicatorProgress = 0
+            } else if (onboardingSlide2Fragment.isAdded) {
+                firstIndicatorProgress = 100
+                secondIndicatorProgress = 99
+                thirdIndicatorProgress = 0
+            } else if (onboardingSlide3Fragment.isAdded) {
+                firstIndicatorProgress = 100
+                secondIndicatorProgress = 100
+                thirdIndicatorProgress = 99
+            }
+            handler.removeCallbacksAndMessages(null)
+            incrementProgress()
+        }
+        next.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    pressTime = System.currentTimeMillis()
+                    handler.removeCallbacksAndMessages(null)
+                    return@setOnTouchListener false
+                }
+                MotionEvent.ACTION_UP -> {
+                    val now = System.currentTimeMillis()
+                    incrementProgress()
+                    return@setOnTouchListener limit < now - pressTime
                 }
             }
+            return@setOnTouchListener false
         }
 
         val scheduler: JobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
@@ -239,14 +157,134 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(mChannel)
         }
 
-        if (Session(this).loggedIn()) {
-            startActivity(Intent(this, Home::class.java))
-        } else if (Session(this).devicePhoneNumber() != "") {
-            ccp.fullNumber = Session(this).devicePhoneNumber()
+        if (Session(this).onboarded()) {
+            if (Session(this).loggedIn()) {
+                startActivity(Intent(this, Home::class.java))
+            } else {
+                if (!onboardingSlide4Fragment.isAdded) {
+                    replaceFragment(onboardingSlide4Fragment)
+                    indicatorContainer.visibility = View.GONE
+                    adjustmentContainer.visibility = View.GONE
+                }
+            }
         } else {
-            requestPhoneNumberHint()
+            incrementProgress()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        if (!Session(this).onboarded()) {
+            handler.removeCallbacksAndMessages(null)
+            incrementProgress()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        if (!Session(this).onboarded()) {
+            handler.removeCallbacksAndMessages(null)
+            incrementProgress()
+        }
+    }
+
+    private fun incrementProgress() {
+        if (firstIndicatorProgress < 100) {
+            if (firstIndicatorProgress == 0) {
+                replaceFragment(onboardingSlide1Fragment)
+            }
+            firstIndicatorProgress++
+            firstIndicator.progress = firstIndicatorProgress
+            if (secondIndicator.progress != 0) {
+                secondIndicator.progress = 0
+            }
+            if (thirdIndicator.progress != 0) {
+                thirdIndicator.progress = 0
+            }
+            handler.postDelayed({
+                incrementProgress()
+            }, 50)
+        } else if (secondIndicatorProgress < 100) {
+            if (!onboardingSlide2Fragment.isAdded) {
+                replaceFragment(onboardingSlide2Fragment)
+            }
+            secondIndicatorProgress++
+            secondIndicator.progress = secondIndicatorProgress
+            if (thirdIndicator.progress != 0) {
+                thirdIndicator.progress = 0
+            }
+            handler.postDelayed({
+                incrementProgress()
+            }, 50)
+        } else if (thirdIndicatorProgress < 100) {
+            if (!onboardingSlide3Fragment.isAdded) {
+                replaceFragment(onboardingSlide3Fragment)
+            }
+            thirdIndicatorProgress++
+            thirdIndicator.progress = thirdIndicatorProgress
+            handler.postDelayed({
+                incrementProgress()
+            }, 50)
+        } else {
+            Session(this).onboarded(true)
+            if (!onboardingSlide4Fragment.isAdded) {
+                replaceFragment(onboardingSlide4Fragment)
+            }
+        }
+    }
+
+
+    private fun replaceFragment(fragment: Fragment) {
+        if (!isFinishing) {
+            val fragmentManager = supportFragmentManager
+            if (!fragmentManager.isDestroyed) {
+                val fragmentTransaction = fragmentManager.beginTransaction()
+                when (fragment) {
+                    is OnboardingSlide1Fragment -> {
+                        fragmentTransaction.replace(
+                            R.id.fragment_container, onboardingSlide1Fragment
+                        )
+                        if (onboardingSlide1Fragment.isAdded) {
+                            (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide1Fragment?)?.playLottie()
+                        }
+                    }
+                    is OnboardingSlide2Fragment -> {
+                        fragmentTransaction.replace(
+                            R.id.fragment_container, onboardingSlide2Fragment
+                        )
+                    }
+                    is OnboardingSlide3Fragment -> {
+                        fragmentTransaction.replace(
+                            R.id.fragment_container, onboardingSlide3Fragment
+                        )
+                    }
+                    is OnboardingSlide4Fragment -> {
+                        fragmentTransaction.replace(
+                            R.id.fragment_container, onboardingSlide4Fragment
+                        )
+                    }
+                }
+                fragmentTransaction.commit()
+            }
+        }
+    }
+
+    fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.POST_NOTIFICATIONS
@@ -270,7 +308,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun requestPermission() {
         ActivityCompat.requestPermissions(
@@ -282,59 +319,48 @@ class MainActivity : AppCompatActivity() {
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-    }
-
-    private fun requestPhoneNumberHint() {
-        val request: GetPhoneNumberHintIntentRequest =
-            GetPhoneNumberHintIntentRequest.builder().build()
-
-        Identity.getSignInClient(this).getPhoneNumberHintIntent(request).addOnSuccessListener {
-            phoneNumberHintIntentResultLauncher.launch(
-                IntentSenderRequest.Builder(it.intentSender).build()
-            )
-        }.addOnFailureListener {
-            it.printStackTrace()
+        val fragmentManager = supportFragmentManager
+        if (!fragmentManager.isDestroyed) {
+            if (onboardingSlide4Fragment.isAdded) {
+                (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.checkAvailablePhoneNumber()
+            }
         }
     }
 
     fun otpSent(l: Int, statusCode: Int? = 0) {
-        loader.visibility = View.INVISIBLE
-        proceed.visibility = View.VISIBLE
-        ccp.setCcpClickable(true)
-        proceedParent.isEnabled = true
-        phone.isEnabled = true
-        if (l == 1) {
-            Session(this).devicePhoneNumber(ccp.fullNumberWithPlus)
-            val intent = Intent(this, OtpVerification::class.java)
-            intent.putExtra("formatted_phone_number", ccp.formattedFullNumber)
-            intent.putExtra("full_phone_number", ccp.fullNumberWithPlus)
-            startActivity(intent)
-        } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@MainActivity,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
-                in 400..499 -> {
-                    CustomSnackBar(
-                        this@MainActivity,
-                        findViewById(R.id.parent),
-                        getString(R.string.client_error_message),
-                        "error"
-                    )
-                }
-                else -> {
-                    CustomSnackBar(
-                        this@MainActivity,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+        val fragmentManager = supportFragmentManager
+        if (!fragmentManager.isDestroyed) {
+            if (onboardingSlide4Fragment.isAdded) {
+                (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.otpSent()
+                if (l == 1) {
+                    (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.moveToOtpVerificationPage()
+                } else {
+                    when (statusCode) {
+                        0 -> {
+                            CustomSnackBar(
+                                this@MainActivity,
+                                findViewById(R.id.parent),
+                                getString(R.string.unusual_error_message),
+                                "error"
+                            )
+                        }
+                        in 400..499 -> {
+                            CustomSnackBar(
+                                this@MainActivity,
+                                findViewById(R.id.parent),
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                        else -> {
+                            CustomSnackBar(
+                                this@MainActivity,
+                                findViewById(R.id.parent),
+                                getString(R.string.server_error_message),
+                                "error"
+                            )
+                        }
+                    }
                 }
             }
         }

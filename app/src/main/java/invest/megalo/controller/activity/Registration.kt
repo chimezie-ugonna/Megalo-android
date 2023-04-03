@@ -3,36 +3,35 @@ package invest.megalo.controller.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
-import android.widget.FrameLayout
+import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import com.android.volley.Request
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import invest.megalo.R
 import invest.megalo.model.*
 import org.json.JSONObject
 
 
 class Registration : AppCompatActivity() {
-    private lateinit var name: EditText
-    private lateinit var email: EditText
-    lateinit var dob: EditText
-    lateinit var referralCode: EditText
-    private lateinit var proceed: FrameLayout
-    private lateinit var back: FrameLayout
+    private lateinit var nameLayout: TextInputLayout
+    private lateinit var name: TextInputEditText
+    private lateinit var emailLayout: TextInputLayout
+    private lateinit var email: TextInputEditText
+    private lateinit var dobError: TextView
+    lateinit var dob: TextView
+    private lateinit var referralLayout: TextInputLayout
+    private lateinit var referral: TextInputEditText
+    private lateinit var create: AppCompatButton
     private var phoneNumber = ""
-    lateinit var nameErrorMessage: TextView
-    private var nameFieldState: String = "normal"
-    lateinit var emailErrorMessage: TextView
-    private var emailFieldState: String = "normal"
-    private lateinit var dobErrorMessage: TextView
-    private var dobFieldState: String = "normal"
-    private lateinit var referralCodeErrorMessage: TextView
-    private var referralCodeFieldState: String = "normal"
     private lateinit var loader: CustomLoader
 
     @SuppressLint("ClickableViewAccessibility")
@@ -47,123 +46,130 @@ class Registration : AppCompatActivity() {
         }
 
         loader = CustomLoader(this)
+        findViewById<ImageView>(R.id.back).setOnClickListener { finish() }
+        create = findViewById(R.id.button)
+        create.text = resources.getString(R.string.create_account)
+        create.setOnClickListener {
+            if (name.text.toString().isEmpty()) {
+                nameLayout.error = getString(R.string.please_enter_your_full_name)
+                nameLayout.requestFocus()
+            } else {
+                if (name.text.toString().split(" ").size == 1 || name.text.toString()
+                        .split(" ")[0] == "" || name.text.toString().split(
+                        " "
+                    )[1] == ""
+                ) {
+                    nameLayout.error = getString(R.string.please_enter_your_first_and_last_name)
+                    nameLayout.requestFocus()
+                }
+            }
+
+            if (email.text.toString().isEmpty()) {
+                emailLayout.error = getString(R.string.please_enter_your_email)
+                if (!nameLayout.isErrorEnabled) {
+                    emailLayout.requestFocus()
+                }
+            } else {
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
+                    emailLayout.error = getString(R.string.please_enter_a_valid_email)
+                    if (!nameLayout.isErrorEnabled) {
+                        emailLayout.requestFocus()
+                    }
+                }
+            }
+
+            if (dob.text.toString() == resources.getString(R.string.select_your_birth_date)) {
+                dob.background = ContextCompat.getDrawable(
+                    this, R.drawable.white_black_solid_red_stroke_curved_corners
+                )
+                dobError.text = getString(R.string.please_select_your_birth_date)
+                dobError.visibility = View.VISIBLE
+                if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled) {
+                    dob.requestFocus()
+                }
+            }
+
+            if (referral.text.toString().isNotEmpty()) {
+                if (referral.text.toString().length < 6) {
+                    referralLayout.error = getString(R.string.please_enter_a_valid_referral_code)
+                    if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible) {
+                        referralLayout.requestFocus()
+                    }
+                }
+            }
+
+            if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible && !referralLayout.isErrorEnabled) {
+                if (InternetCheck(this, findViewById(R.id.parent)).status()) {
+                    loader.show(getString(R.string.creating_your_account))
+                    var jsonObject = JSONObject()
+                    jsonObject = if (referral.text.toString().isNotEmpty()) jsonObject.put(
+                        "phone_number", phoneNumber
+                    ).put("full_name", name.text.toString().trim())
+                        .put("dob", dob.text.toString().trim())
+                        .put("email", email.text.toString().trim()).put(
+                            "referral_code", referral.text.toString().trim()
+                        ) else jsonObject.put("phone_number", phoneNumber)
+                        .put("full_name", name.text.toString().trim())
+                        .put("dob", dob.text.toString().trim())
+                        .put("email", email.text.toString().trim())
+                    ServerConnection(
+                        this, "register", Request.Method.POST, "user/create", jsonObject
+                    )
+                }
+            }
+        }
+        nameLayout = findViewById(R.id.name_layout)
         name = findViewById(R.id.name)
-        nameErrorMessage = findViewById(R.id.name_error_message)
-        name.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (name.hasFocus()) {
-                    name.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    nameFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
-                } else {
-                    name.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    nameFieldState = "normal"
-                }
-                nameErrorMessage.text = ""
-                nameErrorMessage.visibility = View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-        name.setOnFocusChangeListener { _, b ->
-            if (b) {
-                if (nameFieldState == "normal") {
-                    name.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    nameFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
-                }
-            } else {
-                if (nameFieldState == "active") {
-                    name.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    nameFieldState = "normal"
+        name.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (nameLayout.isErrorEnabled) {
+                    nameLayout.isErrorEnabled = false
                 }
             }
         }
-
+        emailLayout = findViewById(R.id.email_layout)
         email = findViewById(R.id.email)
-        emailErrorMessage = findViewById(R.id.email_error_message)
-        email.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (email.hasFocus()) {
-                    email.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    emailFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
-                } else {
-                    email.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    emailFieldState = "normal"
-                }
-                emailErrorMessage.text = ""
-                emailErrorMessage.visibility = View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-        email.setOnFocusChangeListener { _, b ->
-            if (b) {
-                if (emailFieldState == "normal") {
-                    email.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    emailFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
-                }
-            } else {
-                if (emailFieldState == "active") {
-                    email.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    emailFieldState = "normal"
+        email.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (emailLayout.isErrorEnabled) {
+                    emailLayout.isErrorEnabled = false
                 }
             }
         }
-
+        email.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                val inputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
+            }
+        }
+        dobError = findViewById(R.id.dob_error)
         dob = findViewById(R.id.dob)
-        dobErrorMessage = findViewById(R.id.dob_error_message)
-        dob.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+        dob.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (dob.hasFocus()) {
+                    dob.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    dob.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_black_disabled_white_disabled_stroke_curved_corners
+                    )
+                }
+                if (dobError.isVisible) {
+                    dobError.visibility = View.GONE
+                }
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                name.clearFocus()
-                email.clearFocus()
-                dob.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                dobFieldState = "active"
-                dobErrorMessage.text = ""
-                dobErrorMessage.visibility = View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
+        }
         dob.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
+                dob.requestFocus()
                 Dialog(
                     v,
                     this,
                     resources.getString(R.string.date_picker),
-                    resources.getString(R.string.select_your_birthdate),
+                    resources.getString(R.string.select_your_birth_date),
                     "",
                     getString(R.string.select),
                     getString(R.string.cancel),
@@ -172,139 +178,26 @@ class Registration : AppCompatActivity() {
             }
             false
         }
-
-        referralCode = findViewById(R.id.referral_code)
-        referralCodeErrorMessage = findViewById(R.id.referral_code_error_message)
-        referralCode.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (referralCode.hasFocus()) {
-                    referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    referralCodeFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
+        dob.setOnFocusChangeListener { _, hasFocus ->
+            if (!dobError.isVisible) {
+                if (hasFocus) {
+                    dob.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
                 } else {
-                    referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    referralCodeFieldState = "normal"
-                }
-                referralCodeErrorMessage.text = ""
-                referralCodeErrorMessage.visibility = View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-        referralCode.setOnFocusChangeListener { _, b ->
-            if (b) {
-                if (referralCodeFieldState == "normal") {
-                    referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    referralCodeFieldState = "active"
-                    if (dobFieldState == "active") {
-                        dob.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                        dobFieldState = "normal"
-                    }
-                }
-            } else {
-                if (referralCodeFieldState == "active") {
-                    referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    referralCodeFieldState = "normal"
+                    dob.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_black_disabled_white_disabled_stroke_curved_corners
+                    )
                 }
             }
         }
-
-        back = findViewById(R.id.back)
-        back.setOnClickListener { finish() }
-
-        proceed = findViewById(R.id.proceed)
-        proceed.setOnClickListener {
-            if (name.text.isEmpty()) {
-                name.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                nameErrorMessage.text = getString(R.string.please_enter_your_full_name)
-                nameErrorMessage.visibility = View.VISIBLE
-                nameFieldState = "error"
-            } else {
-                if (name.text.split(" ").size == 1 || name.text.split(" ")[0] == "" || name.text.split(
-                        " "
-                    )[1] == ""
-                ) {
-                    name.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                    nameErrorMessage.text =
-                        getString(R.string.please_enter_your_first_and_last_name)
-                    nameErrorMessage.visibility = View.VISIBLE
-                    nameFieldState = "error"
-                } else {
-                    if (name.hasFocus()) {
-                        name.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    } else {
-                        name.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    }
-                    nameErrorMessage.text = ""
-                    nameErrorMessage.visibility = View.GONE
-                    nameFieldState = "normal"
-                }
-            }
-
-            if (email.text.isEmpty()) {
-                email.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                emailErrorMessage.text = getString(R.string.please_enter_your_email)
-                emailErrorMessage.visibility = View.VISIBLE
-                emailFieldState = "error"
-            } else {
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()) {
-                    email.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                    emailErrorMessage.text = getString(R.string.please_enter_a_valid_email)
-                    emailErrorMessage.visibility = View.VISIBLE
-                    emailFieldState = "error"
-                } else {
-                    if (email.hasFocus()) {
-                        email.setBackgroundResource(R.drawable.light_gray_night_solid_app_green_stroke_curved_corners)
-                    } else {
-                        email.setBackgroundResource(R.drawable.light_gray_night_solid_curved_corners)
-                    }
-                    emailErrorMessage.text = ""
-                    emailErrorMessage.visibility = View.GONE
-                    emailFieldState = "normal"
-                }
-            }
-
-            if (dob.text.isEmpty()) {
-                dob.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                dobErrorMessage.text = getString(R.string.please_select_your_birthdate)
-                dobErrorMessage.visibility = View.VISIBLE
-                dobFieldState = "error"
-            }
-
-            if (referralCode.text.isNotEmpty()) {
-                if (referralCode.text.length < 6) {
-                    referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                    referralCodeErrorMessage.text =
-                        getString(R.string.please_enter_a_valid_referral_code)
-                    referralCodeErrorMessage.visibility = View.VISIBLE
-                    referralCodeFieldState = "error"
-                }
-            }
-
-            if (name.text.isNotEmpty() && nameFieldState != "error" && email.text.isNotEmpty() && emailFieldState != "error" && dob.text.isNotEmpty() && dobFieldState != "error" && referralCodeFieldState != "error") {
-                if (InternetCheck(this, findViewById(R.id.parent)).status()) {
-                    loader.show(getString(R.string.creating_your_account))
-                    var jsonObject = JSONObject()
-                    jsonObject = if (referralCode.text.isNotEmpty()) jsonObject.put(
-                        "phone_number", phoneNumber
-                    ).put("full_name", name.text.trim()).put("dob", dob.text.trim())
-                        .put("email", email.text.trim()).put(
-                            "referral_code", referralCode.text.trim()
-                        ) else jsonObject.put("phone_number", phoneNumber)
-                        .put("full_name", name.text.trim()).put("dob", dob.text.trim())
-                        .put("email", email.text.trim())
-                    ServerConnection(
-                        this, "register", Request.Method.POST, "user/create", jsonObject
-                    )
+        referralLayout = findViewById(R.id.referral_layout)
+        referral = findViewById(R.id.referral)
+        referral.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (referralLayout.isErrorEnabled) {
+                    referralLayout.isErrorEnabled = false
                 }
             }
         }
@@ -328,11 +221,12 @@ class Registration : AppCompatActivity() {
                 }
                 in 400..499 -> {
                     if (statusCode == 404) {
-                        referralCode.setBackgroundResource(R.drawable.light_gray_night_solid_red_stroke_curved_corners)
-                        referralCodeErrorMessage.text =
+                        referralLayout.error =
                             getString(R.string.please_enter_a_valid_referral_code)
-                        referralCodeErrorMessage.visibility = View.VISIBLE
-                        referralCodeFieldState = "error"
+                        if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible) {
+                            referralLayout.requestFocus()
+                        }
+
                     } else {
                         CustomSnackBar(
                             this@Registration,

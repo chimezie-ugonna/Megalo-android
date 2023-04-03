@@ -5,11 +5,11 @@
     <color name="appGreenDisabled">#8008F1BA</color>
     <color name="appGreenGradient">#1DE1B3</color>
     <color name="black">#000000</color>
+    <color name="blackDisabled">#80000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="whiteDisabled">#80FFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="redDisabled">#80FF0000</color>
     <color name="green">#6AE104</color>
-    <color name="darkGray">#AAAAAA</color>
-    <color name="lightGray">#EDEDED</color>
-    <color name="night">#4F4F5E</color>
+    <color name="night">#333333</color>
 </resources>

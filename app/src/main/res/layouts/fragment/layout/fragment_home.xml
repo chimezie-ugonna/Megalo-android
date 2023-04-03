@@ -15,6 +15,6 @@
         android:gravity="center"
         android:text="@string/log_out"
         android:textColor="?attr/black_white"
-        android:textSize="@dimen/sub_header_text" />
+        android:textSize="@dimen/big_text" />
 
 </RelativeLayout>

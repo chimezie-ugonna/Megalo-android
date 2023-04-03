@@ -101,7 +101,11 @@ class ServerConnection(
             }
         }, Response.ErrorListener { error ->
             error.printStackTrace()
-            respond(error.networkResponse.statusCode)
+            if (error.networkResponse != null) {
+                respond(error.networkResponse.statusCode)
+            } else {
+                respond(0)
+            }
         }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val header: MutableMap<String, String> = HashMap()
@@ -174,5 +178,6 @@ class ServerConnection(
         KeyStore(context).deleteKey()
         Session(context).loggedIn(false)
         Session(context).appTheme("system")
+        Session(context).useBiometric(false)
     }
 }

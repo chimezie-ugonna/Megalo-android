@@ -4,6 +4,6 @@
     <style name="SplashScreenTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_vector</item>
-        <item name="postSplashScreenTheme">@style/Theme.Megalo.Night.Onboarding</item>
+        <item name="postSplashScreenTheme">@style/Theme.Megalo.Night</item>
     </style>
 </resources>

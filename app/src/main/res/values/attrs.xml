@@ -4,8 +4,9 @@
         <attr name="appGreen_black" format="color" />
         <attr name="appGreen_white" format="color" />
         <attr name="white_black" format="color" />
+        <attr name="whiteDisabled_blackDisabled" format="color" />
+        <attr name="blackDisabled_whiteDisabled" format="color" />
         <attr name="black_white" format="color" />
         <attr name="white_night" format="color" />
-        <attr name="lightGray_night" format="color" />
     </declare-styleable>
 </resources>

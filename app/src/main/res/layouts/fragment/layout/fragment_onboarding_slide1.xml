@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/white_black"
+    android:orientation="vertical"
+    tools:context=".controller.fragment.OnboardingSlide1Fragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/normal_padding"
+        android:layout_marginTop="@dimen/large_padding"
+        android:layout_marginEnd="@dimen/normal_padding"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/welcome_to_megalo"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/big_text" />
+
+        <TextView
+            android:id="@+id/sub_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_padding"
+            android:gravity="center"
+            android:text="@string/invest_in_real_estate_from_anywhere_anytime_and_on_any_budget"
+            android:textColor="?attr/blackDisabled_whiteDisabled"
+            android:textSize="@dimen/normal_text" />
+    </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:lottie_fileName="slide1.json"
+        app:lottie_loop="true" />
+
+</LinearLayout>
