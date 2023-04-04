@@ -9,10 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
@@ -36,7 +33,7 @@ import org.json.JSONObject
 
 class OnboardingSlide4Fragment : Fragment() {
     private lateinit var bottomSheetLayout: LinearLayout
-    private lateinit var phoneContainer: LinearLayout
+    private lateinit var phoneContainer: RelativeLayout
     private lateinit var phone: EditText
     private lateinit var error: TextView
     private lateinit var proceed: AppCompatButton

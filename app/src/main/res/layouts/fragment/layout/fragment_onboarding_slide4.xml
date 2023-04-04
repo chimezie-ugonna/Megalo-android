@@ -70,7 +70,7 @@
             android:textColor="?attr/blackDisabled_whiteDisabled"
             android:textSize="@dimen/normal_text" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/phone_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,11 +83,16 @@
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/phone"
+                android:layout_alignBottom="@+id/phone"
+                android:layout_alignParentStart="true"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/white_night_solid_curved_corners"
+                android:background="@drawable/white_night_solid_curved_left_corners"
+                android:gravity="center"
                 app:ccpDialog_backgroundColor="?attr/white_night"
                 app:ccpDialog_cornerRadius="@dimen/big_padding"
                 app:ccpDialog_keyboardAutoPopup="false"
+                app:ccpDialog_rippleEnable="false"
                 app:ccpDialog_showCloseIcon="true"
                 app:ccpDialog_showNameCode="false"
                 app:ccpDialog_textColor="?attr/black_white"
@@ -109,7 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/white_night_solid_curved_corners"
+                android:layout_toEndOf="@+id/ccp"
+                android:background="@drawable/white_night_solid_curved_right_corners"
                 android:digits="1234567890"
                 android:importantForAutofill="no"
                 android:inputType="phone"
@@ -122,7 +128,7 @@
                 android:textColorHint="?attr/blackDisabled_whiteDisabled"
                 android:textSize="@dimen/normal_text"
                 tools:ignore="LabelFor" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/error"
