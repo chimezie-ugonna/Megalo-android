@@ -4,8 +4,8 @@
     android:insetBottom="@dimen/stroke_removed">
     <shape>
         <stroke
-            android:width="@dimen/stroke_size"
-            android:color="@color/appGreenDisabled" />
+            android:width="@dimen/tiny_stroke_size"
+            android:color="?attr/darkHint_lightHint" />
 
         <solid android:color="?attr/white_black" />
     </shape>

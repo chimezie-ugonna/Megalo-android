@@ -5,7 +5,8 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.activity.MainActivity">
+    tools:context=".controller.activity.MainActivity"
+    tools:ignore="MergeRootFrame">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -47,9 +48,9 @@
             android:layout_height="@dimen/progress_indicator"
             android:layout_weight="1"
             android:progress="20"
-            app:indicatorColor="@color/appGreen"
+            app:indicatorColor="@color/app_green"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/appGreenDisabled"
+            app:trackColor="@color/app_green_inactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -59,9 +60,9 @@
             android:layout_marginStart="@dimen/progress_indicator"
             android:layout_marginEnd="@dimen/progress_indicator"
             android:layout_weight="1"
-            app:indicatorColor="@color/appGreen"
+            app:indicatorColor="@color/app_green"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/appGreenDisabled"
+            app:trackColor="@color/app_green_inactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -69,9 +70,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/progress_indicator"
             android:layout_weight="1"
-            app:indicatorColor="@color/appGreen"
+            app:indicatorColor="@color/app_green"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/appGreenDisabled"
+            app:trackColor="@color/app_green_inactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
     </LinearLayout>

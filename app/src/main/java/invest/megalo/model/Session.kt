@@ -51,6 +51,7 @@ class Session(context: Context) {
         spe.commit()
     }
 
+    @Suppress("BooleanMethodIsAlwaysInverted")
     fun loggedIn(): Boolean {
         return sp.getBoolean("loggedIn", false)
     }
@@ -60,17 +61,19 @@ class Session(context: Context) {
         spe.commit()
     }
 
+    @Suppress("BooleanMethodIsAlwaysInverted")
     fun onboarded(): Boolean {
         return sp.getBoolean("onboarded", false)
     }
 
-    fun useBiometric(data: Boolean) {
-        spe.putBoolean("useBiometric", data)
+    fun useSecondaryLock(data: Boolean) {
+        spe.putBoolean("useSecondaryLock", data)
         spe.commit()
     }
 
-    fun useBiometric(): Boolean {
-        return sp.getBoolean("useBiometric", false)
+    @Suppress("BooleanMethodIsAlwaysInverted")
+    fun useSecondaryLock(): Boolean {
+        return sp.getBoolean("useSecondaryLock", false)
     }
 
     fun devicePhoneNumber(data: String) {

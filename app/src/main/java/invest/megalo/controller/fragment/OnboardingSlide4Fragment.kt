@@ -46,7 +46,6 @@ class OnboardingSlide4Fragment : Fragment() {
             val phoneNumber =
                 Identity.getSignInClient(requireContext()).getPhoneNumberFromIntent(it.data)
             ccp.fullNumber = phoneNumber
-            Session(requireContext()).devicePhoneNumber(phoneNumber)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -66,15 +65,15 @@ class OnboardingSlide4Fragment : Fragment() {
         phone = v.findViewById(R.id.phone)
         phone.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (phoneContainer.hasFocus()) {
+                if (phone.hasFocus()) {
                     phoneContainer.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.white_night_solid_app_green_stroke_curved_corners
+                        R.drawable.white_black_solid_app_green_stroke_curved_corners
                     )
                 } else {
                     phoneContainer.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.white_night_solid_black_disabled_white_disabled_stroke_curved_corners
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
                     )
                 }
                 if (error.isVisible) {
@@ -87,12 +86,12 @@ class OnboardingSlide4Fragment : Fragment() {
                 if (hasFocus) {
                     phoneContainer.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.white_night_solid_app_green_stroke_curved_corners
+                        R.drawable.white_black_solid_app_green_stroke_curved_corners
                     )
                 } else {
                     phoneContainer.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.white_night_solid_black_disabled_white_disabled_stroke_curved_corners
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
                     )
                 }
             }
@@ -106,7 +105,7 @@ class OnboardingSlide4Fragment : Fragment() {
         proceed.setOnClickListener {
             if (phone.text.toString().isEmpty()) {
                 phoneContainer.background = ContextCompat.getDrawable(
-                    requireContext(), R.drawable.white_night_solid_red_stroke_curved_corners
+                    requireContext(), R.drawable.white_black_solid_red_stroke_curved_corners
                 )
                 error.text = getString(R.string.empty_phone_field_error_message)
                 error.visibility = View.VISIBLE
@@ -143,7 +142,7 @@ class OnboardingSlide4Fragment : Fragment() {
                     }
                 } else {
                     phoneContainer.background = ContextCompat.getDrawable(
-                        requireContext(), R.drawable.white_night_solid_red_stroke_curved_corners
+                        requireContext(), R.drawable.white_black_solid_red_stroke_curved_corners
                     )
                     error.text = getString(R.string.invalid_phone_number_error_message)
                     error.visibility = View.VISIBLE

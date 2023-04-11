@@ -5,5 +5,5 @@
     <corners android:radius="@dimen/small_padding" />
     <stroke
         android:width="@dimen/stroke_size"
-        android:color="?attr/blackDisabled_whiteDisabled" />
+        android:color="?attr/darkGrey_lightGrey" />
 </shape>

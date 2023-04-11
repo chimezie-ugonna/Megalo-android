@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="MergeRootFrame">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/app_green_solid_curved_corners"
-        android:foreground="@drawable/white_ripple_curved_corners"
+        android:foreground="@drawable/black_ripple_curved_corners"
         android:padding="@dimen/normal_padding"
         android:stateListAnimator="@null"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/normal_text" />
 
     <ProgressBar

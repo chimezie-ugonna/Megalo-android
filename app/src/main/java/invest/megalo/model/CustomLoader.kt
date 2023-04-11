@@ -19,7 +19,7 @@ class CustomLoader(val context: Context) {
         alertDialog.setCancelable(false)
         alertDialog.setView(v)
         dialog = alertDialog.create()
-        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_loader_background)
         dialog.show()
     }
 

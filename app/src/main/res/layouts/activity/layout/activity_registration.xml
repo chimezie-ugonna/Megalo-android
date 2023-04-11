@@ -52,10 +52,11 @@
                 android:layout_marginTop="@dimen/normal_padding"
                 android:gravity="start"
                 android:text="@string/begin_your_journey_to_financial_freedom"
-                android:textColor="?attr/blackDisabled_whiteDisabled"
+                android:textColor="?attr/darkGrey_lightGrey"
                 android:textSize="@dimen/normal_text" />
 
             <TextView
+                android:id="@+id/name_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_padding"
@@ -64,33 +65,37 @@
                 android:textColor="?attr/black_white"
                 android:textSize="@dimen/normal_text" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/name_layout"
-                style="@style/ShapeAppearanceOverlay"
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_padding">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/john_doe"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/normal_padding"
-                    android:paddingTop="@dimen/normal_padding"
-                    android:paddingEnd="@dimen/normal_padding"
-                    android:paddingBottom="@dimen/normal_padding"
-                    android:textColor="?attr/black_white"
-                    android:textColorHint="?attr/blackDisabled_whiteDisabled"
-                    android:textSize="@dimen/normal_text"
-                    tools:ignore="LabelFor" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="@dimen/small_padding"
+                android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
+                android:hint="@string/full_name_hint"
+                android:importantForAutofill="no"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:paddingStart="@dimen/normal_padding"
+                android:paddingTop="@dimen/normal_padding"
+                android:paddingEnd="@dimen/normal_padding"
+                android:paddingBottom="@dimen/normal_padding"
+                android:textColor="?attr/black_white"
+                android:textColorHint="?attr/darkHint_lightHint"
+                android:textSize="@dimen/normal_text"
+                tools:ignore="LabelFor" />
 
             <TextView
+                android:id="@+id/name_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:gravity="start"
+                android:textColor="?attr/darkRed_lightRed"
+                android:textSize="@dimen/normal_text"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/email_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_padding"
@@ -99,34 +104,38 @@
                 android:textColor="?attr/black_white"
                 android:textSize="@dimen/normal_text" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_layout"
-                style="@style/ShapeAppearanceOverlay"
+            <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_padding">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/johndoe_email_com"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/normal_padding"
-                    android:paddingTop="@dimen/normal_padding"
-                    android:paddingEnd="@dimen/normal_padding"
-                    android:paddingBottom="@dimen/normal_padding"
-                    android:textColor="?attr/black_white"
-                    android:textColorHint="?attr/blackDisabled_whiteDisabled"
-                    android:textSize="@dimen/normal_text"
-                    tools:ignore="LabelFor" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="@dimen/small_padding"
+                android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
+                android:hint="@string/email_hint"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingStart="@dimen/normal_padding"
+                android:paddingTop="@dimen/normal_padding"
+                android:paddingEnd="@dimen/normal_padding"
+                android:paddingBottom="@dimen/normal_padding"
+                android:textColor="?attr/black_white"
+                android:textColorHint="?attr/darkHint_lightHint"
+                android:textSize="@dimen/normal_text"
+                tools:ignore="LabelFor" />
 
             <TextView
+                android:id="@+id/email_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:gravity="start"
+                android:textColor="?attr/darkRed_lightRed"
+                android:textSize="@dimen/normal_text"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/dob_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_padding"
@@ -140,29 +149,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_padding"
-                android:background="@drawable/white_black_solid_black_disabled_white_disabled_stroke_curved_corners"
+                android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="start"
                 android:maxLines="1"
                 android:padding="@dimen/normal_padding"
                 android:text="@string/select_your_birth_date"
-                android:textColor="?attr/blackDisabled_whiteDisabled"
+                android:textColor="?attr/darkHint_lightHint"
                 android:textSize="@dimen/normal_text" />
 
             <TextView
                 android:id="@+id/dob_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginTop="@dimen/error_text_top_margin"
-                android:layout_marginEnd="@dimen/normal_padding"
+                android:layout_marginTop="@dimen/small_padding"
                 android:gravity="start"
-                android:textColor="@color/red"
+                android:textColor="?attr/darkRed_lightRed"
                 android:textSize="@dimen/normal_text"
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/referral_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_padding"
@@ -171,32 +179,35 @@
                 android:textColor="?attr/black_white"
                 android:textSize="@dimen/normal_text" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/referral_layout"
-                style="@style/ShapeAppearanceOverlay"
+            <EditText
+                android:id="@+id/referral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_padding">
+                android:layout_marginTop="@dimen/small_padding"
+                android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
+                android:hint="@string/optional"
+                android:importantForAutofill="no"
+                android:inputType="textCapCharacters"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:paddingStart="@dimen/normal_padding"
+                android:paddingTop="@dimen/normal_padding"
+                android:paddingEnd="@dimen/normal_padding"
+                android:paddingBottom="@dimen/normal_padding"
+                android:textColor="?attr/black_white"
+                android:textColorHint="?attr/darkHint_lightHint"
+                android:textSize="@dimen/normal_text"
+                tools:ignore="LabelFor" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/referral"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/optional"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="6"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/normal_padding"
-                    android:paddingTop="@dimen/normal_padding"
-                    android:paddingEnd="@dimen/normal_padding"
-                    android:paddingBottom="@dimen/normal_padding"
-                    android:textColor="?attr/black_white"
-                    android:textColorHint="?attr/blackDisabled_whiteDisabled"
-                    android:textSize="@dimen/normal_text"
-                    tools:ignore="LabelFor" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/referral_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:gravity="start"
+                android:textColor="?attr/darkRed_lightRed"
+                android:textSize="@dimen/normal_text"
+                android:visibility="gone" />
 
             <include
                 layout="@layout/content_general_button"

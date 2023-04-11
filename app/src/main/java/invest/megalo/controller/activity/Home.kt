@@ -8,8 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import com.android.volley.Request
 import com.idenfy.idenfySdk.CoreSdkInitialization.IdenfyController
@@ -65,8 +63,9 @@ class Home : AppCompatActivity() {
                     getString(R.string.your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed),
                     getString(R.string.got_it),
                     "",
-                    false
-                )
+                    false,
+                    R.drawable.timer
+                ).show()
             }
         }
     }
@@ -114,19 +113,6 @@ class Home : AppCompatActivity() {
         notificationsFragment = NotificationsFragment()
         profileFragment = ProfileFragment()
         replaceFragment(homeFragment)
-    }
-
-    fun logOutConfirmation() {
-        Dialog(
-            findViewById(R.id.parent),
-            this,
-            getString(R.string.confirm_logout),
-            getString(R.string.logout_confirmation),
-            getString(R.string.are_you_sure_you_want_to_log_out),
-            getString(R.string.yes),
-            getString(R.string.no),
-            true
-        )
     }
 
     fun logOut() {
@@ -274,41 +260,10 @@ class Home : AppCompatActivity() {
                             fragmentTransaction.hide(profileFragment)
                         }
 
-                        home.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background
-                        )
-                        homeIcon.setImageResource(R.drawable.home)
-                        homeDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot
-                        )
-                        home.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        investments.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        investmentsIcon.setImageResource(R.drawable.investments_disabled)
-                        investmentsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        notifications.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        notificationsIcon.setImageResource(R.drawable.notifications_disabled)
-                        notificationsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        profile.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        profileIcon.setImageResource(R.drawable.profile_disabled)
-                        profileDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        profile.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+                        homeIcon.setImageResource(R.drawable.home_filled)
+                        investmentsIcon.setImageResource(R.drawable.investments_outline)
+                        notificationsIcon.setImageResource(R.drawable.notifications_outline)
+                        profileIcon.setImageResource(R.drawable.profile_outline)
                     }
                     is InvestmentsFragment -> {
                         if (investmentsFragment.isAdded) {
@@ -326,41 +281,10 @@ class Home : AppCompatActivity() {
                             fragmentTransaction.hide(profileFragment)
                         }
 
-                        home.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        homeIcon.setImageResource(R.drawable.home_disabled)
-                        homeDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        home.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        investments.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background
-                        )
-                        investmentsIcon.setImageResource(R.drawable.investments)
-                        investmentsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot
-                        )
-                        investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        notifications.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        notificationsIcon.setImageResource(R.drawable.notifications_disabled)
-                        notificationsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        profile.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        profileIcon.setImageResource(R.drawable.profile_disabled)
-                        profileDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        profile.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+                        homeIcon.setImageResource(R.drawable.home_outline)
+                        investmentsIcon.setImageResource(R.drawable.investments_filled)
+                        notificationsIcon.setImageResource(R.drawable.notifications_outline)
+                        profileIcon.setImageResource(R.drawable.profile_outline)
                     }
                     is NotificationsFragment -> {
                         if (notificationsFragment.isAdded) {
@@ -378,41 +302,10 @@ class Home : AppCompatActivity() {
                             fragmentTransaction.hide(profileFragment)
                         }
 
-                        home.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        homeIcon.setImageResource(R.drawable.home_disabled)
-                        homeDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        home.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        investments.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        investmentsIcon.setImageResource(R.drawable.investments_disabled)
-                        investmentsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        notifications.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background
-                        )
-                        notificationsIcon.setImageResource(R.drawable.notifications)
-                        notificationsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot
-                        )
-                        notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        profile.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        profileIcon.setImageResource(R.drawable.profile_disabled)
-                        profileDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        profile.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+                        homeIcon.setImageResource(R.drawable.home_outline)
+                        investmentsIcon.setImageResource(R.drawable.investments_outline)
+                        notificationsIcon.setImageResource(R.drawable.notifications_filled)
+                        profileIcon.setImageResource(R.drawable.profile_outline)
                     }
                     is ProfileFragment -> {
                         if (profileFragment.isAdded) {
@@ -430,41 +323,10 @@ class Home : AppCompatActivity() {
                             fragmentTransaction.hide(notificationsFragment)
                         }
 
-                        home.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        homeIcon.setImageResource(R.drawable.home_disabled)
-                        homeDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        home.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        investments.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        investmentsIcon.setImageResource(R.drawable.investments_disabled)
-                        investmentsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        investments.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        notifications.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background_disabled
-                        )
-                        notificationsIcon.setImageResource(R.drawable.notifications_disabled)
-                        notificationsDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot_disabled
-                        )
-                        notifications.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
-
-                        profile.background = ContextCompat.getDrawable(
-                            this, R.drawable.bottom_navigation_item_background
-                        )
-                        profileIcon.setImageResource(R.drawable.profile)
-                        profileDot.background = ContextCompat.getDrawable(
-                            this, R.drawable.notification_dot
-                        )
-                        profile.setPadding(resources.getDimensionPixelSize(R.dimen.normal_padding))
+                        homeIcon.setImageResource(R.drawable.home_outline)
+                        investmentsIcon.setImageResource(R.drawable.investments_outline)
+                        notificationsIcon.setImageResource(R.drawable.notifications_outline)
+                        profileIcon.setImageResource(R.drawable.profile_filled)
                     }
                 }
 

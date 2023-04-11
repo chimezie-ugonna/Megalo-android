@@ -27,12 +27,11 @@
     <string name="please_enter_your_first_and_last_name">Bitte geben Sie Ihren Vor- und Nachnamen ein.</string>
     <string name="log_out">Ausloggen</string>
     <string name="go_back">Geh zurück</string>
-    <string name="processing">wird bearbeitet</string>
-    <string name="resending_verification_code">Bestätigungscode erneut senden.</string>
-    <string name="checking_verification_code">Überprüfung des Bestätigungscodes.</string>
-    <string name="logging_you_in">Melden Sie sich an.</string>
-    <string name="creating_your_account">Erstellen von Ihrem Konto.</string>
-    <string name="logging_you_out">Dich abmelden.</string>
+    <string name="resending_verification_code">Bestätigungscode erneut senden…</string>
+    <string name="checking_verification_code">Überprüfung des Bestätigungscodes…</string>
+    <string name="logging_you_in">Melden Sie sich an…</string>
+    <string name="creating_your_account">Erstellen von Ihrem Konto…</string>
+    <string name="logging_you_out">Dich abmelden…</string>
     <string name="select_your_birth_date">Wählen Sie Ihr Geburtsdatum aus</string>
     <string name="please_select_your_birth_date">Bitte wählen Sie Ihr Geburtsdatum aus.</string>
     <string name="home">Heim</string>
@@ -42,7 +41,7 @@
     <string name="cancel">Absagen</string>
     <string name="sms_retriever_timed_out">Zeitüberschreitung beim SMS-Abruf.</string>
     <string name="verify">verifizieren</string>
-    <string name="initiating_identity_verification">Identitätsprüfung einleiten</string>
+    <string name="initiating_identity_verification">Identitätsprüfung einleiten…</string>
     <string name="the_phone_number_you_provided_has_been_taken">Die von Ihnen angegebene Telefonnummer wurde vergeben.</string>
     <string name="please_enter_a_valid_referral_code">Bitte geben Sie einen gültigen Empfehlungscode ein.</string>
     <string name="notifications_permission_required">Berechtigung für Benachrichtigungen erforderlich</string>
@@ -66,4 +65,11 @@
     <string name="verify_your_phone_number">Bestätige deine Telefonnummer</string>
     <string name="create_account">Benutzerkonto erstellen</string>
     <string name="optional">Optional</string>
+    <string name="enable_secondary_lock">Sekundärsperre aktivieren</string>
+    <string name="disable_secondary_lock">Sekundärsperre deaktivieren</string>
+    <string name="unlock_megalo">Megalo freischalten</string>
+    <string name="unlock">Freischalten</string>
+    <string name="secondary_lock_initiated">Sekundärsperre eingeleitet</string>
+    <string name="lock_setup_required">Sperreinrichtung erforderlich</string>
+    <string name="lock_setup_required_text">Um diese Funktion nutzen zu können, müssen Sie zuerst biometrische Daten oder eine Bildschirmsperre für dieses Gerät einrichten.</string>
 </resources>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
-import android.view.Gravity.CENTER
+import android.view.Gravity.CENTER_HORIZONTAL
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.DatePicker
@@ -23,18 +23,22 @@ import java.util.*
 
 
 class Dialog(
-    view: View? = null,
+    view: View,
     context: Context,
     type: String,
     title_: String,
     content_: String,
     positive_button: String,
     negative_button: String,
-    cancelable: Boolean = true
+    cancelable: Boolean = true,
+    img_: Int = 0
 ) {
+    private var bottomSheetDialog: BottomSheetDialog
+    private var view: View
 
     init {
-        val bottomSheetDialog = BottomSheetDialog(context, R.style.AppBottomSheetDialogTheme)
+        this.view = view
+        bottomSheetDialog = BottomSheetDialog(context, R.style.AppBottomSheetDialogTheme)
         bottomSheetDialog.setCancelable(cancelable)
 
         when (type) {
@@ -53,7 +57,7 @@ class Dialog(
                 title?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
                 )
-                title?.gravity = CENTER
+                title?.gravity = CENTER_HORIZONTAL
                 title?.text = title_
 
                 val calendar = Calendar.getInstance()
@@ -69,12 +73,12 @@ class Dialog(
                 positiveButton?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.black))
                 positiveButton?.background = ContextCompat.getDrawable(
                     context, R.drawable.app_green_solid_curved_corners
                 )
                 positiveButton?.foreground = ContextCompat.getDrawable(
-                    context, R.drawable.white_ripple_curved_corners
+                    context, R.drawable.black_ripple_curved_corners
                 )
                 positiveButton?.setPadding(
                     TypedValue.applyDimension(
@@ -108,12 +112,12 @@ class Dialog(
                         TypedValue.COMPLEX_UNIT_PX,
                         context.resources.getDimension(R.dimen.normal_text)
                     )
-                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.app_green))
                     negativeButton?.background = ContextCompat.getDrawable(
-                        context, R.drawable.black_disabled_white_disabled_solid_curved_corners
+                        context, R.drawable.white_night_solid_app_green_stroke_curved_corners
                     )
                     negativeButton?.foreground = ContextCompat.getDrawable(
-                        context, R.drawable.white_ripple_curved_corners
+                        context, R.drawable.app_green_ripple_curved_corners
                     )
                     negativeButton?.setPadding(
                         TypedValue.applyDimension(
@@ -144,7 +148,7 @@ class Dialog(
                 title?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
                 )
-                title?.gravity = CENTER
+                title?.gravity = CENTER_HORIZONTAL
                 title?.text = title_
 
                 content?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
@@ -152,19 +156,19 @@ class Dialog(
                 content?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                content?.gravity = CENTER
+                content?.gravity = CENTER_HORIZONTAL
                 content?.text = content_
 
                 positiveButton?.setTypeface(null, Typeface.NORMAL)
                 positiveButton?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.black))
                 positiveButton?.background = ContextCompat.getDrawable(
                     context, R.drawable.app_green_solid_curved_corners
                 )
                 positiveButton?.foreground = ContextCompat.getDrawable(
-                    context, R.drawable.white_ripple_curved_corners
+                    context, R.drawable.black_ripple_curved_corners
                 )
                 positiveButton?.setPadding(
                     TypedValue.applyDimension(
@@ -199,12 +203,12 @@ class Dialog(
                         TypedValue.COMPLEX_UNIT_PX,
                         context.resources.getDimension(R.dimen.normal_text)
                     )
-                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.app_green))
                     negativeButton?.background = ContextCompat.getDrawable(
-                        context, R.drawable.black_disabled_white_disabled_solid_curved_corners
+                        context, R.drawable.white_night_solid_app_green_stroke_curved_corners
                     )
                     negativeButton?.foreground = ContextCompat.getDrawable(
-                        context, R.drawable.white_ripple_curved_corners
+                        context, R.drawable.app_green_ripple_curved_corners
                     )
                     negativeButton?.setPadding(
                         TypedValue.applyDimension(
@@ -216,10 +220,17 @@ class Dialog(
                     negativeButton?.text = negative_button
                 }
                 negativeButton?.setOnClickListener {
+                    if (type == context.getString(R.string.permission_rationale)) {
+                        if (context is MainActivity) {
+                            context.checkAvailablePhoneNumber()
+                        }
+                    }
                     bottomSheetDialog.dismiss()
                 }
             }
-            context.resources.getString(R.string.identification_document_review_ongoing) -> {
+            context.resources.getString(R.string.identification_document_review_ongoing), context.resources.getString(
+                R.string.secondary_lock_setup
+            ) -> {
                 bottomSheetDialog.setContentView(R.layout.dialog_general)
 
                 val img = bottomSheetDialog.findViewById<ImageView>(R.id.img)
@@ -241,7 +252,7 @@ class Dialog(
                         context.resources.displayMetrics
                     ).toInt()
                 )
-                llp.gravity = CENTER
+                llp.gravity = CENTER_HORIZONTAL
                 llp.setMargins(
                     0, 0, 0, TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
@@ -250,14 +261,14 @@ class Dialog(
                     ).toInt()
                 )
                 img?.layoutParams = llp
-                img?.setImageResource(R.drawable.timer)
+                img?.setImageResource(img_)
 
                 title?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
                 title?.setTypeface(null, Typeface.BOLD)
                 title?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.big_text)
                 )
-                title?.gravity = CENTER
+                title?.gravity = CENTER_HORIZONTAL
                 title?.text = title_
 
                 content?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
@@ -265,19 +276,19 @@ class Dialog(
                 content?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                content?.gravity = CENTER
+                content?.gravity = CENTER_HORIZONTAL
                 content?.text = content_
 
                 positiveButton?.setTypeface(null, Typeface.NORMAL)
                 positiveButton?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
                 )
-                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                positiveButton?.setTextColor(ContextCompat.getColor(context, R.color.black))
                 positiveButton?.background = ContextCompat.getDrawable(
                     context, R.drawable.app_green_solid_curved_corners
                 )
                 positiveButton?.foreground = ContextCompat.getDrawable(
-                    context, R.drawable.white_ripple_curved_corners
+                    context, R.drawable.black_ripple_curved_corners
                 )
                 positiveButton?.setPadding(
                     TypedValue.applyDimension(
@@ -301,12 +312,12 @@ class Dialog(
                         TypedValue.COMPLEX_UNIT_PX,
                         context.resources.getDimension(R.dimen.normal_text)
                     )
-                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.white))
+                    negativeButton?.setTextColor(ContextCompat.getColor(context, R.color.app_green))
                     negativeButton?.background = ContextCompat.getDrawable(
-                        context, R.drawable.black_disabled_white_disabled_solid_curved_corners
+                        context, R.drawable.white_night_solid_app_green_stroke_curved_corners
                     )
                     negativeButton?.foreground = ContextCompat.getDrawable(
-                        context, R.drawable.white_ripple_curved_corners
+                        context, R.drawable.app_green_ripple_curved_corners
                     )
                     negativeButton?.setPadding(
                         TypedValue.applyDimension(
@@ -322,11 +333,20 @@ class Dialog(
                 }
             }
         }
+    }
 
+    fun show() {
         bottomSheetDialog.show()
-
-        view?.performHapticFeedback(
+        view.performHapticFeedback(
             HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.CONTEXT_CLICK
         )
+    }
+
+    fun isShowing(): Boolean {
+        return bottomSheetDialog.isShowing
+    }
+
+    fun dismiss() {
+        bottomSheetDialog.dismiss()
     }
 }

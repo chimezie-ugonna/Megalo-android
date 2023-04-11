@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/normal_padding"
             android:gravity="center"
             android:text="@string/invest_in_real_estate_from_anywhere_anytime_and_on_any_budget"
-            android:textColor="?attr/blackDisabled_whiteDisabled"
+            android:textColor="?attr/darkGrey_lightGrey"
             android:textSize="@dimen/normal_text" />
     </LinearLayout>
 

@@ -178,6 +178,6 @@ class ServerConnection(
         KeyStore(context).deleteKey()
         Session(context).loggedIn(false)
         Session(context).appTheme("system")
-        Session(context).useBiometric(false)
+        Session(context).useSecondaryLock(false)
     }
 }

@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.view.View
 import invest.megalo.R
 
+@Suppress("BooleanMethodIsAlwaysInverted")
 class InternetCheck(private val context: Context, val parent: View) {
     fun status(): Boolean {
         val returnValue: Boolean

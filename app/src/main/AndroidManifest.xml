@@ -19,11 +19,18 @@
         android:theme="@style/SplashScreenTheme"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".controller.activity.OtpVerification"
+            android:name=".controller.activity.SecondaryLock"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.OtpVerification"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".controller.activity.Home"
@@ -71,9 +78,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-
         </receiver>
-
         <receiver
             android:name=".model.SMSBroadcastReceiver"
             android:exported="true"

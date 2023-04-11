@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/normal_padding"
             android:gravity="center"
             android:text="@string/get_monthly_returns_on_profits_and_returns_when_properties_are_sold"
-            android:textColor="?attr/blackDisabled_whiteDisabled"
+            android:textColor="?attr/darkGrey_lightGrey"
             android:textSize="@dimen/normal_text" />
     </LinearLayout>
 

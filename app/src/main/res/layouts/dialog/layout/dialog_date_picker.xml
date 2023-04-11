@@ -7,6 +7,11 @@
     android:orientation="vertical"
     android:padding="@dimen/normal_padding">
 
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/small_icon_size"
+        android:theme="@style/AppBottomSheetHandleTheme" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"

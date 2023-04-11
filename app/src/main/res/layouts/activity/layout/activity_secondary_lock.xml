@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/white_black"
+    android:padding="@dimen/normal_padding"
+    tools:context=".controller.activity.SecondaryLock">
+
+    <include
+        android:id="@+id/branding_container"
+        layout="@layout/content_branding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/loader_animation_height"
+            android:layout_height="@dimen/loader_animation_height"
+            android:layout_marginBottom="@dimen/normal_padding"
+            android:contentDescription="@null"
+            android:src="@drawable/app_green_lock_circle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/secondary_lock_initiated"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/big_text" />
+    </LinearLayout>
+
+    <include
+        layout="@layout/content_general_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/large_padding" />
+</RelativeLayout>

@@ -4,43 +4,23 @@
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:navigationBarColor">@color/white</item>
-        <item name="colorAccent">@color/appGreen</item>
-        <item name="colorPrimary">@color/appGreen</item>
+        <item name="colorAccent">@color/app_green</item>
+        <item name="colorPrimary">@color/app_green</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
 
         <item name="white_black">@color/white</item>
         <item name="black_white">@color/black</item>
         <item name="white_night">@color/white</item>
-        <item name="appGreen_black">@color/appGreen</item>
-        <item name="appGreen_white">@color/appGreen</item>
-        <item name="whiteDisabled_blackDisabled">@color/whiteDisabled</item>
-        <item name="blackDisabled_whiteDisabled">@color/blackDisabled</item>
+        <item name="appGreen_black">@color/app_green</item>
+        <item name="appGreen_white">@color/app_green</item>
+        <item name="darkGrey_lightGrey">@color/dark_grey</item>
+        <item name="darkRed_lightRed">@color/dark_red</item>
+        <item name="darkHint_lightHint">@color/dark_hint</item>
     </style>
 
     <style name="Theme.Megalo.Onboarding.ProgressBar" parent="Theme.Megalo">
-        <item name="colorAccent">@color/white</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">@dimen/small_padding</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/small_padding</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/small_padding</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/small_padding</item>
-        <item name="boxBackgroundColor">@color/white</item>
-        <item name="boxStrokeColor">@color/text_field_state</item>
-        <item name="boxStrokeWidth">@dimen/stroke_size</item>
-        <item name="boxStrokeWidthFocused">@dimen/stroke_size</item>
-        <item name="boxStrokeErrorColor">@color/red</item>
-        <item name="errorTextColor">@color/red</item>
-        <item name="errorIconDrawable">@null</item>
-        <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
-        <item name="hintEnabled">false</item>
-    </style>
-
-    <style name="ErrorTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/red</item>
-        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="colorAccent">@color/black</item>
     </style>
 
     <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker">
@@ -54,10 +34,14 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/appGreen</item>
+        <item name="colorAccent">@color/app_green</item>
     </style>
 
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/dialog_top_rounded_background</item>
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="AppBottomSheetHandleTheme" parent="Widget.Material3.BottomSheet.DragHandle">
+        <item name="tint">@color/dark_grey</item>
     </style>
 </resources>

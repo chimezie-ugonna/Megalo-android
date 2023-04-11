@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -28,7 +29,6 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import invest.megalo.R
 import invest.megalo.controller.fragment.*
 import invest.megalo.model.*
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var firstIndicator: LinearProgressIndicator
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var adjustmentContainer: LinearLayout
     private var pressTime = 0L
     private var limit = 500L
+    private lateinit var dialog: Dialog
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +56,17 @@ class MainActivity : AppCompatActivity() {
         SetAppTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        dialog = Dialog(
+            findViewById(R.id.parent),
+            this,
+            getString(R.string.permission_rationale),
+            getString(R.string.notifications_permission_required),
+            getString(R.string.notifications_permission_rationale_text),
+            getString(R.string.proceed),
+            getString(R.string.cancel),
+            false
+        )
 
         firstIndicator = findViewById(R.id.first_indicator)
         secondIndicator = findViewById(R.id.second_indicator)
@@ -157,9 +169,21 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(mChannel)
         }
 
-        if (Session(this).onboarded()) {
-            if (Session(this).loggedIn()) {
-                startActivity(Intent(this, Home::class.java))
+        val session = Session(this)
+        if (session.onboarded()) {
+            if (session.loggedIn()) {
+                if (session.useSecondaryLock()) {
+                    if (BiometricManager.from(this)
+                            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
+                    ) {
+                        startActivity(Intent(this, SecondaryLock::class.java))
+                    } else {
+                        session.useSecondaryLock(false)
+                        startActivity(Intent(this, Home::class.java))
+                    }
+                } else {
+                    startActivity(Intent(this, Home::class.java))
+                }
             } else {
                 if (!onboardingSlide4Fragment.isAdded) {
                     replaceFragment(onboardingSlide4Fragment)
@@ -177,6 +201,16 @@ class MainActivity : AppCompatActivity() {
         if (!Session(this).onboarded()) {
             handler.removeCallbacksAndMessages(null)
             incrementProgress()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(
+                        this, Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED && dialog.isShowing()
+                ) {
+                    dialog.dismiss()
+                    checkAvailablePhoneNumber()
+                }
+            }
         }
     }
 
@@ -248,7 +282,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun replaceFragment(fragment: Fragment) {
         if (!isFinishing) {
             val fragmentManager = supportFragmentManager
@@ -291,20 +324,15 @@ class MainActivity : AppCompatActivity() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    Dialog(
-                        findViewById(R.id.parent),
-                        this,
-                        getString(R.string.permission_rationale),
-                        getString(R.string.notifications_permission_required),
-                        getString(R.string.notifications_permission_rationale_text),
-                        getString(R.string.proceed),
-                        getString(R.string.cancel),
-                        false
-                    )
+                    dialog.show()
                 } else {
                     requestPermission()
                 }
+            } else {
+                checkAvailablePhoneNumber()
             }
+        } else {
+            checkAvailablePhoneNumber()
         }
     }
 
@@ -319,6 +347,10 @@ class MainActivity : AppCompatActivity() {
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        checkAvailablePhoneNumber()
+    }
+
+    fun checkAvailablePhoneNumber() {
         val fragmentManager = supportFragmentManager
         if (!fragmentManager.isDestroyed) {
             if (onboardingSlide4Fragment.isAdded) {

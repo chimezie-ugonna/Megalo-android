@@ -6,16 +6,15 @@
     <dimen name="big_padding">15sp</dimen>
     <dimen name="normal_padding">10sp</dimen>
     <dimen name="small_padding">5sp</dimen>
-    <dimen name="error_text_top_margin">4sp</dimen>
     <dimen name="big_icon_size">50sp</dimen>
     <dimen name="small_icon_size">25sp</dimen>
     <dimen name="normal_icon_size">35sp</dimen>
     <dimen name="stroke_size">1sp</dimen>
+    <dimen name="tiny_stroke_size">0.5sp</dimen>
     <dimen name="stroke_removed">-2sp</dimen>
     <dimen name="progress_indicator">2sp</dimen>
     <dimen name="vector_dimension">200sp</dimen>
     <dimen name="dialog_width">300sp</dimen>
-    <dimen name="dialog_side_padding">30sp</dimen>
     <dimen name="loader_animation_width">200sp</dimen>
     <dimen name="loader_animation_height">100sp</dimen>
 </resources>

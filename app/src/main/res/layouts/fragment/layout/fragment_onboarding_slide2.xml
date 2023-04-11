@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/normal_padding"
             android:gravity="center"
             android:text="@string/access_a_piece_of_real_estate_at_any_moment"
-            android:textColor="?attr/blackDisabled_whiteDisabled"
+            android:textColor="?attr/darkGrey_lightGrey"
             android:textSize="@dimen/normal_text" />
     </LinearLayout>
 

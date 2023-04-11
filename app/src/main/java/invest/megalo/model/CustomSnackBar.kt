@@ -14,10 +14,7 @@ import invest.megalo.R
 
 @SuppressLint("InflateParams")
 class CustomSnackBar(
-    context: Context,
-    view: View,
-    message: String,
-    type: String
+    context: Context, view: View, message: String, type: String
 ) {
     init {
         val snack = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
@@ -30,16 +27,14 @@ class CustomSnackBar(
         val text = layout.findViewById<TextView>(R.id.text)
         if (type == "error") {
             parent.setBackgroundResource(R.drawable.red_solid)
-            img.setImageResource(R.mipmap.red_clear)
-            img?.foreground =
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.red_ripple_circle
-                )
+            img.setImageResource(R.drawable.close_white_circle)
+            img?.foreground = ContextCompat.getDrawable(
+                context, R.drawable.red_ripple_circle
+            )
             img.setOnClickListener { snack.dismiss() }
         } else {
-            parent.setBackgroundResource(R.drawable.green_solid)
-            img.setImageResource(R.mipmap.green_check)
+            parent.setBackgroundResource(R.drawable.success_green_solid)
+            img.setImageResource(R.drawable.check_white_circle)
         }
         text.text = message
         snackLayout.addView(layout, 0)

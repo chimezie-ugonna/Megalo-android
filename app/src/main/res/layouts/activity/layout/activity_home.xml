@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_navigation_background"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -25,7 +26,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bottom_navigation_item_background"
             android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
@@ -35,7 +35,7 @@
                 android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:contentDescription="@string/home"
-                android:src="@drawable/home" />
+                android:src="@drawable/home_filled" />
 
             <TextView
                 android:id="@+id/home_dot"
@@ -54,7 +54,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bottom_navigation_item_background_disabled"
             android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
@@ -64,7 +63,7 @@
                 android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:contentDescription="@string/investments"
-                android:src="@drawable/investments_disabled" />
+                android:src="@drawable/investments_outline" />
 
             <TextView
                 android:id="@+id/investments_dot"
@@ -73,7 +72,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/normal_padding"
                 android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot_disabled"
+                android:background="@drawable/notification_dot"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -82,7 +81,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bottom_navigation_item_background_disabled"
             android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
@@ -92,7 +90,7 @@
                 android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:contentDescription="@string/notifications"
-                android:src="@drawable/notifications_disabled" />
+                android:src="@drawable/notifications_outline" />
 
             <TextView
                 android:id="@+id/notifications_dot"
@@ -101,7 +99,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/normal_padding"
                 android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot_disabled"
+                android:background="@drawable/notification_dot"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -110,7 +108,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bottom_navigation_item_background_disabled"
             android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
@@ -120,7 +117,7 @@
                 android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:contentDescription="@string/profile"
-                android:src="@drawable/profile_disabled" />
+                android:src="@drawable/profile_outline" />
 
             <TextView
                 android:id="@+id/profile_dot"
@@ -129,7 +126,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/normal_padding"
                 android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot_disabled"
+                android:background="@drawable/notification_dot"
                 android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>

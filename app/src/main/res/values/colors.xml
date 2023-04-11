@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="appBlue">#6DDDF7</color>
-    <color name="appGreen">#08F1BA</color>
-    <color name="appGreenDisabled">#8008F1BA</color>
-    <color name="appGreenGradient">#1DE1B3</color>
+    <color name="app_blue">#6DDDF7</color>
+    <color name="app_green">#08F1BA</color>
+    <color name="app_green_inactive">#1A08F1BA</color>
+    <color name="app_green_gradient">#1DE1B3</color>
     <color name="black">#000000</color>
-    <color name="blackDisabled">#80000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="whiteDisabled">#80FFFFFF</color>
-    <color name="red">#FF0000</color>
-    <color name="redDisabled">#80FF0000</color>
-    <color name="green">#6AE104</color>
     <color name="night">#333333</color>
+    <color name="light_grey">#BABEC3</color>
+    <color name="dark_grey">#6C737A</color>
+    <color name="dark_hint">#4D000000</color>
+    <color name="light_hint">#4DFFFFFF</color>
+    <color name="dark_red">#CC0000</color>
+    <color name="light_red">#FF2600</color>
+    <color name="success_green">#34C759</color>
 </resources>

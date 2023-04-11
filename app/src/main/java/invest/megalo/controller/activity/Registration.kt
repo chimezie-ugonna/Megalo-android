@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,22 +15,24 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.android.volley.Request
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import invest.megalo.R
 import invest.megalo.model.*
 import org.json.JSONObject
 
 
 class Registration : AppCompatActivity() {
-    private lateinit var nameLayout: TextInputLayout
-    private lateinit var name: TextInputEditText
-    private lateinit var emailLayout: TextInputLayout
-    private lateinit var email: TextInputEditText
-    private lateinit var dobError: TextView
+    private lateinit var nameTitle: TextView
+    private lateinit var name: EditText
+    private lateinit var nameError: TextView
+    private lateinit var emailTitle: TextView
+    private lateinit var email: EditText
+    private lateinit var emailError: TextView
+    private lateinit var dobTitle: TextView
     lateinit var dob: TextView
-    private lateinit var referralLayout: TextInputLayout
-    private lateinit var referral: TextInputEditText
+    private lateinit var dobError: TextView
+    private lateinit var referralTitle: TextView
+    private lateinit var referral: EditText
+    private lateinit var referralError: TextView
     private lateinit var create: AppCompatButton
     private var phoneNumber = ""
     private lateinit var loader: CustomLoader
@@ -51,54 +54,80 @@ class Registration : AppCompatActivity() {
         create.text = resources.getString(R.string.create_account)
         create.setOnClickListener {
             if (name.text.toString().isEmpty()) {
-                nameLayout.error = getString(R.string.please_enter_your_full_name)
-                nameLayout.requestFocus()
+                nameTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
+                name.background = ContextCompat.getDrawable(
+                    this, R.drawable.white_black_solid_red_stroke_curved_corners
+                )
+                nameError.text = getString(R.string.please_enter_your_full_name)
+                nameError.visibility = View.VISIBLE
+                name.requestFocus()
             } else {
                 if (name.text.toString().split(" ").size == 1 || name.text.toString()
                         .split(" ")[0] == "" || name.text.toString().split(
                         " "
                     )[1] == ""
                 ) {
-                    nameLayout.error = getString(R.string.please_enter_your_first_and_last_name)
-                    nameLayout.requestFocus()
+                    nameTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
+                    name.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_red_stroke_curved_corners
+                    )
+                    nameError.text = getString(R.string.please_enter_your_first_and_last_name)
+                    nameError.visibility = View.VISIBLE
+                    name.requestFocus()
                 }
             }
 
             if (email.text.toString().isEmpty()) {
-                emailLayout.error = getString(R.string.please_enter_your_email)
-                if (!nameLayout.isErrorEnabled) {
-                    emailLayout.requestFocus()
+                emailTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
+                email.background = ContextCompat.getDrawable(
+                    this, R.drawable.white_black_solid_red_stroke_curved_corners
+                )
+                emailError.text = getString(R.string.please_enter_your_email)
+                emailError.visibility = View.VISIBLE
+                if (!nameError.isVisible) {
+                    email.requestFocus()
                 }
             } else {
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-                    emailLayout.error = getString(R.string.please_enter_a_valid_email)
-                    if (!nameLayout.isErrorEnabled) {
-                        emailLayout.requestFocus()
+                    emailTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
+                    email.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_red_stroke_curved_corners
+                    )
+                    emailError.text = getString(R.string.please_enter_a_valid_email)
+                    emailError.visibility = View.VISIBLE
+                    if (!nameError.isVisible) {
+                        email.requestFocus()
                     }
                 }
             }
 
             if (dob.text.toString() == resources.getString(R.string.select_your_birth_date)) {
+                dobTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
                 dob.background = ContextCompat.getDrawable(
                     this, R.drawable.white_black_solid_red_stroke_curved_corners
                 )
                 dobError.text = getString(R.string.please_select_your_birth_date)
                 dobError.visibility = View.VISIBLE
-                if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled) {
+                if (!nameError.isVisible && !emailError.isVisible) {
                     dob.requestFocus()
                 }
             }
 
             if (referral.text.toString().isNotEmpty()) {
                 if (referral.text.toString().length < 6) {
-                    referralLayout.error = getString(R.string.please_enter_a_valid_referral_code)
-                    if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible) {
-                        referralLayout.requestFocus()
+                    referralTitle.setTextColor(ColorResCompat(this, R.attr.darkRed_lightRed).get())
+                    referral.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_red_stroke_curved_corners
+                    )
+                    referralError.text = getString(R.string.please_enter_a_valid_referral_code)
+                    referralError.visibility = View.VISIBLE
+                    if (!nameError.isVisible && !emailError.isVisible && !dobError.isVisible) {
+                        referral.requestFocus()
                     }
                 }
             }
 
-            if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible && !referralLayout.isErrorEnabled) {
+            if (!nameError.isVisible && !emailError.isVisible && !dobError.isVisible && !referralError.isVisible) {
                 if (InternetCheck(this, findViewById(R.id.parent)).status()) {
                     loader.show(getString(R.string.creating_your_account))
                     var jsonObject = JSONObject()
@@ -118,43 +147,102 @@ class Registration : AppCompatActivity() {
                 }
             }
         }
-        nameLayout = findViewById(R.id.name_layout)
+        nameTitle = findViewById(R.id.name_title)
         name = findViewById(R.id.name)
+        nameError = findViewById(R.id.name_error)
         name.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (nameLayout.isErrorEnabled) {
-                    nameLayout.isErrorEnabled = false
+                if (name.hasFocus()) {
+                    nameTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    name.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    nameTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    name.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
+                }
+                if (nameError.isVisible) {
+                    nameError.visibility = View.GONE
                 }
             }
         }
-        emailLayout = findViewById(R.id.email_layout)
+        name.setOnFocusChangeListener { _, hasFocus ->
+            if (!nameError.isVisible) {
+                if (hasFocus) {
+                    nameTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    name.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    nameTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    name.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
+                }
+            }
+        }
+        emailTitle = findViewById(R.id.email_title)
         email = findViewById(R.id.email)
+        emailError = findViewById(R.id.email_error)
         email.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (emailLayout.isErrorEnabled) {
-                    emailLayout.isErrorEnabled = false
+                if (email.hasFocus()) {
+                    emailTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    email.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    emailTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    email.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
+                }
+                if (emailError.isVisible) {
+                    emailError.visibility = View.GONE
                 }
             }
         }
         email.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
+            if (hasFocus) {
+                if (!emailError.isVisible) {
+                    emailTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    email.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                }
+            } else {
+                if (!emailError.isVisible) {
+                    emailTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    email.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
+                }
                 val inputMethodManager =
                     getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
             }
         }
-        dobError = findViewById(R.id.dob_error)
+        dobTitle = findViewById(R.id.dob_title)
         dob = findViewById(R.id.dob)
+        dobError = findViewById(R.id.dob_error)
         dob.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
                 if (dob.hasFocus()) {
+                    dobTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
                     dob.background = ContextCompat.getDrawable(
                         this, R.drawable.white_black_solid_app_green_stroke_curved_corners
                     )
                 } else {
+                    dobTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
                     dob.background = ContextCompat.getDrawable(
                         this,
-                        R.drawable.white_black_solid_black_disabled_white_disabled_stroke_curved_corners
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
                     )
                 }
                 if (dobError.isVisible) {
@@ -174,30 +262,61 @@ class Registration : AppCompatActivity() {
                     getString(R.string.select),
                     getString(R.string.cancel),
                     false
-                )
+                ).show()
             }
             false
         }
         dob.setOnFocusChangeListener { _, hasFocus ->
             if (!dobError.isVisible) {
                 if (hasFocus) {
+                    dobTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
                     dob.background = ContextCompat.getDrawable(
                         this, R.drawable.white_black_solid_app_green_stroke_curved_corners
                     )
                 } else {
+                    dobTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
                     dob.background = ContextCompat.getDrawable(
                         this,
-                        R.drawable.white_black_solid_black_disabled_white_disabled_stroke_curved_corners
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
                     )
                 }
             }
         }
-        referralLayout = findViewById(R.id.referral_layout)
+        referralTitle = findViewById(R.id.referral_title)
         referral = findViewById(R.id.referral)
+        referralError = findViewById(R.id.referral_error)
         referral.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (referralLayout.isErrorEnabled) {
-                    referralLayout.isErrorEnabled = false
+                if (referral.hasFocus()) {
+                    referralTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    referral.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    referralTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    referral.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
+                }
+                if (referralError.isVisible) {
+                    referralError.visibility = View.GONE
+                }
+            }
+        }
+        referral.setOnFocusChangeListener { _, hasFocus ->
+            if (!referralError.isVisible) {
+                if (hasFocus) {
+                    referralTitle.setTextColor(ContextCompat.getColor(this, R.color.app_green))
+                    referral.background = ContextCompat.getDrawable(
+                        this, R.drawable.white_black_solid_app_green_stroke_curved_corners
+                    )
+                } else {
+                    referralTitle.setTextColor(ColorResCompat(this, R.attr.black_white).get())
+                    referral.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.white_black_solid_dark_grey_light_grey_stroke_curved_corners
+                    )
                 }
             }
         }
@@ -221,12 +340,17 @@ class Registration : AppCompatActivity() {
                 }
                 in 400..499 -> {
                     if (statusCode == 404) {
-                        referralLayout.error =
-                            getString(R.string.please_enter_a_valid_referral_code)
-                        if (!nameLayout.isErrorEnabled && !emailLayout.isErrorEnabled && !dobError.isVisible) {
-                            referralLayout.requestFocus()
-                        }
-
+                        referralTitle.setTextColor(
+                            ColorResCompat(
+                                this, R.attr.darkRed_lightRed
+                            ).get()
+                        )
+                        referral.background = ContextCompat.getDrawable(
+                            this, R.drawable.white_black_solid_red_stroke_curved_corners
+                        )
+                        referralError.text = getString(R.string.please_enter_a_valid_referral_code)
+                        referralError.visibility = View.VISIBLE
+                        referral.requestFocus()
                     } else {
                         CustomSnackBar(
                             this@Registration,

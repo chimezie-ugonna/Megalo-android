@@ -81,6 +81,7 @@ class OtpVerification : AppCompatActivity() {
         loader = CustomLoader(this)
         errorMessage = findViewById(R.id.error_message)
         pinView = findViewById(R.id.pin_view)
+        pinView.setAnimationEnable(true)
         pinView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -105,6 +106,7 @@ class OtpVerification : AppCompatActivity() {
 
             }
         })
+        pinView.requestFocus()
 
         findViewById<ImageView>(R.id.back).setOnClickListener { finish() }
 
@@ -128,7 +130,7 @@ class OtpVerification : AppCompatActivity() {
         resend.isEnabled = false
         resend.setTextColor(
             ColorResCompat(
-                this@OtpVerification, R.attr.blackDisabled_whiteDisabled
+                this@OtpVerification, R.attr.darkGrey_lightGrey
             ).get()
         )
 
@@ -176,7 +178,7 @@ class OtpVerification : AppCompatActivity() {
 
     private fun counter() {
         if (count == 0) {
-            resend.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
+            resend.setTextColor(ContextCompat.getColor(this, R.color.app_green))
             resend.text = resources.getString(R.string.resend_code)
             resend.isEnabled = true
         } else {
@@ -248,7 +250,12 @@ class OtpVerification : AppCompatActivity() {
                 in 400..499 -> {
                     when (statusCode) {
                         403 -> {
-                            pinView.setLineColor(ContextCompat.getColor(this, R.color.red))
+                            pinView.setLineColor(
+                                ColorResCompat(
+                                    this,
+                                    R.attr.darkRed_lightRed
+                                ).get()
+                            )
                             errorMessage.text = getString(R.string.incorrect_code_error_message)
                             errorMessage.visibility = View.VISIBLE
                         }
@@ -336,7 +343,7 @@ class OtpVerification : AppCompatActivity() {
             resend.isEnabled = false
             resend.setTextColor(
                 ColorResCompat(
-                    this@OtpVerification, R.attr.blackDisabled_whiteDisabled
+                    this@OtpVerification, R.attr.darkGrey_lightGrey
                 ).get()
             )
             count = 30

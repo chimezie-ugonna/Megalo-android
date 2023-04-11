@@ -7,9 +7,10 @@
     <string name="date_picker" translatable="false">Date picker</string>
     <string name="identification_document_review_ongoing" translatable="false">Identification document review ongoing</string>
     <string name="permission_rationale" translatable="false">Permission rationale</string>
+    <string name="secondary_lock_setup" translatable="false">Secondary lock setup required</string>
     <string name="confirm_logout" translatable="false">Confirm logout</string>
-    <string name="john_doe" translatable="false">John Doe</string>
-    <string name="johndoe_email_com" translatable="false">johndoe@email.com</string>
+    <string name="full_name_hint" translatable="false">Amelia-Rose Li</string>
+    <string name="email_hint" translatable="false">example@investmegalo.com</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
     <string name="welcome_to_megalo">Welcome to Megalo</string>
@@ -38,12 +39,11 @@
     <string name="please_enter_your_first_and_last_name">Please enter your first and last name.</string>
     <string name="log_out">Log Out</string>
     <string name="go_back">Go Back</string>
-    <string name="processing">Processing</string>
-    <string name="resending_verification_code">Resending verification code.</string>
-    <string name="checking_verification_code">Checking verification code.</string>
-    <string name="logging_you_in">Logging you in.</string>
-    <string name="creating_your_account">Creating your account.</string>
-    <string name="logging_you_out">Logging you out.</string>
+    <string name="resending_verification_code">Resending verification code…</string>
+    <string name="checking_verification_code">Checking verification code…</string>
+    <string name="logging_you_in">Logging you in…</string>
+    <string name="creating_your_account">Creating your account…</string>
+    <string name="logging_you_out">Logging you out…</string>
     <string name="select_your_birth_date">Select your birth date</string>
     <string name="please_select_your_birth_date">Please select your birth date.</string>
     <string name="home">Home</string>
@@ -53,7 +53,7 @@
     <string name="cancel">Cancel</string>
     <string name="sms_retriever_timed_out">SMS retriever timed out.</string>
     <string name="verify">Verify</string>
-    <string name="initiating_identity_verification">Initiating identity verification</string>
+    <string name="initiating_identity_verification">Initiating identity verification…</string>
     <string name="the_phone_number_you_provided_has_been_taken">The phone number you provided has been taken.</string>
     <string name="please_enter_a_valid_referral_code">Please enter a valid referral code.</string>
     <string name="notifications_permission_required">Notifications permission required</string>
@@ -77,4 +77,11 @@
     <string name="verify_your_phone_number">Verify your phone number</string>
     <string name="create_account">Create Account</string>
     <string name="optional">Optional</string>
+    <string name="enable_secondary_lock">Enable secondary lock</string>
+    <string name="disable_secondary_lock">Disable secondary lock</string>
+    <string name="unlock_megalo">Unlock Megalo</string>
+    <string name="unlock">Unlock</string>
+    <string name="secondary_lock_initiated">Secondary lock initiated</string>
+    <string name="lock_setup_required">Lock setup required</string>
+    <string name="lock_setup_required_text">To use this feature, you are required to setup biometrics or a screen lock for this device first.</string>
 </resources>

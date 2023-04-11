@@ -11,7 +11,7 @@ import com.airbnb.lottie.LottieAnimationView
 import invest.megalo.R
 
 class OnboardingSlide1Fragment : Fragment() {
-    lateinit var lottie: LottieAnimationView
+    private lateinit var lottie: LottieAnimationView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {

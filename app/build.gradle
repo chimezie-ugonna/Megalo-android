@@ -31,16 +31,13 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs =
-                    [
-                            'src/main/res/layouts/list',
-                            'src/main/res/layouts/fragment',
-                            'src/main/res/layouts/dialog',
-                            'src/main/res/layouts/content',
-                            'src/main/res/layouts/activity',
-                            'src/main/res/layouts',
-                            'src/main/res'
-                    ]
+            res.srcDirs = ['src/main/res/layouts/list',
+                           'src/main/res/layouts/fragment',
+                           'src/main/res/layouts/dialog',
+                           'src/main/res/layouts/content',
+                           'src/main/res/layouts/activity',
+                           'src/main/res/layouts',
+                           'src/main/res']
         }
     }
     compileOptions {
@@ -54,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -71,10 +68,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-installations-ktx'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.hbb20:ccp:2.6.1'
-    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
     implementation 'com.airbnb.android:lottie:3.5.0'
     implementation 'io.github.chaosleung:pinview:1.4.4'
     implementation 'com.github.idenfy:sdk-api:7.7.9'
     implementation 'com.github.idenfy:sdk-docrecognition:7.7.9'
+    implementation 'androidx.biometric:biometric:1.2.0-alpha05'
 }
