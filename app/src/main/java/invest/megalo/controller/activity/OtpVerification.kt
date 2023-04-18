@@ -22,7 +22,13 @@ import com.chaos.view.PinView
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.tasks.Task
 import invest.megalo.R
-import invest.megalo.model.*
+import invest.megalo.model.ColorResCompat
+import invest.megalo.model.CustomLoader
+import invest.megalo.model.CustomSnackBar
+import invest.megalo.model.InternetCheck
+import invest.megalo.model.ServerConnection
+import invest.megalo.model.Session
+import invest.megalo.model.SetAppTheme
 import org.json.JSONObject
 
 
@@ -35,6 +41,7 @@ class OtpVerification : AppCompatActivity() {
     private var count = 30
     private lateinit var handler: Handler
     private lateinit var pinView: PinView
+    private lateinit var back: ImageView
     private lateinit var description: TextView
     private lateinit var errorMessage: TextView
     private lateinit var resend: TextView
@@ -108,7 +115,9 @@ class OtpVerification : AppCompatActivity() {
         })
         pinView.requestFocus()
 
-        findViewById<ImageView>(R.id.back).setOnClickListener { finish() }
+        back = findViewById(R.id.back)
+        back.visibility = View.VISIBLE
+        back.setOnClickListener { finish() }
 
         handler = Handler(Looper.getMainLooper())
 
@@ -247,18 +256,19 @@ class OtpVerification : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     when (statusCode) {
                         403 -> {
                             pinView.setLineColor(
                                 ColorResCompat(
-                                    this,
-                                    R.attr.darkRed_lightRed
+                                    this, R.attr.darkRed_lightRed
                                 ).get()
                             )
                             errorMessage.text = getString(R.string.incorrect_code_error_message)
                             errorMessage.visibility = View.VISIBLE
                         }
+
                         409 -> {
                             CustomSnackBar(
                                 this@OtpVerification,
@@ -267,12 +277,14 @@ class OtpVerification : AppCompatActivity() {
                                 "error"
                             )
                         }
+
                         420 -> {
                             if (update) {
                                 finish()
                                 startActivity(Intent(this, MainActivity::class.java))
                             }
                         }
+
                         else -> {
                             CustomSnackBar(
                                 this@OtpVerification,
@@ -283,6 +295,7 @@ class OtpVerification : AppCompatActivity() {
                         }
                     }
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@OtpVerification,
@@ -300,6 +313,7 @@ class OtpVerification : AppCompatActivity() {
         if (l == 1) {
             finish()
             Session(this).loggedIn(true)
+            Session(this).devicePhoneNumber(fullPhoneNumber)
             startActivity(Intent(this, Home::class.java))
         } else {
             when (statusCode) {
@@ -311,6 +325,7 @@ class OtpVerification : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     CustomSnackBar(
                         this@OtpVerification,
@@ -319,6 +334,7 @@ class OtpVerification : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@OtpVerification,
@@ -358,6 +374,7 @@ class OtpVerification : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     if (statusCode == 420 && update) {
                         finish()
@@ -371,6 +388,7 @@ class OtpVerification : AppCompatActivity() {
                         )
                     }
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@OtpVerification,

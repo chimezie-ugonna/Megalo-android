@@ -21,7 +21,6 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -64,8 +63,7 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.notifications_permission_required),
             getString(R.string.notifications_permission_rationale_text),
             getString(R.string.proceed),
-            getString(R.string.cancel),
-            false
+            getString(R.string.cancel)
         )
 
         firstIndicator = findViewById(R.id.first_indicator)
@@ -106,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                     handler.removeCallbacksAndMessages(null)
                     return@setOnTouchListener false
                 }
+
                 MotionEvent.ACTION_UP -> {
                     val now = System.currentTimeMillis()
                     incrementProgress()
@@ -138,6 +137,7 @@ class MainActivity : AppCompatActivity() {
                     handler.removeCallbacksAndMessages(null)
                     return@setOnTouchListener false
                 }
+
                 MotionEvent.ACTION_UP -> {
                     val now = System.currentTimeMillis()
                     incrementProgress()
@@ -172,18 +172,7 @@ class MainActivity : AppCompatActivity() {
         val session = Session(this)
         if (session.onboarded()) {
             if (session.loggedIn()) {
-                if (session.useSecondaryLock()) {
-                    if (BiometricManager.from(this)
-                            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
-                    ) {
-                        startActivity(Intent(this, SecondaryLock::class.java))
-                    } else {
-                        session.useSecondaryLock(false)
-                        startActivity(Intent(this, Home::class.java))
-                    }
-                } else {
-                    startActivity(Intent(this, Home::class.java))
-                }
+                startActivity(Intent(this, Home::class.java))
             } else {
                 if (!onboardingSlide4Fragment.isAdded) {
                     replaceFragment(onboardingSlide4Fragment)
@@ -296,16 +285,19 @@ class MainActivity : AppCompatActivity() {
                             (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide1Fragment?)?.playLottie()
                         }
                     }
+
                     is OnboardingSlide2Fragment -> {
                         fragmentTransaction.replace(
                             R.id.fragment_container, onboardingSlide2Fragment
                         )
                     }
+
                     is OnboardingSlide3Fragment -> {
                         fragmentTransaction.replace(
                             R.id.fragment_container, onboardingSlide3Fragment
                         )
                     }
+
                     is OnboardingSlide4Fragment -> {
                         fragmentTransaction.replace(
                             R.id.fragment_container, onboardingSlide4Fragment
@@ -376,6 +368,7 @@ class MainActivity : AppCompatActivity() {
                                 "error"
                             )
                         }
+
                         in 400..499 -> {
                             CustomSnackBar(
                                 this@MainActivity,
@@ -384,6 +377,7 @@ class MainActivity : AppCompatActivity() {
                                 "error"
                             )
                         }
+
                         else -> {
                             CustomSnackBar(
                                 this@MainActivity,

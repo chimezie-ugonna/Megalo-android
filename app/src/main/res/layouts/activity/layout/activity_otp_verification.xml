@@ -10,22 +10,12 @@
     tools:context=".controller.activity.OtpVerification"
     tools:ignore="Overdraw">
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/go_back"
-        android:src="@drawable/arrow_back" />
-
     <include
         android:id="@+id/branding_container"
         layout="@layout/content_branding"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/heading"

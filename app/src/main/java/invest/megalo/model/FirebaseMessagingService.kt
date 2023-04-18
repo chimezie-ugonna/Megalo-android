@@ -14,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import invest.megalo.R
 import invest.megalo.controller.activity.MainActivity
 import org.json.JSONObject
-import java.util.*
+import java.util.Random
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {

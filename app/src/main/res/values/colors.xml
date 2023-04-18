@@ -9,8 +9,8 @@
     <color name="night">#333333</color>
     <color name="light_grey">#BABEC3</color>
     <color name="dark_grey">#6C737A</color>
-    <color name="dark_hint">#4D000000</color>
-    <color name="light_hint">#4DFFFFFF</color>
+    <color name="dark_hint">#52000000</color>
+    <color name="light_hint">#52FFFFFF</color>
     <color name="dark_red">#CC0000</color>
     <color name="light_red">#FF2600</color>
     <color name="success_green">#34C759</color>

@@ -7,10 +7,9 @@
     <string name="date_picker" translatable="false">Date picker</string>
     <string name="identification_document_review_ongoing" translatable="false">Identification document review ongoing</string>
     <string name="permission_rationale" translatable="false">Permission rationale</string>
-    <string name="secondary_lock_setup" translatable="false">Secondary lock setup required</string>
     <string name="confirm_logout" translatable="false">Confirm logout</string>
     <string name="full_name_hint" translatable="false">Amelia-Rose Li</string>
-    <string name="email_hint" translatable="false">example@investmegalo.com</string>
+    <string name="email_hint" translatable="false">example@example.com</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
     <string name="welcome_to_megalo">Welcome to Megalo</string>
@@ -77,11 +76,4 @@
     <string name="verify_your_phone_number">Verify your phone number</string>
     <string name="create_account">Create Account</string>
     <string name="optional">Optional</string>
-    <string name="enable_secondary_lock">Enable secondary lock</string>
-    <string name="disable_secondary_lock">Disable secondary lock</string>
-    <string name="unlock_megalo">Unlock Megalo</string>
-    <string name="unlock">Unlock</string>
-    <string name="secondary_lock_initiated">Secondary lock initiated</string>
-    <string name="lock_setup_required">Lock setup required</string>
-    <string name="lock_setup_required_text">To use this feature, you are required to setup biometrics or a screen lock for this device first.</string>
 </resources>

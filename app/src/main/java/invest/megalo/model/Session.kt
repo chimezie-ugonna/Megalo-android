@@ -10,15 +10,6 @@ class Session(context: Context) {
     )
     private val spe: SharedPreferences.Editor = sp.edit()
 
-    fun appTheme(state: String) {
-        spe.putString("appTheme", state)
-        spe.commit()
-    }
-
-    fun appTheme(): String? {
-        return sp.getString("appTheme", "system")
-    }
-
     fun deviceToken(data: String) {
         spe.putString("deviceToken", data)
         spe.commit()
@@ -64,16 +55,6 @@ class Session(context: Context) {
     @Suppress("BooleanMethodIsAlwaysInverted")
     fun onboarded(): Boolean {
         return sp.getBoolean("onboarded", false)
-    }
-
-    fun useSecondaryLock(data: Boolean) {
-        spe.putBoolean("useSecondaryLock", data)
-        spe.commit()
-    }
-
-    @Suppress("BooleanMethodIsAlwaysInverted")
-    fun useSecondaryLock(): Boolean {
-        return sp.getBoolean("useSecondaryLock", false)
     }
 
     fun devicePhoneNumber(data: String) {

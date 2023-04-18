@@ -23,8 +23,7 @@ class HomeFragment : Fragment() {
                 getString(R.string.logout_confirmation),
                 getString(R.string.are_you_sure_you_want_to_log_out),
                 getString(R.string.yes),
-                getString(R.string.no),
-                true
+                getString(R.string.no)
             ).show()
         }
         return v

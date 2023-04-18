@@ -38,6 +38,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "verifyOtp" -> {
                         if (status) {
                             KeyStore(context).encryptData(
@@ -50,6 +51,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "register" -> {
                         if (status) {
                             KeyStore(context).encryptData(
@@ -60,6 +62,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "logIn" -> {
                         if (status) {
                             KeyStore(context).encryptData(
@@ -70,6 +73,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "logOut" -> {
                         if (status) {
                             logOutPrerequisites()
@@ -78,6 +82,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "verifyIdentity" -> {
                         if (status) {
                             if (context is Home) {
@@ -87,6 +92,7 @@ class ServerConnection(
                             }
                         }
                     }
+
                     "updateDeviceToken" -> {
                         if (status) {
                             Session(context).deviceToken(
@@ -146,26 +152,31 @@ class ServerConnection(
                     )
                 }
             }
+
             "verifyOtp" -> {
                 if (context is OtpVerification) {
                     (context as OtpVerification).otpVerified(-1, false, statusCode)
                 }
             }
+
             "register" -> {
                 if (context is Registration) {
                     (context as Registration).registered(-1, statusCode)
                 }
             }
+
             "logIn" -> {
                 if (context is OtpVerification) {
                     (context as OtpVerification).loggedIn(-1, statusCode)
                 }
             }
+
             "logOut" -> {
                 if (context is Home) {
                     (context as Home).loggedOut(-1, statusCode)
                 }
             }
+
             "verifyIdentity" -> {
                 if (context is Home) {
                     (context as Home).initiated(-1, "", statusCode)
@@ -177,7 +188,5 @@ class ServerConnection(
     fun logOutPrerequisites() {
         KeyStore(context).deleteKey()
         Session(context).loggedIn(false)
-        Session(context).appTheme("system")
-        Session(context).useSecondaryLock(false)
     }
 }

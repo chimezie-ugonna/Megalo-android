@@ -9,22 +9,12 @@
     tools:context=".controller.activity.Registration"
     tools:ignore="Overdraw">
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/go_back"
-        android:src="@drawable/arrow_back" />
-
     <include
         android:id="@+id/branding_container"
         layout="@layout/content_branding"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -75,10 +65,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textCapWords"
                 android:maxLines="1"
-                android:paddingStart="@dimen/normal_padding"
-                android:paddingTop="@dimen/normal_padding"
-                android:paddingEnd="@dimen/normal_padding"
-                android:paddingBottom="@dimen/normal_padding"
+                android:padding="@dimen/normal_padding"
                 android:textColor="?attr/black_white"
                 android:textColorHint="?attr/darkHint_lightHint"
                 android:textSize="@dimen/normal_text"
@@ -115,10 +102,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingStart="@dimen/normal_padding"
-                android:paddingTop="@dimen/normal_padding"
-                android:paddingEnd="@dimen/normal_padding"
-                android:paddingBottom="@dimen/normal_padding"
+                android:padding="@dimen/normal_padding"
                 android:textColor="?attr/black_white"
                 android:textColorHint="?attr/darkHint_lightHint"
                 android:textSize="@dimen/normal_text"
@@ -190,10 +174,7 @@
                 android:inputType="textCapCharacters"
                 android:maxLength="6"
                 android:maxLines="1"
-                android:paddingStart="@dimen/normal_padding"
-                android:paddingTop="@dimen/normal_padding"
-                android:paddingEnd="@dimen/normal_padding"
-                android:paddingBottom="@dimen/normal_padding"
+                android:padding="@dimen/normal_padding"
                 android:textColor="?attr/black_white"
                 android:textColorHint="?attr/darkHint_lightHint"
                 android:textSize="@dimen/normal_text"

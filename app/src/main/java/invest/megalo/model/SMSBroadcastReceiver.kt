@@ -28,6 +28,7 @@ class SMSBroadcastReceiver : BroadcastReceiver() {
                                 context?.sendBroadcast(i)
                             }
                         }
+
                         CommonStatusCodes.TIMEOUT -> {
                             println(context?.getString(R.string.sms_retriever_timed_out))
                         }

@@ -19,7 +19,7 @@ import invest.megalo.R
 import invest.megalo.controller.activity.Home
 import invest.megalo.controller.activity.MainActivity
 import invest.megalo.controller.activity.Registration
-import java.util.*
+import java.util.Calendar
 
 
 class Dialog(
@@ -67,7 +67,11 @@ class Dialog(
                     Calendar.getInstance().get(Calendar.YEAR),
                     Calendar.getInstance().get(Calendar.MONTH),
                     Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-                ) { _, _, _, _ -> }
+                ) { datePicker1, _, _, _ ->
+                    datePicker1.performHapticFeedback(
+                        HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.CONTEXT_CLICK
+                    )
+                }
 
                 positiveButton?.setTypeface(null, Typeface.NORMAL)
                 positiveButton?.setTextSize(
@@ -133,6 +137,7 @@ class Dialog(
                 }
 
             }
+
             context.resources.getString(R.string.permission_rationale), context.getString(R.string.confirm_logout) -> {
                 bottomSheetDialog.setContentView(R.layout.dialog_general)
 
@@ -228,9 +233,8 @@ class Dialog(
                     bottomSheetDialog.dismiss()
                 }
             }
-            context.resources.getString(R.string.identification_document_review_ongoing), context.resources.getString(
-                R.string.secondary_lock_setup
-            ) -> {
+
+            context.resources.getString(R.string.identification_document_review_ongoing) -> {
                 bottomSheetDialog.setContentView(R.layout.dialog_general)
 
                 val img = bottomSheetDialog.findViewById<ImageView>(R.id.img)

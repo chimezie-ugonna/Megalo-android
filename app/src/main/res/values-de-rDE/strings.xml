@@ -21,9 +21,9 @@
     <string name="resend_code_single_counter_text">Code in &lt;b>%s&lt;/b> Sekunde erneut senden.</string>
     <string name="resend_code_multiple_counter_text">Code in &lt;b>%s&lt;/b> Sekunden erneut senden.</string>
     <string name="resend_code">Code erneut senden</string>
-    <string name="please_enter_your_full_name">bitte tragen Sie Ihren vollen Namen ein.</string>
-    <string name="please_enter_your_email">Bitte geben Sie ihre E-Mail-Adresse ein.</string>
-    <string name="please_enter_a_valid_email">Bitte geben Sie eine gültige Email-Adresse ein.</string>
+    <string name="please_enter_your_full_name">Bitte tragen Sie Ihren vollen Namen ein.</string>
+    <string name="please_enter_your_email">Bitte geben Sie ihre E-Mail Adresse ein.</string>
+    <string name="please_enter_a_valid_email">Bitte geben Sie eine gültige E-Mail Adresse ein.</string>
     <string name="please_enter_your_first_and_last_name">Bitte geben Sie Ihren Vor- und Nachnamen ein.</string>
     <string name="log_out">Ausloggen</string>
     <string name="go_back">Geh zurück</string>
@@ -59,17 +59,10 @@
     <string name="get_started">Loslegen</string>
     <string name="begin_your_journey_to_financial_freedom">Beginnen Sie Ihre Reise in die finanzielle Freiheit.</string>
     <string name="full_name">Vollständiger Name</string>
-    <string name="email_address">E-Mail-Adresse</string>
+    <string name="email_address">E-Mail Adresse</string>
     <string name="birth_date">Geburtsdatum</string>
     <string name="referral_code">Referenzcode</string>
     <string name="verify_your_phone_number">Bestätige deine Telefonnummer</string>
     <string name="create_account">Benutzerkonto erstellen</string>
     <string name="optional">Optional</string>
-    <string name="enable_secondary_lock">Sekundärsperre aktivieren</string>
-    <string name="disable_secondary_lock">Sekundärsperre deaktivieren</string>
-    <string name="unlock_megalo">Megalo freischalten</string>
-    <string name="unlock">Freischalten</string>
-    <string name="secondary_lock_initiated">Sekundärsperre eingeleitet</string>
-    <string name="lock_setup_required">Sperreinrichtung erforderlich</string>
-    <string name="lock_setup_required_text">Um diese Funktion nutzen zu können, müssen Sie zuerst biometrische Daten oder eine Bildschirmsperre für dieses Gerät einrichten.</string>
 </resources>

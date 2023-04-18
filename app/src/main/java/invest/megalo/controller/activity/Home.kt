@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -21,7 +22,12 @@ import invest.megalo.controller.fragment.HomeFragment
 import invest.megalo.controller.fragment.InvestmentsFragment
 import invest.megalo.controller.fragment.NotificationsFragment
 import invest.megalo.controller.fragment.ProfileFragment
-import invest.megalo.model.*
+import invest.megalo.model.CustomLoader
+import invest.megalo.model.CustomSnackBar
+import invest.megalo.model.Dialog
+import invest.megalo.model.InternetCheck
+import invest.megalo.model.ServerConnection
+import invest.megalo.model.SetAppTheme
 import org.json.JSONObject
 
 
@@ -29,22 +35,16 @@ class Home : AppCompatActivity() {
     private lateinit var loader: CustomLoader
     private lateinit var home: FrameLayout
     private lateinit var homeIcon: ImageView
-    private lateinit var homeDot: TextView
     private lateinit var homeFragment: HomeFragment
     private lateinit var investments: FrameLayout
     private lateinit var investmentsIcon: ImageView
-    private lateinit var investmentsDot: TextView
     private lateinit var investmentsFragment: InvestmentsFragment
     private lateinit var notifications: FrameLayout
     private lateinit var notificationsIcon: ImageView
-    private lateinit var notificationsDot: TextView
     private lateinit var notificationsFragment: NotificationsFragment
     private lateinit var profile: FrameLayout
     private lateinit var profileIcon: ImageView
-    private lateinit var profileDot: TextView
     private lateinit var profileFragment: ProfileFragment
-    private lateinit var parent: RelativeLayout
-    private lateinit var bottomNav: LinearLayout
     private lateinit var authToken: String
     private lateinit var idenfySettingsV2: IdenfySettingsV2
     private var everywhere = false
@@ -63,8 +63,7 @@ class Home : AppCompatActivity() {
                     getString(R.string.your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed),
                     getString(R.string.got_it),
                     "",
-                    false,
-                    R.drawable.timer
+                    img_ = R.drawable.timer
                 ).show()
             }
         }
@@ -77,32 +76,25 @@ class Home : AppCompatActivity() {
 
         loader = CustomLoader(this)
 
-        parent = findViewById(R.id.parent)
-        bottomNav = findViewById(R.id.bottom_nav)
-
         homeIcon = findViewById(R.id.home_icon)
-        homeDot = findViewById(R.id.home_dot)
         home = findViewById(R.id.home)
         home.setOnClickListener {
             replaceFragment(homeFragment, it)
         }
 
         investmentsIcon = findViewById(R.id.investments_icon)
-        investmentsDot = findViewById(R.id.investments_dot)
         investments = findViewById(R.id.investments)
         investments.setOnClickListener {
             replaceFragment(investmentsFragment, it)
         }
 
         notificationsIcon = findViewById(R.id.notifications_icon)
-        notificationsDot = findViewById(R.id.notifications_dot)
         notifications = findViewById(R.id.notifications)
         notifications.setOnClickListener {
             replaceFragment(notificationsFragment, it)
         }
 
         profileIcon = findViewById(R.id.profile_icon)
-        profileDot = findViewById(R.id.profile_dot)
         profile = findViewById(R.id.profile)
         profile.setOnClickListener {
             replaceFragment(profileFragment, it)
@@ -143,6 +135,7 @@ class Home : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     if (statusCode == 420) {
                         finish()
@@ -156,6 +149,7 @@ class Home : AppCompatActivity() {
                         )
                     }
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@Home,
@@ -202,6 +196,7 @@ class Home : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     when (statusCode) {
                         403 -> {
@@ -212,10 +207,12 @@ class Home : AppCompatActivity() {
                                 "error"
                             )
                         }
+
                         420 -> {
                             finish()
                             startActivity(Intent(this, MainActivity::class.java))
                         }
+
                         else -> {
                             CustomSnackBar(
                                 this@Home,
@@ -226,6 +223,7 @@ class Home : AppCompatActivity() {
                         }
                     }
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@Home,
@@ -265,6 +263,7 @@ class Home : AppCompatActivity() {
                         notificationsIcon.setImageResource(R.drawable.notifications_outline)
                         profileIcon.setImageResource(R.drawable.profile_outline)
                     }
+
                     is InvestmentsFragment -> {
                         if (investmentsFragment.isAdded) {
                             fragmentTransaction.show(investmentsFragment)
@@ -286,6 +285,7 @@ class Home : AppCompatActivity() {
                         notificationsIcon.setImageResource(R.drawable.notifications_outline)
                         profileIcon.setImageResource(R.drawable.profile_outline)
                     }
+
                     is NotificationsFragment -> {
                         if (notificationsFragment.isAdded) {
                             fragmentTransaction.show(notificationsFragment)
@@ -307,6 +307,7 @@ class Home : AppCompatActivity() {
                         notificationsIcon.setImageResource(R.drawable.notifications_filled)
                         profileIcon.setImageResource(R.drawable.profile_outline)
                     }
+
                     is ProfileFragment -> {
                         if (profileFragment.isAdded) {
                             fragmentTransaction.show(profileFragment)

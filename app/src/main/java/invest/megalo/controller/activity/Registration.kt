@@ -21,6 +21,7 @@ import org.json.JSONObject
 
 
 class Registration : AppCompatActivity() {
+    private lateinit var back: ImageView
     private lateinit var nameTitle: TextView
     private lateinit var name: EditText
     private lateinit var nameError: TextView
@@ -49,7 +50,9 @@ class Registration : AppCompatActivity() {
         }
 
         loader = CustomLoader(this)
-        findViewById<ImageView>(R.id.back).setOnClickListener { finish() }
+        back = findViewById(R.id.back)
+        back.visibility = View.VISIBLE
+        back.setOnClickListener { finish() }
         create = findViewById(R.id.button)
         create.text = resources.getString(R.string.create_account)
         create.setOnClickListener {
@@ -260,8 +263,7 @@ class Registration : AppCompatActivity() {
                     resources.getString(R.string.select_your_birth_date),
                     "",
                     getString(R.string.select),
-                    getString(R.string.cancel),
-                    false
+                    getString(R.string.cancel)
                 ).show()
             }
             false
@@ -327,6 +329,7 @@ class Registration : AppCompatActivity() {
         if (l == 1) {
             finish()
             Session(this).loggedIn(true)
+            Session(this).devicePhoneNumber(phoneNumber)
             startActivity(Intent(this, Home::class.java))
         } else {
             when (statusCode) {
@@ -338,6 +341,7 @@ class Registration : AppCompatActivity() {
                         "error"
                     )
                 }
+
                 in 400..499 -> {
                     if (statusCode == 404) {
                         referralTitle.setTextColor(
@@ -360,6 +364,7 @@ class Registration : AppCompatActivity() {
                         )
                     }
                 }
+
                 else -> {
                     CustomSnackBar(
                         this@Registration,

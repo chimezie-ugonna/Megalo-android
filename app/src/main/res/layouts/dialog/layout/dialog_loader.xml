@@ -10,16 +10,14 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="@dimen/loader_animation_width"
         android:layout_height="@dimen/loader_animation_height"
-        android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_fileName="loader_animation.json"
         app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="@dimen/normal_padding"
         android:gravity="center"
         android:textColor="?attr/black_white"
