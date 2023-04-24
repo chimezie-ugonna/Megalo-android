@@ -13,6 +13,8 @@ import invest.megalo.controller.activity.OtpVerification
 import invest.megalo.controller.activity.Registration
 import org.json.JSONException
 import org.json.JSONObject
+import java.nio.charset.Charset
+import java.util.Locale
 
 class ServerConnection(
     var context: Context,
@@ -108,7 +110,14 @@ class ServerConnection(
         }, Response.ErrorListener { error ->
             error.printStackTrace()
             if (error.networkResponse != null) {
-                respond(error.networkResponse.statusCode)
+                val body = String(error.networkResponse.data, Charset.defaultCharset())
+                val clientMessage = try {
+                    val obj = JSONObject(body)
+                    obj.getString("client_message")
+                } catch (e: JSONException) {
+                    ""
+                }
+                respond(error.networkResponse.statusCode, clientMessage)
             } else {
                 respond(0)
             }
@@ -126,6 +135,7 @@ class ServerConnection(
                 header["device-brand"] = Build.BRAND
                 header["device-model"] = Build.MODEL
                 header["app-version"] = context.resources.getString(R.string.app_version)
+                header["app-language-code"] = Locale.getDefault().language
                 header["os-version"] = Build.VERSION.RELEASE
                 return header
             }
@@ -136,7 +146,7 @@ class ServerConnection(
         requestQue.add(request)
     }
 
-    fun respond(statusCode: Int) {
+    fun respond(statusCode: Int, message: String = "") {
         if (statusCode == 420) {
             logOutPrerequisites()
         }
@@ -144,42 +154,42 @@ class ServerConnection(
             "sendOtp" -> {
                 if (context is MainActivity) {
                     (context as MainActivity).otpSent(
-                        -1, statusCode
+                        -1, statusCode, message
                     )
                 } else if (context is OtpVerification) {
                     (context as OtpVerification).otpSent(
-                        -1, statusCode
+                        -1, statusCode, message
                     )
                 }
             }
 
             "verifyOtp" -> {
                 if (context is OtpVerification) {
-                    (context as OtpVerification).otpVerified(-1, false, statusCode)
+                    (context as OtpVerification).otpVerified(-1, false, statusCode, message)
                 }
             }
 
             "register" -> {
                 if (context is Registration) {
-                    (context as Registration).registered(-1, statusCode)
+                    (context as Registration).registered(-1, statusCode, message)
                 }
             }
 
             "logIn" -> {
                 if (context is OtpVerification) {
-                    (context as OtpVerification).loggedIn(-1, statusCode)
+                    (context as OtpVerification).loggedIn(-1, statusCode, message)
                 }
             }
 
             "logOut" -> {
                 if (context is Home) {
-                    (context as Home).loggedOut(-1, statusCode)
+                    (context as Home).loggedOut(-1, statusCode, message)
                 }
             }
 
             "verifyIdentity" -> {
                 if (context is Home) {
-                    (context as Home).initiated(-1, "", statusCode)
+                    (context as Home).initiated(-1, "", statusCode, message)
                 }
             }
         }

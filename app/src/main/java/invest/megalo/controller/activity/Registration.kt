@@ -324,7 +324,7 @@ class Registration : AppCompatActivity() {
         }
     }
 
-    fun registered(l: Int, statusCode: Int? = 0) {
+    fun registered(l: Int, statusCode: Int? = 0, message: String = "") {
         loader.dismiss()
         if (l == 1) {
             finish()
@@ -332,46 +332,53 @@ class Registration : AppCompatActivity() {
             Session(this).devicePhoneNumber(phoneNumber)
             startActivity(Intent(this, Home::class.java))
         } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@Registration,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
-
-                in 400..499 -> {
-                    if (statusCode == 404) {
-                        referralTitle.setTextColor(
-                            ColorResCompat(
-                                this, R.attr.darkRed_lightRed
-                            ).get()
-                        )
-                        referral.background = ContextCompat.getDrawable(
-                            this, R.drawable.white_black_solid_red_stroke_curved_corners
-                        )
-                        referralError.text = getString(R.string.please_enter_a_valid_referral_code)
-                        referralError.visibility = View.VISIBLE
-                        referral.requestFocus()
-                    } else {
+            if (message != "") {
+                CustomSnackBar(
+                    this@Registration, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
                         CustomSnackBar(
                             this@Registration,
                             findViewById(R.id.parent),
-                            getString(R.string.client_error_message),
+                            getString(R.string.unusual_error_message),
                             "error"
                         )
                     }
-                }
 
-                else -> {
-                    CustomSnackBar(
-                        this@Registration,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    in 400..499 -> {
+                        if (statusCode == 404) {
+                            referralTitle.setTextColor(
+                                ColorResCompat(
+                                    this, R.attr.darkRed_lightRed
+                                ).get()
+                            )
+                            referral.background = ContextCompat.getDrawable(
+                                this, R.drawable.white_black_solid_red_stroke_curved_corners
+                            )
+                            referralError.text =
+                                getString(R.string.please_enter_a_valid_referral_code)
+                            referralError.visibility = View.VISIBLE
+                            referral.requestFocus()
+                        } else {
+                            CustomSnackBar(
+                                this@Registration,
+                                findViewById(R.id.parent),
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                    }
+
+                    else -> {
+                        CustomSnackBar(
+                            this@Registration,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }

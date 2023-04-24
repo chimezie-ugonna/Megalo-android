@@ -351,7 +351,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun otpSent(l: Int, statusCode: Int? = 0) {
+    fun otpSent(l: Int, statusCode: Int? = 0, message: String = "") {
         val fragmentManager = supportFragmentManager
         if (!fragmentManager.isDestroyed) {
             if (onboardingSlide4Fragment.isAdded) {
@@ -359,32 +359,38 @@ class MainActivity : AppCompatActivity() {
                 if (l == 1) {
                     (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.moveToOtpVerificationPage()
                 } else {
-                    when (statusCode) {
-                        0 -> {
-                            CustomSnackBar(
-                                this@MainActivity,
-                                findViewById(R.id.parent),
-                                getString(R.string.unusual_error_message),
-                                "error"
-                            )
-                        }
+                    if (message != "") {
+                        CustomSnackBar(
+                            this@MainActivity, findViewById(R.id.parent), message, "error"
+                        )
+                    } else {
+                        when (statusCode) {
+                            0 -> {
+                                CustomSnackBar(
+                                    this@MainActivity,
+                                    findViewById(R.id.parent),
+                                    getString(R.string.unusual_error_message),
+                                    "error"
+                                )
+                            }
 
-                        in 400..499 -> {
-                            CustomSnackBar(
-                                this@MainActivity,
-                                findViewById(R.id.parent),
-                                getString(R.string.client_error_message),
-                                "error"
-                            )
-                        }
+                            in 400..499 -> {
+                                CustomSnackBar(
+                                    this@MainActivity,
+                                    findViewById(R.id.parent),
+                                    getString(R.string.client_error_message),
+                                    "error"
+                                )
+                            }
 
-                        else -> {
-                            CustomSnackBar(
-                                this@MainActivity,
-                                findViewById(R.id.parent),
-                                getString(R.string.server_error_message),
-                                "error"
-                            )
+                            else -> {
+                                CustomSnackBar(
+                                    this@MainActivity,
+                                    findViewById(R.id.parent),
+                                    getString(R.string.server_error_message),
+                                    "error"
+                                )
+                            }
                         }
                     }
                 }

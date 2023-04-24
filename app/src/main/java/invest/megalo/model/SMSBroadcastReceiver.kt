@@ -6,7 +6,6 @@ import android.content.Intent
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
-import invest.megalo.R
 import java.util.regex.Pattern
 
 
@@ -27,10 +26,6 @@ class SMSBroadcastReceiver : BroadcastReceiver() {
                                 i.putExtra("otp", matcher.group(0))
                                 context?.sendBroadcast(i)
                             }
-                        }
-
-                        CommonStatusCodes.TIMEOUT -> {
-                            println(context?.getString(R.string.sms_retriever_timed_out))
                         }
                     }
                 }

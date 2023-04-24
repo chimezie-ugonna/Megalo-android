@@ -22,7 +22,6 @@
     <string name="empty_phone_field_error_message">Please enter a phone number.</string>
     <string name="invalid_phone_number_error_message">This phone number is invalid.</string>
     <string name="no_internet_error_message">There is no internet connection.</string>
-    <string name="unknown_error_message">An unknown error occurred.</string>
     <string name="server_error_message">Operation failed because a server error occurred.</string>
     <string name="unusual_error_message">Operation failed because an unusual error occurred.</string>
     <string name="client_error_message">Operation failed because a client error occurred. There was an issue with the data sent to our server.</string>
@@ -50,14 +49,11 @@
     <string name="profile">Profile</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
-    <string name="sms_retriever_timed_out">SMS retriever timed out.</string>
     <string name="verify">Verify</string>
     <string name="initiating_identity_verification">Initiating identity verification…</string>
-    <string name="the_phone_number_you_provided_has_been_taken">The phone number you provided has been taken.</string>
     <string name="please_enter_a_valid_referral_code">Please enter a valid referral code.</string>
     <string name="notifications_permission_required">Notifications permission required</string>
     <string name="notifications_permission_rationale_text">Megalo requires permission to send you notifications to make your experience better. With this permission, you can get notified on things like when a new property is available, when a property\'s value increases, when you get paid dividends and so much more.</string>
-    <string name="your_identity_has_already_been_verified">Your identity has already been verified.</string>
     <string name="document_review_ongoing">Document review ongoing</string>
     <string name="got_it">Got it</string>
     <string name="your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed">Your identification document is now being reviewed, you will be notified when it is completed.</string>
@@ -76,4 +72,5 @@
     <string name="verify_your_phone_number">Verify your phone number</string>
     <string name="create_account">Create Account</string>
     <string name="optional">Optional</string>
+    <string name="log_out_everywhere">Log out everywhere</string>
 </resources>

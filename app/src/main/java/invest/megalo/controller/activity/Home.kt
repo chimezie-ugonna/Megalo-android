@@ -47,7 +47,7 @@ class Home : AppCompatActivity() {
     private lateinit var profileFragment: ProfileFragment
     private lateinit var authToken: String
     private lateinit var idenfySettingsV2: IdenfySettingsV2
-    private var everywhere = false
+    var everywhere = 0
     private val idenfyActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -114,49 +114,55 @@ class Home : AppCompatActivity() {
                 this,
                 "logOut",
                 Request.Method.DELETE,
-                "login/delete",
-                JSONObject().put("everywhere", everywhere)
+                "login/delete?everywhere=$everywhere",
+                JSONObject()
             )
         }
     }
 
-    fun loggedOut(l: Int, statusCode: Int? = 0) {
+    fun loggedOut(l: Int, statusCode: Int? = 0, message: String = "") {
         loader.dismiss()
         if (l == 1) {
             finish()
             startActivity(Intent(this, MainActivity::class.java))
         } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@Home,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
-
-                in 400..499 -> {
-                    if (statusCode == 420) {
-                        finish()
-                        startActivity(Intent(this, MainActivity::class.java))
-                    } else {
+            if (message != "") {
+                CustomSnackBar(
+                    this@Home, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
                         CustomSnackBar(
                             this@Home,
                             findViewById(R.id.parent),
-                            getString(R.string.client_error_message),
+                            getString(R.string.unusual_error_message),
                             "error"
                         )
                     }
-                }
 
-                else -> {
-                    CustomSnackBar(
-                        this@Home,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    in 400..499 -> {
+                        if (statusCode == 420) {
+                            finish()
+                            startActivity(Intent(this, MainActivity::class.java))
+                        } else {
+                            CustomSnackBar(
+                                this@Home,
+                                findViewById(R.id.parent),
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                    }
+
+                    else -> {
+                        CustomSnackBar(
+                            this@Home,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }
@@ -174,7 +180,7 @@ class Home : AppCompatActivity() {
         }
     }
 
-    fun initiated(i: Int, auth_token: String, statusCode: Int? = 0) {
+    fun initiated(i: Int, auth_token: String, statusCode: Int? = 0, message: String = "") {
         loader.dismiss()
         if (i == 1) {
             val idenfyUISettingsV2 = IdenfyUISettingsV2.IdenfyUIBuilderV2()
@@ -187,50 +193,47 @@ class Home : AppCompatActivity() {
                 this, idenfyActivityResultLauncher, idenfySettingsV2
             )
         } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@Home,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
+            if (message != "") {
+                CustomSnackBar(
+                    this@Home, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
+                        CustomSnackBar(
+                            this@Home,
+                            findViewById(R.id.parent),
+                            getString(R.string.unusual_error_message),
+                            "error"
+                        )
+                    }
 
-                in 400..499 -> {
-                    when (statusCode) {
-                        403 -> {
-                            CustomSnackBar(
-                                this@Home,
-                                findViewById(R.id.parent),
-                                getString(R.string.your_identity_has_already_been_verified),
-                                "error"
-                            )
-                        }
+                    in 400..499 -> {
+                        when (statusCode) {
+                            420 -> {
+                                finish()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }
 
-                        420 -> {
-                            finish()
-                            startActivity(Intent(this, MainActivity::class.java))
-                        }
-
-                        else -> {
-                            CustomSnackBar(
-                                this@Home,
-                                findViewById(R.id.parent),
-                                getString(R.string.client_error_message),
-                                "error"
-                            )
+                            else -> {
+                                CustomSnackBar(
+                                    this@Home,
+                                    findViewById(R.id.parent),
+                                    getString(R.string.client_error_message),
+                                    "error"
+                                )
+                            }
                         }
                     }
-                }
 
-                else -> {
-                    CustomSnackBar(
-                        this@Home,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    else -> {
+                        CustomSnackBar(
+                            this@Home,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }

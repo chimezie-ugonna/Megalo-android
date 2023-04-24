@@ -100,7 +100,7 @@ class OtpVerification : AppCompatActivity() {
                     errorMessage.visibility = View.GONE
                     pinView.setLineColor(
                         ContextCompat.getColorStateList(
-                            this@OtpVerification, R.color.code_text_field_state
+                            this@OtpVerification, R.color.otp_edit_text_selector
                         )
                     )
                 }
@@ -225,7 +225,7 @@ class OtpVerification : AppCompatActivity() {
         }
     }
 
-    fun otpVerified(l: Int, userExists: Boolean, statusCode: Int? = 0) {
+    fun otpVerified(l: Int, userExists: Boolean, statusCode: Int? = 0, message: String = "") {
         if (l == 1) {
             if (!update) {
                 if (userExists) {
@@ -247,68 +247,65 @@ class OtpVerification : AppCompatActivity() {
             }
         } else {
             loader.dismiss()
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
+            if (message != "") {
+                CustomSnackBar(
+                    this@OtpVerification, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.unusual_error_message),
+                            "error"
+                        )
+                    }
 
-                in 400..499 -> {
-                    when (statusCode) {
-                        403 -> {
-                            pinView.setLineColor(
-                                ColorResCompat(
-                                    this, R.attr.darkRed_lightRed
-                                ).get()
-                            )
-                            errorMessage.text = getString(R.string.incorrect_code_error_message)
-                            errorMessage.visibility = View.VISIBLE
-                        }
+                    in 400..499 -> {
+                        when (statusCode) {
+                            403 -> {
+                                pinView.setLineColor(
+                                    ColorResCompat(
+                                        this, R.attr.darkRed_lightRed
+                                    ).get()
+                                )
+                                errorMessage.text = getString(R.string.incorrect_code_error_message)
+                                errorMessage.visibility = View.VISIBLE
+                            }
 
-                        409 -> {
-                            CustomSnackBar(
-                                this@OtpVerification,
-                                findViewById(R.id.parent),
-                                getString(R.string.the_phone_number_you_provided_has_been_taken),
-                                "error"
-                            )
-                        }
+                            420 -> {
+                                if (update) {
+                                    finish()
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                }
+                            }
 
-                        420 -> {
-                            if (update) {
-                                finish()
-                                startActivity(Intent(this, MainActivity::class.java))
+                            else -> {
+                                CustomSnackBar(
+                                    this@OtpVerification,
+                                    findViewById(R.id.parent),
+                                    getString(R.string.client_error_message),
+                                    "error"
+                                )
                             }
                         }
-
-                        else -> {
-                            CustomSnackBar(
-                                this@OtpVerification,
-                                findViewById(R.id.parent),
-                                getString(R.string.client_error_message),
-                                "error"
-                            )
-                        }
                     }
-                }
 
-                else -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    else -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }
     }
 
-    fun loggedIn(l: Int, statusCode: Int? = 0) {
+    fun loggedIn(l: Int, statusCode: Int? = 0, message: String = "") {
         loader.dismiss()
         if (l == 1) {
             finish()
@@ -316,38 +313,44 @@ class OtpVerification : AppCompatActivity() {
             Session(this).devicePhoneNumber(fullPhoneNumber)
             startActivity(Intent(this, Home::class.java))
         } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
+            if (message != "") {
+                CustomSnackBar(
+                    this@OtpVerification, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.unusual_error_message),
+                            "error"
+                        )
+                    }
 
-                in 400..499 -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.client_error_message),
-                        "error"
-                    )
-                }
+                    in 400..499 -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.client_error_message),
+                            "error"
+                        )
+                    }
 
-                else -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    else -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }
     }
 
-    fun otpSent(l: Int, statusCode: Int? = 0) {
+    fun otpSent(l: Int, statusCode: Int? = 0, message: String = "") {
         loader.dismiss()
         if (l == 1) {
             CustomSnackBar(
@@ -365,37 +368,43 @@ class OtpVerification : AppCompatActivity() {
             count = 30
             counter()
         } else {
-            when (statusCode) {
-                0 -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.unusual_error_message),
-                        "error"
-                    )
-                }
-
-                in 400..499 -> {
-                    if (statusCode == 420 && update) {
-                        finish()
-                        startActivity(Intent(this, MainActivity::class.java))
-                    } else {
+            if (message != "") {
+                CustomSnackBar(
+                    this@OtpVerification, findViewById(R.id.parent), message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
                         CustomSnackBar(
                             this@OtpVerification,
                             findViewById(R.id.parent),
-                            getString(R.string.client_error_message),
+                            getString(R.string.unusual_error_message),
                             "error"
                         )
                     }
-                }
 
-                else -> {
-                    CustomSnackBar(
-                        this@OtpVerification,
-                        findViewById(R.id.parent),
-                        getString(R.string.server_error_message),
-                        "error"
-                    )
+                    in 400..499 -> {
+                        if (statusCode == 420 && update) {
+                            finish()
+                            startActivity(Intent(this, MainActivity::class.java))
+                        } else {
+                            CustomSnackBar(
+                                this@OtpVerification,
+                                findViewById(R.id.parent),
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                    }
+
+                    else -> {
+                        CustomSnackBar(
+                            this@OtpVerification,
+                            findViewById(R.id.parent),
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
                 }
             }
         }

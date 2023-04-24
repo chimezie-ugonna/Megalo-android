@@ -58,7 +58,7 @@
         app:itemCount="6"
         app:itemRadius="@dimen/small_padding"
         app:itemSpacing="@dimen/normal_padding"
-        app:lineColor="@color/code_text_field_state"
+        app:lineColor="@color/otp_edit_text_selector"
         app:lineWidth="@dimen/stroke_size"
         app:viewType="rectangle" />
 

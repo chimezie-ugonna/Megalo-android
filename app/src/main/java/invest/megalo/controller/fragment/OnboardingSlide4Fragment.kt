@@ -143,7 +143,7 @@ class OnboardingSlide4Fragment : Fragment() {
                             CustomSnackBar(
                                 requireContext(),
                                 v,
-                                resources.getString(R.string.unknown_error_message),
+                                resources.getString(R.string.unusual_error_message),
                                 "error"
                             )
                         }

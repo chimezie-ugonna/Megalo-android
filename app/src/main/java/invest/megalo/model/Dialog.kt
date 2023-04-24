@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Gravity.CENTER_HORIZONTAL
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.widget.CheckBox
 import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -141,6 +142,7 @@ class Dialog(
             context.resources.getString(R.string.permission_rationale), context.getString(R.string.confirm_logout) -> {
                 bottomSheetDialog.setContentView(R.layout.dialog_general)
 
+                val check = bottomSheetDialog.findViewById<CheckBox>(R.id.check)
                 val title = bottomSheetDialog.findViewById<TextView>(R.id.title)
                 val content = bottomSheetDialog.findViewById<TextView>(R.id.content)
                 val positiveButton =
@@ -164,6 +166,28 @@ class Dialog(
                 content?.gravity = CENTER_HORIZONTAL
                 content?.text = content_
 
+                if (type == context.getString(R.string.confirm_logout)) {
+                    val llp = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    llp.gravity = CENTER_HORIZONTAL
+                    llp.setMargins(
+                        0, 0, 0, TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_PX,
+                            context.resources.getDimension(R.dimen.normal_padding),
+                            context.resources.displayMetrics
+                        ).toInt()
+                    )
+                    check?.layoutParams = llp
+                    check?.setTextColor(ColorResCompat(context, R.attr.black_white).get())
+                    check?.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        context.resources.getDimension(R.dimen.normal_text)
+                    )
+                    check?.text = context.getString(R.string.log_out_everywhere)
+                }
+
                 positiveButton?.setTypeface(null, Typeface.NORMAL)
                 positiveButton?.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
@@ -186,6 +210,7 @@ class Dialog(
                 positiveButton?.setOnClickListener {
                     if (type == context.getString(R.string.confirm_logout)) {
                         if (context is Home) {
+                            context.everywhere = if (check?.isChecked == true) 1 else 0
                             context.logOut()
                         }
                     } else {

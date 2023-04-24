@@ -11,7 +11,6 @@
     <string name="empty_phone_field_error_message">Bitte geben Sie eine Telefonnummer ein.</string>
     <string name="invalid_phone_number_error_message">Diese Telefonnummer ist ungültig.</string>
     <string name="no_internet_error_message">Es besteht keine Internetverbindung.</string>
-    <string name="unknown_error_message">Ein unbekannter Fehler ist aufgetreten.</string>
     <string name="server_error_message">Vorgang fehlgeschlagen, da ein Serverfehler aufgetreten ist.</string>
     <string name="unusual_error_message">Der Vorgang ist fehlgeschlagen, da ein ungewöhnlicher Fehler aufgetreten ist.</string>
     <string name="client_error_message">Der Vorgang ist fehlgeschlagen, da ein Clientfehler aufgetreten ist. Es gab ein Problem mit den an unseren Server gesendeten Daten.</string>
@@ -39,14 +38,11 @@
     <string name="profile">Profil</string>
     <string name="select">Auswählen</string>
     <string name="cancel">Absagen</string>
-    <string name="sms_retriever_timed_out">Zeitüberschreitung beim SMS-Abruf.</string>
     <string name="verify">verifizieren</string>
     <string name="initiating_identity_verification">Identitätsprüfung einleiten…</string>
-    <string name="the_phone_number_you_provided_has_been_taken">Die von Ihnen angegebene Telefonnummer wurde vergeben.</string>
     <string name="please_enter_a_valid_referral_code">Bitte geben Sie einen gültigen Empfehlungscode ein.</string>
     <string name="notifications_permission_required">Berechtigung für Benachrichtigungen erforderlich</string>
     <string name="notifications_permission_rationale_text">Megalo benötigt die Erlaubnis, Ihnen Benachrichtigungen zu senden, um Ihr Erlebnis zu verbessern. Mit dieser Berechtigung können Sie beispielsweise benachrichtigt werden, wenn eine neue Immobilie verfügbar ist, wenn der Wert einer Immobilie steigt, wenn Sie Dividenden erhalten und vieles mehr.</string>
-    <string name="your_identity_has_already_been_verified">Ihre Identität wurde bereits verifiziert.</string>
     <string name="document_review_ongoing">Dokumentenprüfung läuft</string>
     <string name="got_it">Verstanden</string>
     <string name="your_identification_document_is_now_being_reviewed_you_will_be_notified_when_it_is_completed">Ihr Ausweisdokument wird jetzt überprüft, Sie werden benachrichtigt, wenn es fertig ist.</string>
@@ -65,4 +61,5 @@
     <string name="verify_your_phone_number">Bestätige deine Telefonnummer</string>
     <string name="create_account">Benutzerkonto erstellen</string>
     <string name="optional">Optional</string>
+    <string name="log_out_everywhere">Überall abmelden</string>
 </resources>
