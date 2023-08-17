@@ -14,7 +14,8 @@ class SMSBroadcastReceiver : BroadcastReceiver() {
         if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
             val extras = intent.extras
             if (extras != null) {
-                val status: Status? = extras.get(SmsRetriever.EXTRA_STATUS) as Status?
+                @Suppress("DEPRECATION") val status: Status? =
+                    extras.get(SmsRetriever.EXTRA_STATUS) as Status?
                 if (status != null) {
                     when (status.statusCode) {
                         CommonStatusCodes.SUCCESS -> {

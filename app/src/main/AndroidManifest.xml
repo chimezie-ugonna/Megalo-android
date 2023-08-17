@@ -7,6 +7,16 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,31 +27,67 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/SplashScreenTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".controller.activity.OtpVerification"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".controller.activity.Home"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".controller.activity.PropertyDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".controller.activity.Registration"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".controller.activity.WebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.GalleryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.UpdateDataActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.EditProfileActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.OtpVerificationActivity"
+            android:configChanges="keyboard|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.RegistrationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".controller.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"

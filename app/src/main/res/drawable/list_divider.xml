@@ -1,0 +1,16 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white_night" />
+        </shape>
+    </item>
+
+
+    <item android:start="@dimen/divider_margin">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/darkHint_lightHint" />
+        </shape>
+    </item>
+
+</layer-list>

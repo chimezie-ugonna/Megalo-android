@@ -4,24 +4,18 @@
         <item name="colorPrimaryDark">@color/black</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@color/black</item>
-        <item name="colorAccent">@color/app_green</item>
-        <item name="colorPrimary">@color/app_green</item>
+        <item name="colorAccent">@color/appGreen</item>
+        <item name="colorPrimary">@color/appGreen</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
-
-        <item name="white_black">@color/black</item>
-        <item name="black_white">@color/white</item>
-        <item name="white_night">@color/night</item>
-        <item name="appGreen_black">@color/black</item>
-        <item name="appGreen_white">@color/white</item>
-        <item name="darkGrey_lightGrey">@color/light_grey</item>
-        <item name="darkRed_lightRed">@color/light_red</item>
-        <item name="darkHint_lightHint">@color/light_hint</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker">
-        <item name="android:datePickerMode">spinner</item>
         <item name="background">@color/night</item>
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textSize">@dimen/big_text</item>
@@ -33,14 +27,20 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_background</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AppBottomSheetHandleTheme" parent="Widget.Material3.BottomSheet.DragHandle">
-        <item name="tint">@color/light_grey</item>
+        <item name="tint">@color/lightGrey</item>
     </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">
+            @drawable/white_night_solid_dark_hint_light_hint_stroke_curved_corners
+        </item>
+    </style>
+
 </resources>

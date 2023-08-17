@@ -26,15 +26,15 @@ class CustomSnackBar(
         val img = layout.findViewById<ImageView>(R.id.img)
         val text = layout.findViewById<TextView>(R.id.text)
         if (type == "error") {
-            parent.setBackgroundResource(R.drawable.red_solid)
-            img.setImageResource(R.drawable.close_white_circle)
+            parent.setBackgroundResource(R.drawable.dark_red_light_red_solid_curved_corners)
+            img.setImageResource(R.drawable.white_close_circle)
             img?.foreground = ContextCompat.getDrawable(
-                context, R.drawable.red_ripple_circle
+                context, R.drawable.dark_red_light_red_ripple_circle
             )
             img.setOnClickListener { snack.dismiss() }
         } else {
             parent.setBackgroundResource(R.drawable.success_green_solid)
-            img.setImageResource(R.drawable.check_white_circle)
+            img.setImageResource(R.drawable.white_check_circle)
         }
         text.text = message
         snackLayout.addView(layout, 0)

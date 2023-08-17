@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_blue">#6DDDF7</color>
-    <color name="app_green">#08F1BA</color>
-    <color name="app_green_inactive">#1A08F1BA</color>
-    <color name="app_green_gradient">#1DE1B3</color>
+    <color name="appBlue">#6DDDF7</color>
+    <color name="appGreen">#08F1BA</color>
+    <color name="appGreenInactive">#1A08F1BA</color>
+    <color name="appGreenGradient">#1DE1B3</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="night">#333333</color>
-    <color name="light_grey">#BABEC3</color>
-    <color name="dark_grey">#6C737A</color>
-    <color name="dark_hint">#52000000</color>
-    <color name="light_hint">#52FFFFFF</color>
-    <color name="dark_red">#CC0000</color>
-    <color name="light_red">#FF2600</color>
-    <color name="success_green">#34C759</color>
+    <color name="lightGrey">#BABEC3</color>
+    <color name="darkGrey">#6C737A</color>
+    <color name="successGreen">#34C759</color>
+    <color name="transparentBlack">#80000000</color>
+
+    <!-- Colors with dark versions-->
+    <color name="backgroundGrey_black">#F2F2F7</color>
+    <color name="black_white">#000000</color>
+    <color name="darkHint_lightHint">#52000000</color>
+    <color name="darkGrey_lightGrey">#6C737A</color>
+    <color name="darkRed_lightRed">#CC0000</color>
+    <color name="white_black">#FFFFFF</color>
+    <color name="white_night">#FFFFFF</color>
+    <!-- Colors with dark versions-->
 </resources>

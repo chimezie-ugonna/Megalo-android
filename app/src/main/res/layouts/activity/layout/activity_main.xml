@@ -47,10 +47,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/progress_indicator"
             android:layout_weight="1"
-            android:progress="20"
-            app:indicatorColor="@color/app_green"
+            app:indicatorColor="@color/appGreen"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/app_green_inactive"
+            app:trackColor="@color/appGreenInactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -60,9 +59,9 @@
             android:layout_marginStart="@dimen/progress_indicator"
             android:layout_marginEnd="@dimen/progress_indicator"
             android:layout_weight="1"
-            app:indicatorColor="@color/app_green"
+            app:indicatorColor="@color/appGreen"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/app_green_inactive"
+            app:trackColor="@color/appGreenInactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -70,9 +69,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/progress_indicator"
             android:layout_weight="1"
-            app:indicatorColor="@color/app_green"
+            app:indicatorColor="@color/appGreen"
             app:showDelay="@integer/material_motion_duration_long_1"
-            app:trackColor="@color/app_green_inactive"
+            app:trackColor="@color/appGreenInactive"
             app:trackCornerRadius="@dimen/small_padding" />
 
     </LinearLayout>

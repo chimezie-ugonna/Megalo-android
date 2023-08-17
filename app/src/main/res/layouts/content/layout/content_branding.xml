@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/normal_padding"
     tools:ignore="MergeRootFrame">
 
     <LinearLayout
@@ -14,17 +15,19 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
+            android:id="@+id/logo"
             android:layout_width="@dimen/small_icon_size"
             android:layout_height="@dimen/small_icon_size"
             android:contentDescription="@null"
             android:src="@drawable/logo" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/in_app_name"
-            android:textColor="?attr/black_white"
+            android:textColor="@color/black_white"
             android:textSize="@dimen/normal_text"
             android:textStyle="bold" />
     </LinearLayout>

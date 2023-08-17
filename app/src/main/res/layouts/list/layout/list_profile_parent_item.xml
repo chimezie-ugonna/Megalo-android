@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/normal_padding"
+        android:layout_marginEnd="@dimen/normal_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        android:gravity="start"
+        android:textColor="@color/darkGrey_lightGrey"
+        android:textSize="@dimen/normal_text" />
+
+    <invest.megalo.model.NoScrollExpandableListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:childDivider="@drawable/list_divider"
+        android:childIndicator="@null"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="@dimen/tiny_stroke_size"
+        android:groupIndicator="@null"
+        android:listSelector="@android:color/transparent" />
+
+</RelativeLayout>

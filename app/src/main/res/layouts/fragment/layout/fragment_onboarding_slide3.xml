@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/white_black"
+    android:background="@color/white_black"
     android:orientation="vertical"
     tools:context=".controller.fragment.OnboardingSlide3Fragment">
 
@@ -20,11 +21,12 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/if_you_own_a_part_you_get_a_part"
-            android:textColor="?attr/black_white"
+            android:textColor="@color/black_white"
             android:textSize="@dimen/big_text" />
 
         <TextView
@@ -34,7 +36,7 @@
             android:layout_marginTop="@dimen/normal_padding"
             android:gravity="center"
             android:text="@string/get_monthly_returns_on_profits_and_returns_when_properties_are_sold"
-            android:textColor="?attr/darkGrey_lightGrey"
+            android:textColor="@color/darkGrey_lightGrey"
             android:textSize="@dimen/normal_text" />
     </LinearLayout>
 

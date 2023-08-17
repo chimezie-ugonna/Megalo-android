@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:padding="@dimen/normal_padding">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/handle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/small_icon_size"
+        android:layout_alignParentTop="true"
         android:theme="@style/AppBottomSheetHandleTheme" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/handle" />
 
-    <DatePicker
-        android:id="@+id/date_picker"
+    <include
+        android:id="@+id/button_container"
+        layout="@layout/content_dialog_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/normal_padding"
-        android:layout_marginBottom="@dimen/normal_padding"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:theme="@style/MyDatePicker" />
-
-    <include layout="@layout/content_dialog_buttons" />
-</LinearLayout>
+        android:layout_below="@+id/title" />
+</RelativeLayout>

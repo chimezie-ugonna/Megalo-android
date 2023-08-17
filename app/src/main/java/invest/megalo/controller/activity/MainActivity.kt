@@ -10,6 +10,7 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
@@ -22,7 +23,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import invest.megalo.R
@@ -47,7 +50,26 @@ class MainActivity : AppCompatActivity() {
     lateinit var adjustmentContainer: LinearLayout
     private var pressTime = 0L
     private var limit = 500L
-    private lateinit var dialog: Dialog
+    private lateinit var dialog: BottomSheetDialogFragment
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        SetAppTheme(this)
+        super.onConfigurationChanged(newConfig)
+        val config = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (config == Configuration.UI_MODE_NIGHT_YES) {
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                false
+        } else if (config == Configuration.UI_MODE_NIGHT_NO) {
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                true
+        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white_black)
+        if (onboardingSlide4Fragment.isVisible) {
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.white_night)
+        } else {
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.white_black)
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,14 +78,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dialog = Dialog(
+        dialog = BottomSheetDialogFragment(
             findViewById(R.id.parent),
             this,
-            getString(R.string.permission_rationale),
-            getString(R.string.notifications_permission_required),
-            getString(R.string.notifications_permission_rationale_text),
-            getString(R.string.proceed),
-            getString(R.string.cancel)
+            "permission_rationale",
+            R.string.notifications_permission_required,
+            R.string.notifications_permission_rationale_text,
+            R.string.proceed,
+            R.string.cancel
         )
 
         firstIndicator = findViewById(R.id.first_indicator)
@@ -172,7 +194,7 @@ class MainActivity : AppCompatActivity() {
         val session = Session(this)
         if (session.onboarded()) {
             if (session.loggedIn()) {
-                startActivity(Intent(this, Home::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             } else {
                 if (!onboardingSlide4Fragment.isAdded) {
                     replaceFragment(onboardingSlide4Fragment)
@@ -194,7 +216,7 @@ class MainActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ActivityCompat.checkSelfPermission(
                         this, Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED && dialog.isShowing()
+                    ) == PackageManager.PERMISSION_GRANTED && dialog.isVisible
                 ) {
                     dialog.dismiss()
                     checkAvailablePhoneNumber()
@@ -279,28 +301,28 @@ class MainActivity : AppCompatActivity() {
                 when (fragment) {
                     is OnboardingSlide1Fragment -> {
                         fragmentTransaction.replace(
-                            R.id.fragment_container, onboardingSlide1Fragment
+                            R.id.fragment_container, onboardingSlide1Fragment, "slide1"
                         )
                         if (onboardingSlide1Fragment.isAdded) {
-                            (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide1Fragment?)?.playLottie()
+                            (fragmentManager.findFragmentByTag("slide1") as OnboardingSlide1Fragment?)?.playLottie()
                         }
                     }
 
                     is OnboardingSlide2Fragment -> {
                         fragmentTransaction.replace(
-                            R.id.fragment_container, onboardingSlide2Fragment
+                            R.id.fragment_container, onboardingSlide2Fragment, "slide2"
                         )
                     }
 
                     is OnboardingSlide3Fragment -> {
                         fragmentTransaction.replace(
-                            R.id.fragment_container, onboardingSlide3Fragment
+                            R.id.fragment_container, onboardingSlide3Fragment, "slide3"
                         )
                     }
 
                     is OnboardingSlide4Fragment -> {
                         fragmentTransaction.replace(
-                            R.id.fragment_container, onboardingSlide4Fragment
+                            R.id.fragment_container, onboardingSlide4Fragment, "slide4"
                         )
                     }
                 }
@@ -316,7 +338,7 @@ class MainActivity : AppCompatActivity() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    dialog.show()
+                    dialog.show(supportFragmentManager, "permission_rationale")
                 } else {
                     requestPermission()
                 }
@@ -346,7 +368,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         if (!fragmentManager.isDestroyed) {
             if (onboardingSlide4Fragment.isAdded) {
-                (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.checkAvailablePhoneNumber()
+                (fragmentManager.findFragmentByTag("slide4") as OnboardingSlide4Fragment?)?.checkAvailablePhoneNumber()
             }
         }
     }
@@ -355,9 +377,9 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         if (!fragmentManager.isDestroyed) {
             if (onboardingSlide4Fragment.isAdded) {
-                (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.otpSent()
+                (fragmentManager.findFragmentByTag("slide4") as OnboardingSlide4Fragment?)?.otpSent()
                 if (l == 1) {
-                    (fragmentManager.findFragmentById(R.id.fragment_container) as OnboardingSlide4Fragment?)?.moveToOtpVerificationPage()
+                    (fragmentManager.findFragmentByTag("slide4") as OnboardingSlide4Fragment?)?.moveToOtpVerificationPage()
                 } else {
                     if (message != "") {
                         CustomSnackBar(

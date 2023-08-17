@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/normal_padding">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="@dimen/loader_animation_width"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="@dimen/loader_animation_height"
+        android:paddingStart="@dimen/normal_padding"
+        android:paddingEnd="@dimen/normal_padding"
         app:lottie_autoPlay="true"
         app:lottie_fileName="loader_animation.json"
         app:lottie_loop="true" />
@@ -20,7 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/normal_padding"
         android:gravity="center"
-        android:textColor="?attr/black_white"
+        android:paddingStart="@dimen/normal_padding"
+        android:paddingEnd="@dimen/normal_padding"
+        android:textColor="@color/black_white"
         android:textSize="@dimen/big_text" />
 
 </LinearLayout>

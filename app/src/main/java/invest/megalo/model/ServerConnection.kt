@@ -7,10 +7,13 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import invest.megalo.R
-import invest.megalo.controller.activity.Home
+import invest.megalo.controller.activity.EditProfileActivity
+import invest.megalo.controller.activity.HomeActivity
 import invest.megalo.controller.activity.MainActivity
-import invest.megalo.controller.activity.OtpVerification
-import invest.megalo.controller.activity.Registration
+import invest.megalo.controller.activity.OtpVerificationActivity
+import invest.megalo.controller.activity.PropertyDetailActivity
+import invest.megalo.controller.activity.RegistrationActivity
+import invest.megalo.controller.activity.UpdateDataActivity
 import org.json.JSONException
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -33,22 +36,31 @@ class ServerConnection(
                 when (operation) {
                     "sendOtp" -> {
                         if (status) {
-                            if (context is MainActivity) {
-                                (context as MainActivity).otpSent(1)
-                            } else if (context is OtpVerification) {
-                                (context as OtpVerification).otpSent(1)
+                            when (context) {
+                                is MainActivity -> {
+                                    (context as MainActivity).otpSent(1)
+                                }
+
+                                is OtpVerificationActivity -> {
+                                    (context as OtpVerificationActivity).otpSent(1)
+                                }
+
+                                is HomeActivity -> {
+                                    (context as HomeActivity).otpSent(1)
+                                }
+
+                                is UpdateDataActivity -> {
+                                    (context as UpdateDataActivity).otpSent(1)
+                                }
                             }
                         }
                     }
 
                     "verifyOtp" -> {
                         if (status) {
-                            KeyStore(context).encryptData(
-                                it.getJSONObject("data").getString("token")
-                            )
-                            if (context is OtpVerification) {
-                                (context as OtpVerification).otpVerified(
-                                    1, it.getJSONObject("data").getBoolean("user_exists"), 200
+                            if (context is OtpVerificationActivity) {
+                                (context as OtpVerificationActivity).otpVerified(
+                                    1, jsonObject = it
                                 )
                             }
                         }
@@ -59,8 +71,8 @@ class ServerConnection(
                             KeyStore(context).encryptData(
                                 it.getJSONObject("data").getString("token")
                             )
-                            if (context is Registration) {
-                                (context as Registration).registered(1)
+                            if (context is RegistrationActivity) {
+                                (context as RegistrationActivity).registered(1)
                             }
                         }
                     }
@@ -70,8 +82,8 @@ class ServerConnection(
                             KeyStore(context).encryptData(
                                 it.getJSONObject("data").getString("token")
                             )
-                            if (context is OtpVerification) {
-                                (context as OtpVerification).loggedIn(1)
+                            if (context is OtpVerificationActivity) {
+                                (context as OtpVerificationActivity).loggedIn(1)
                             }
                         }
                     }
@@ -79,16 +91,33 @@ class ServerConnection(
                     "logOut" -> {
                         if (status) {
                             logOutPrerequisites()
-                            if (context is Home) {
-                                (context as Home).loggedOut(1)
+                            if (context is HomeActivity) {
+                                (context as HomeActivity).loggedOut(1)
+                            }
+                        }
+                    }
+
+                    "updateAccount" -> {
+                        if (status) {
+                            if (context is EditProfileActivity) {
+                                (context as EditProfileActivity).updated(1)
+                            }
+                        }
+                    }
+
+                    "deleteAccount" -> {
+                        if (status) {
+                            logOutPrerequisites()
+                            if (context is HomeActivity) {
+                                (context as HomeActivity).accountDeleted(1)
                             }
                         }
                     }
 
                     "verifyIdentity" -> {
                         if (status) {
-                            if (context is Home) {
-                                (context as Home).initiated(
+                            if (context is HomeActivity) {
+                                (context as HomeActivity).initiated(
                                     1, it.getJSONObject("data").getString("auth_token")
                                 )
                             }
@@ -100,6 +129,40 @@ class ServerConnection(
                             Session(context).deviceToken(
                                 it.getJSONObject("data").getString("device_token")
                             )
+                        }
+                    }
+
+                    "fetchUserData" -> {
+                        if (status) {
+                            if (context is HomeActivity) {
+                                (context as HomeActivity).userDataFetched(
+                                    1, jsonArray = it.getJSONArray("data")
+                                )
+                            } else if (context is EditProfileActivity) {
+                                (context as EditProfileActivity).userDataFetched(
+                                    1, jsonArray = it.getJSONArray("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "fetchProperties" -> {
+                        if (status) {
+                            if (context is HomeActivity) {
+                                (context as HomeActivity).propertiesFetched(
+                                    1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "fetchPropertyMetric" -> {
+                        if (status) {
+                            if (context is PropertyDetailActivity) {
+                                (context as PropertyDetailActivity).propertyMetricFetched(
+                                    1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
                         }
                     }
                 }
@@ -152,44 +215,94 @@ class ServerConnection(
         }
         when (operation) {
             "sendOtp" -> {
-                if (context is MainActivity) {
-                    (context as MainActivity).otpSent(
-                        -1, statusCode, message
-                    )
-                } else if (context is OtpVerification) {
-                    (context as OtpVerification).otpSent(
-                        -1, statusCode, message
-                    )
+                when (context) {
+                    is MainActivity -> {
+                        (context as MainActivity).otpSent(
+                            -1, statusCode, message
+                        )
+                    }
+
+                    is OtpVerificationActivity -> {
+                        (context as OtpVerificationActivity).otpSent(
+                            -1, statusCode, message
+                        )
+                    }
+
+                    is HomeActivity -> {
+                        (context as HomeActivity).otpSent(
+                            -1, statusCode, message
+                        )
+                    }
+
+                    is UpdateDataActivity -> {
+                        (context as UpdateDataActivity).otpSent(
+                            -1, statusCode, message
+                        )
+                    }
                 }
             }
 
             "verifyOtp" -> {
-                if (context is OtpVerification) {
-                    (context as OtpVerification).otpVerified(-1, false, statusCode, message)
+                if (context is OtpVerificationActivity) {
+                    (context as OtpVerificationActivity).otpVerified(-1, statusCode, message)
                 }
             }
 
             "register" -> {
-                if (context is Registration) {
-                    (context as Registration).registered(-1, statusCode, message)
+                if (context is RegistrationActivity) {
+                    (context as RegistrationActivity).registered(-1, statusCode, message)
                 }
             }
 
             "logIn" -> {
-                if (context is OtpVerification) {
-                    (context as OtpVerification).loggedIn(-1, statusCode, message)
+                if (context is OtpVerificationActivity) {
+                    (context as OtpVerificationActivity).loggedIn(-1, statusCode, message)
                 }
             }
 
             "logOut" -> {
-                if (context is Home) {
-                    (context as Home).loggedOut(-1, statusCode, message)
+                if (context is HomeActivity) {
+                    (context as HomeActivity).loggedOut(-1, statusCode, message)
+                }
+            }
+
+            "updateAccount" -> {
+                if (context is EditProfileActivity) {
+                    (context as EditProfileActivity).updated(-1, statusCode, message)
+                }
+            }
+
+            "deleteAccount" -> {
+                if (context is HomeActivity) {
+                    (context as HomeActivity).accountDeleted(-1, statusCode, message)
                 }
             }
 
             "verifyIdentity" -> {
-                if (context is Home) {
-                    (context as Home).initiated(-1, "", statusCode, message)
+                if (context is HomeActivity) {
+                    (context as HomeActivity).initiated(-1, "", statusCode, message)
+                }
+            }
+
+            "fetchUserData" -> {
+                if (context is HomeActivity) {
+                    (context as HomeActivity).userDataFetched(-1, statusCode, message)
+                } else if (context is EditProfileActivity) {
+                    (context as EditProfileActivity).userDataFetched(-1)
+                }
+            }
+
+            "fetchProperties" -> {
+                if (context is HomeActivity) {
+                    (context as HomeActivity).propertiesFetched(-1, statusCode, message)
+                }
+            }
+
+            "fetchPropertyMetric" -> {
+                if (context is PropertyDetailActivity) {
+                    (context as PropertyDetailActivity).propertyMetricFetched(
+                        -1
+                    )
                 }
             }
         }

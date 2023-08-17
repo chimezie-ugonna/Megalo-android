@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_black"
+    android:orientation="vertical"
+    tools:context=".controller.activity.UpdateDataActivity"
+    tools:ignore="Overdraw">
+
+    <include
+        android:id="@+id/branding_container"
+        layout="@layout/content_branding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding">
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/normal_text" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
+                    android:hint="@string/email_hint"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/normal_padding"
+                    android:textColor="@color/black_white"
+                    android:textColorHint="@color/darkHint_lightHint"
+                    android:textSize="@dimen/normal_text"
+                    android:visibility="gone"
+                    tools:ignore="LabelFor" />
+
+
+                <RelativeLayout
+                    android:id="@+id/phone_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
+                    android:padding="@dimen/stroke_size"
+                    android:visibility="gone">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/phone"
+                        android:layout_alignBottom="@+id/phone"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/white_black_solid_curved_left_corners"
+                        android:gravity="center"
+                        app:ccpDialog_backgroundColor="@color/white_night"
+                        app:ccpDialog_cornerRadius="@dimen/big_padding"
+                        app:ccpDialog_initialScrollToSelection="true"
+                        app:ccpDialog_keyboardAutoPopup="false"
+                        app:ccpDialog_rippleEnable="false"
+                        app:ccpDialog_showCloseIcon="true"
+                        app:ccpDialog_showFastScroller="false"
+                        app:ccpDialog_showNameCode="false"
+                        app:ccpDialog_textColor="@color/black_white"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_autoDetectLanguage="true"
+                        app:ccp_autoFormatNumber="true"
+                        app:ccp_contentColor="@color/black_white"
+                        app:ccp_flagBorderColor="@color/darkGrey_lightGrey"
+                        app:ccp_hintExampleNumber="true"
+                        app:ccp_rippleEnable="false"
+                        app:ccp_showArrow="false"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textGravity="CENTER"
+                        app:ccp_textSize="@dimen/normal_text" />
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toEndOf="@+id/ccp"
+                        android:background="@drawable/white_black_solid_curved_right_corners"
+                        android:digits="1234567890"
+                        android:importantForAutofill="no"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="@dimen/normal_padding"
+                        android:paddingEnd="@dimen/normal_padding"
+                        android:paddingBottom="@dimen/normal_padding"
+                        android:textColor="@color/black_white"
+                        android:textColorHint="@color/darkHint_lightHint"
+                        android:textSize="@dimen/normal_text"
+                        tools:ignore="LabelFor" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:gravity="start"
+                android:textColor="@color/darkRed_lightRed"
+                android:textSize="@dimen/normal_text"
+                android:visibility="gone" />
+
+            <include
+                layout="@layout/content_general_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_padding" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

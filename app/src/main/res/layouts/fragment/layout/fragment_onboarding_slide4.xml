@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/white_black"
+    android:background="@color/white_black"
     tools:context=".controller.fragment.OnboardingSlide4Fragment">
 
     <include
@@ -12,30 +13,27 @@
         layout="@layout/content_branding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/normal_padding"
-        android:layout_marginTop="@dimen/normal_padding"
-        android:layout_marginEnd="@dimen/normal_padding" />
+        android:layout_alignParentTop="true" />
 
     <TextView
-        android:id="@+id/sub_header"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/branding_container"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/normal_padding"
-        android:layout_marginTop="@dimen/large_padding"
+        android:layout_marginTop="@dimen/normal_padding"
         android:layout_marginEnd="@dimen/normal_padding"
         android:gravity="center"
         android:text="@string/your_access_to_real_estate_investment"
-        android:textColor="?attr/black_white"
+        android:textColor="@color/black_white"
         android:textSize="@dimen/big_text" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_sheet_layout"
-        android:layout_below="@+id/sub_header"
+        android:layout_below="@+id/header"
         android:layout_margin="@dimen/normal_padding"
         android:contentDescription="@null"
         android:src="@drawable/onboarding_illustration" />
@@ -52,21 +50,24 @@
         android:visibility="invisible">
 
         <TextView
+            android:id="@+id/bottom_sheet_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="@string/enter_your_phone_number"
-            android:textColor="?attr/black_white"
+            android:textColor="@color/black_white"
             android:textSize="@dimen/big_text" />
 
         <TextView
+            android:id="@+id/bottom_sheet_sub_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/normal_padding"
             android:gravity="center"
-            android:text="@string/you_will_receive_a_6_digit_code_to_verify_your_phone_number"
-            android:textColor="?attr/darkGrey_lightGrey"
+            android:text="@string/you_will_receive_a_6_digit_verification_code"
+            android:textColor="@color/darkGrey_lightGrey"
             android:textSize="@dimen/normal_text" />
 
         <RelativeLayout
@@ -75,7 +76,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_padding"
             android:background="@drawable/white_black_solid_dark_grey_light_grey_stroke_curved_corners"
-            android:orientation="horizontal"
             android:padding="@dimen/stroke_size">
 
             <com.hbb20.CountryCodePicker
@@ -88,20 +88,20 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/white_black_solid_curved_left_corners"
                 android:gravity="center"
-                app:ccpDialog_backgroundColor="?attr/white_night"
+                app:ccpDialog_backgroundColor="@color/white_night"
                 app:ccpDialog_cornerRadius="@dimen/big_padding"
+                app:ccpDialog_initialScrollToSelection="true"
                 app:ccpDialog_keyboardAutoPopup="false"
                 app:ccpDialog_rippleEnable="false"
                 app:ccpDialog_showCloseIcon="true"
+                app:ccpDialog_showFastScroller="false"
                 app:ccpDialog_showNameCode="false"
-                app:ccpDialog_textColor="?attr/black_white"
-                app:ccp_arrowColor="?attr/black_white"
+                app:ccpDialog_textColor="@color/black_white"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_autoDetectLanguage="true"
                 app:ccp_autoFormatNumber="true"
-                app:ccp_contentColor="?attr/black_white"
-                app:ccp_countryPreference="CA,DE"
-                app:ccp_flagBorderColor="?attr/darkGrey_lightGrey"
+                app:ccp_contentColor="@color/black_white"
+                app:ccp_flagBorderColor="@color/darkGrey_lightGrey"
                 app:ccp_hintExampleNumber="true"
                 app:ccp_rippleEnable="false"
                 app:ccp_showArrow="false"
@@ -120,12 +120,12 @@
                 android:importantForAutofill="no"
                 android:inputType="phone"
                 android:maxLines="1"
-                android:paddingStart="0sp"
+                android:paddingStart="0dp"
                 android:paddingTop="@dimen/normal_padding"
                 android:paddingEnd="@dimen/normal_padding"
                 android:paddingBottom="@dimen/normal_padding"
-                android:textColor="?attr/black_white"
-                android:textColorHint="?attr/darkHint_lightHint"
+                android:textColor="@color/black_white"
+                android:textColorHint="@color/darkHint_lightHint"
                 android:textSize="@dimen/normal_text"
                 tools:ignore="LabelFor" />
         </RelativeLayout>
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_padding"
             android:gravity="start"
-            android:textColor="?attr/darkRed_lightRed"
+            android:textColor="@color/darkRed_lightRed"
             android:textSize="@dimen/normal_text"
             android:visibility="gone" />
 

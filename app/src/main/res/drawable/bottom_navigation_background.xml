@@ -5,8 +5,8 @@
     <shape>
         <stroke
             android:width="@dimen/tiny_stroke_size"
-            android:color="?attr/darkHint_lightHint" />
+            android:color="@color/darkHint_lightHint" />
 
-        <solid android:color="?attr/white_black" />
+        <solid android:color="@color/white_black" />
     </shape>
 </inset>

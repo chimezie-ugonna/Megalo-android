@@ -4,7 +4,8 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.activity.Home">
+    android:background="@color/white_black"
+    tools:context=".controller.activity.HomeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -16,115 +17,140 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/network_unavailable"
         android:background="@drawable/bottom_navigation_background"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <FrameLayout
             android:id="@+id/home"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
-            <ImageView
-                android:id="@+id/home_icon"
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/home"
-                android:src="@drawable/home_filled" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/home_icon"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
+                    android:contentDescription="@string/home"
+                    android:src="@drawable/home_filled" />
+
+                <TextView
+                    android:id="@+id/home_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/progress_indicator"
+                    android:gravity="center"
+                    android:text="@string/home"
+                    android:textColor="@color/darkHint_lightHint"
+                    android:textSize="@dimen/bottom_nav_text" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="@dimen/normal_padding"
-                android:layout_height="@dimen/normal_padding"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot"
+                android:id="@+id/home_dot"
+                android:layout_width="@dimen/notification_dot_with_stroke_dimension"
+                android:layout_height="@dimen/notification_dot_with_stroke_dimension"
+                android:layout_gravity="top|center"
+                android:layout_marginStart="@dimen/notification_dot_margin"
+                android:background="@drawable/white_black_stroke_notification_dot"
                 android:visibility="gone" />
 
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/investments"
-            android:layout_width="0sp"
+        <LinearLayout
+            android:id="@+id/explore"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:foreground="@drawable/app_green_ripple_straight"
-            android:padding="@dimen/normal_padding">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:id="@+id/investments_icon"
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/investments"
-                android:src="@drawable/investments_outline" />
+                android:id="@+id/explore_icon"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:contentDescription="@string/explore"
+                android:src="@drawable/explore_filled" />
 
             <TextView
-                android:layout_width="@dimen/normal_padding"
-                android:layout_height="@dimen/normal_padding"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot"
-                android:visibility="gone" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/notifications"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:foreground="@drawable/app_green_ripple_straight"
-            android:padding="@dimen/normal_padding">
-
-            <ImageView
-                android:id="@+id/notifications_icon"
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/notifications"
-                android:src="@drawable/notifications_outline" />
-
-            <TextView
-                android:layout_width="@dimen/normal_padding"
-                android:layout_height="@dimen/normal_padding"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot"
-                android:visibility="gone" />
-        </FrameLayout>
+                android:id="@+id/explore_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/progress_indicator"
+                android:gravity="center"
+                android:text="@string/explore"
+                android:textColor="@color/darkHint_lightHint"
+                android:textSize="@dimen/bottom_nav_text" />
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/profile"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:foreground="@drawable/app_green_ripple_straight"
             android:padding="@dimen/normal_padding">
 
-            <ImageView
-                android:id="@+id/profile_icon"
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/profile"
-                android:src="@drawable/profile_outline" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/profile_icon"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
+                    android:contentDescription="@string/profile"
+                    android:src="@drawable/profile_outline" />
+
+                <TextView
+                    android:id="@+id/profile_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/progress_indicator"
+                    android:gravity="center"
+                    android:text="@string/profile"
+                    android:textColor="@color/darkHint_lightHint"
+                    android:textSize="@dimen/bottom_nav_text" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="@dimen/normal_padding"
-                android:layout_height="@dimen/normal_padding"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/normal_padding"
-                android:layout_marginBottom="@dimen/normal_padding"
-                android:background="@drawable/notification_dot"
+                android:id="@+id/profile_dot"
+                android:layout_width="@dimen/notification_dot_with_stroke_dimension"
+                android:layout_height="@dimen/notification_dot_with_stroke_dimension"
+                android:layout_gravity="top|center"
+                android:layout_marginStart="@dimen/notification_dot_margin"
+                android:background="@drawable/white_black_stroke_notification_dot"
                 android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/network_unavailable"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/dark_red_light_red_solid"
+        android:gravity="center"
+        android:padding="@dimen/normal_padding">
+
+        <TextView
+            android:id="@+id/network_unavailable_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_internet_error_message"
+            android:textColor="@color/white"
+            android:textSize="@dimen/normal_text" />
+    </LinearLayout>
 </RelativeLayout>

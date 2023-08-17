@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_black"
+    tools:context=".controller.activity.PropertyDetailActivity">
+
+    <include
+        android:id="@+id/branding_container"
+        layout="@layout/content_branding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/branding_container"
+        android:layout_marginStart="@dimen/normal_padding"
+        android:layout_marginTop="@dimen/normal_padding"
+        android:layout_marginEnd="@dimen/normal_padding"
+        android:background="@color/white_black"
+        app:tabIndicator="@drawable/app_green_solid_curved_corners"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorGravity="stretch"
+        app:tabMode="fixed"
+        app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/TabLayoutTextAppearance"
+        app:tabTextColor="@color/darkHint_lightHint" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_container"
+        android:layout_below="@id/tab_layout" />
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_navigation_background"
+        android:orientation="horizontal"
+        android:padding="@dimen/normal_padding">
+
+        <include
+            layout="@layout/content_general_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>
