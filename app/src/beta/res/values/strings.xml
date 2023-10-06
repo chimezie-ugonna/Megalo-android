@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Megalo Beta</string>
     <string name="server_url" translatable="false">https://api.staging.investmegalo.com/api/v1/</string>
+    <string name="download_link" translatable="false">https://rb.gy/vw7f9</string>
 </resources>

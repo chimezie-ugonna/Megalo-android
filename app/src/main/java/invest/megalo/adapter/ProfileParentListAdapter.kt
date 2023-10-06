@@ -1,7 +1,9 @@
 package invest.megalo.adapter
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +18,13 @@ import androidx.recyclerview.widget.RecyclerView
 import invest.megalo.R
 import invest.megalo.controller.activity.EditProfileActivity
 import invest.megalo.controller.activity.HomeActivity
+import invest.megalo.controller.activity.ReferralActivity
 import invest.megalo.controller.activity.WebActivity
 import invest.megalo.controller.fragment.BottomSheetDialogFragment
 import invest.megalo.data.ProfileParentListData
+import invest.megalo.model.CustomSnackBar
 import invest.megalo.model.NoScrollExpandableListView
+
 
 class ProfileParentListAdapter(
     private val context: Context, private val data: ArrayList<ProfileParentListData>
@@ -149,47 +154,74 @@ class ProfileParentListAdapter(
                         viewHolder.list.setAdapter(dataItem.childListAdapters)
                     }
                     viewHolder.list.setOnGroupClickListener { _, _, groupPosition, _ ->
-                        val id = dataItem.childListAdapters.getGroup(groupPosition) as String
-                        when {
-                            id.equals(
-                                "payment_methods", true
-                            ) -> {
+                        when (dataItem.childListAdapters.getGroup(groupPosition) as String) {
+                            "payment_methods" -> {
 
                             }
 
-                            id.equals(
-                                "terms_&_conditions", true
-                            ) -> {
+                            "terms_&_conditions" -> {
                                 val intent = Intent(context, WebActivity::class.java)
                                 intent.putExtra("url", "google.com")
                                 context.startActivity(intent)
                             }
 
-                            id.equals(
-                                "privacy_policy", true
-                            ) -> {
+                            "privacy_policy" -> {
                                 val intent = Intent(context, WebActivity::class.java)
                                 intent.putExtra("url", "google.com")
                                 context.startActivity(intent)
                             }
 
-                            id.equals(
-                                "refer_&_earn", true
-                            ) -> {
-
+                            "refer_&_earn" -> {
+                                context.startActivity(Intent(context, ReferralActivity::class.java))
                             }
 
-                            id.equals(
-                                "write_a_review", true
-                            ) -> {
-                                val intent = Intent(context, WebActivity::class.java)
-                                intent.putExtra("url", "google.com")
-                                context.startActivity(intent)
+                            "write_a_review" -> {
+                                try {
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("market://details?id=${context.packageName}")
+                                        )
+                                    )
+                                } catch (e: ActivityNotFoundException) {
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                                        )
+                                    )
+                                }
                             }
 
-                            id.equals(
-                                "log_out", true
-                            ) -> {
+                            "email_us" -> {
+                                val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                                    data = Uri.parse("mailto:")
+                                    putExtra(
+                                        Intent.EXTRA_EMAIL,
+                                        arrayOf(context.getString(R.string.support_email))
+                                    )
+                                    putExtra(
+                                        Intent.EXTRA_SUBJECT,
+                                        context.getString(R.string.help_required)
+                                    )
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        context.getString(R.string.please_clear_this_auto_generated_text_and_then_tell_us_what_you_need_help_with)
+                                    )
+                                }
+                                if (emailIntent.resolveActivity(context.packageManager) != null) {
+                                    context.startActivity(emailIntent)
+                                } else {
+                                    CustomSnackBar(
+                                        context,
+                                        context.parent,
+                                        context.getString(R.string.we_could_not_find_an_available_email_app),
+                                        "error"
+                                    )
+                                }
+                            }
+
+                            "log_out" -> {
                                 BottomSheetDialogFragment(
                                     context.findViewById(R.id.parent),
                                     context,
@@ -201,9 +233,7 @@ class ProfileParentListAdapter(
                                 ).show(context.supportFragmentManager, "confirm_log_out")
                             }
 
-                            id.equals(
-                                "delete_account", true
-                            ) -> {
+                            "delete_account" -> {
                                 BottomSheetDialogFragment(
                                     context.findViewById(R.id.parent),
                                     context,
@@ -221,17 +251,11 @@ class ProfileParentListAdapter(
                         val id = dataItem.childListAdapters.getChild(
                             groupPosition, childPosition
                         ) as String
-                        if (id.equals(
-                                "email_verification", true
-                            )
-                        ) {
+                        if (id == "email_verification") {
                             if (!context.emailVerified) {
                                 context.sendOtp()
                             }
-                        } else if (id.equals(
-                                "identity_verification", true
-                            )
-                        ) {
+                        } else if (id == "identity_verification") {
                             if (context.identityVerificationStatus == "unverified") {
                                 context.verify()
                             }

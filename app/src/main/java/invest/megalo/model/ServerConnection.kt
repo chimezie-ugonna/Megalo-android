@@ -9,11 +9,14 @@ import com.android.volley.toolbox.Volley
 import invest.megalo.R
 import invest.megalo.controller.activity.EditProfileActivity
 import invest.megalo.controller.activity.HomeActivity
+import invest.megalo.controller.activity.InvestmentActivity
 import invest.megalo.controller.activity.MainActivity
 import invest.megalo.controller.activity.OtpVerificationActivity
 import invest.megalo.controller.activity.PropertyDetailActivity
+import invest.megalo.controller.activity.ReferralActivity
 import invest.megalo.controller.activity.RegistrationActivity
 import invest.megalo.controller.activity.UpdateDataActivity
+import invest.megalo.controller.activity.VerticalListActivity
 import org.json.JSONException
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -134,14 +137,24 @@ class ServerConnection(
 
                     "fetchUserData" -> {
                         if (status) {
-                            if (context is HomeActivity) {
-                                (context as HomeActivity).userDataFetched(
-                                    1, jsonArray = it.getJSONArray("data")
-                                )
-                            } else if (context is EditProfileActivity) {
-                                (context as EditProfileActivity).userDataFetched(
-                                    1, jsonArray = it.getJSONArray("data")
-                                )
+                            when (context) {
+                                is HomeActivity -> {
+                                    (context as HomeActivity).userDataFetched(
+                                        1, jsonArray = it.getJSONArray("data")
+                                    )
+                                }
+
+                                is EditProfileActivity -> {
+                                    (context as EditProfileActivity).userDataFetched(
+                                        1, jsonArray = it.getJSONArray("data")
+                                    )
+                                }
+
+                                is InvestmentActivity -> {
+                                    (context as InvestmentActivity).userDataFetched(
+                                        1, jsonArray = it.getJSONArray("data")
+                                    )
+                                }
                             }
                         }
                     }
@@ -161,6 +174,56 @@ class ServerConnection(
                             if (context is PropertyDetailActivity) {
                                 (context as PropertyDetailActivity).propertyMetricFetched(
                                     1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "fetchPropertyData" -> {
+                        if (status) {
+                            if (context is InvestmentActivity) {
+                                (context as InvestmentActivity).propertyDataFetched(
+                                    1, jsonArray = it.getJSONArray("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "fetchReferralData" -> {
+                        if (status) {
+                            if (context is ReferralActivity) {
+                                (context as ReferralActivity).referralDataFetched(
+                                    1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "fetchReferrees" -> {
+                        if (status) {
+                            if (context is VerticalListActivity) {
+                                (context as VerticalListActivity).referreesFetched(
+                                    1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "invest" -> {
+                        if (status) {
+                            if (context is InvestmentActivity) {
+                                (context as InvestmentActivity).invested(
+                                    1, jsonObject = it.getJSONObject("data")
+                                )
+                            }
+                        }
+                    }
+
+                    "calculatePotential" -> {
+                        if (status) {
+                            if (context is PropertyDetailActivity) {
+                                (context as PropertyDetailActivity).potentialCalculated(
+                                    1, jsonArray = it.getJSONArray("data")
                                 )
                             }
                         }
@@ -285,10 +348,18 @@ class ServerConnection(
             }
 
             "fetchUserData" -> {
-                if (context is HomeActivity) {
-                    (context as HomeActivity).userDataFetched(-1, statusCode, message)
-                } else if (context is EditProfileActivity) {
-                    (context as EditProfileActivity).userDataFetched(-1)
+                when (context) {
+                    is HomeActivity -> {
+                        (context as HomeActivity).userDataFetched(-1, statusCode, message)
+                    }
+
+                    is EditProfileActivity -> {
+                        (context as EditProfileActivity).userDataFetched(-1, statusCode)
+                    }
+
+                    is InvestmentActivity -> {
+                        (context as InvestmentActivity).userDataFetched(-1, statusCode)
+                    }
                 }
             }
 
@@ -301,7 +372,47 @@ class ServerConnection(
             "fetchPropertyMetric" -> {
                 if (context is PropertyDetailActivity) {
                     (context as PropertyDetailActivity).propertyMetricFetched(
-                        -1
+                        -1, statusCode
+                    )
+                }
+            }
+
+            "fetchPropertyData" -> {
+                if (context is InvestmentActivity) {
+                    (context as InvestmentActivity).propertyDataFetched(
+                        -1, statusCode
+                    )
+                }
+            }
+
+            "fetchReferralData" -> {
+                if (context is ReferralActivity) {
+                    (context as ReferralActivity).referralDataFetched(
+                        -1, statusCode
+                    )
+                }
+            }
+
+            "fetchReferrees" -> {
+                if (context is VerticalListActivity) {
+                    (context as VerticalListActivity).referreesFetched(
+                        -1, statusCode
+                    )
+                }
+            }
+
+            "invest" -> {
+                if (context is InvestmentActivity) {
+                    (context as InvestmentActivity).invested(
+                        -1, statusCode, message
+                    )
+                }
+            }
+
+            "calculatePotential" -> {
+                if (context is PropertyDetailActivity) {
+                    (context as PropertyDetailActivity).potentialCalculated(
+                        -1, statusCode, message
                     )
                 }
             }

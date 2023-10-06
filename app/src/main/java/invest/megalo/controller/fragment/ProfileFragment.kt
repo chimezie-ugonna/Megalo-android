@@ -101,6 +101,8 @@ class ProfileFragment : Fragment() {
         groups.add("privacy_policy")
         groups.add("refer_&_earn")
         groups.add("write_a_review")
+        groups.add("email_us")
+        groups.add("app_version")
         children = HashMap()
 
         parentListItems.add(

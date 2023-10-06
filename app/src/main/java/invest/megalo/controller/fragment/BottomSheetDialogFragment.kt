@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
@@ -30,8 +31,10 @@ import com.google.android.material.bottomsheet.BottomSheetDragHandleView
 import invest.megalo.R
 import invest.megalo.controller.activity.EditProfileActivity
 import invest.megalo.controller.activity.HomeActivity
+import invest.megalo.controller.activity.InvestmentActivity
 import invest.megalo.controller.activity.MainActivity
 import invest.megalo.controller.activity.RegistrationActivity
+import java.text.DecimalFormat
 import java.util.Calendar
 
 
@@ -88,7 +91,6 @@ class BottomSheetDialogFragment(
         title.gravity = Gravity.CENTER_HORIZONTAL
         title.text = getString(titleTextResource)
 
-        positiveButton.setTypeface(null, Typeface.NORMAL)
         positiveButton.setTextSize(
             TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
         )
@@ -113,7 +115,6 @@ class BottomSheetDialogFragment(
             llp.setMargins(0, 0, 0, 0)
             negativeButton.layoutParams = llp
         } else {
-            negativeButton.setTypeface(null, Typeface.NORMAL)
             negativeButton.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
             )
@@ -177,14 +178,31 @@ class BottomSheetDialogFragment(
             buttonContainer.layoutParams = llp
         } else {
             content.setTextColor(ContextCompat.getColor(context, R.color.black_white))
-            content.setTypeface(null, Typeface.NORMAL)
             content.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
             )
             content.gravity = Gravity.CENTER_HORIZONTAL
-            content.text = getString(contentTextResource)
+            if (context is InvestmentActivity && type == "successful_investment") {
+                val df = DecimalFormat("#,##0.0#")
+                df.minimumFractionDigits = 2
+                content.text = Html.fromHtml(
+                    getString(
+                        contentTextResource, df.format(
+                            context.unformattedAmount.toDouble()
+                        ), DecimalFormat("#,###.######").format(
+                            context.investmentPercentage
+                        )
+                    ), Html.FROM_HTML_MODE_LEGACY
+                )
+            } else if (type == "potential_value_explanation" || type == "potential_earnings_explanation") {
+                content.gravity = Gravity.START
+                content.text =
+                    Html.fromHtml(getString(contentTextResource), Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                content.text = getString(contentTextResource)
+            }
 
-            if (type == "identification_document_review") {
+            if (type == "identification_document_review" || type == "successful_investment") {
                 val llp = LinearLayout.LayoutParams(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
@@ -206,31 +224,27 @@ class BottomSheetDialogFragment(
                 )
                 img.layoutParams = llp
                 img.setImageResource(imgResource)
-            } else {
-                if (type == "confirm_log_out") {
-                    val llp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    llp.gravity = Gravity.CENTER_HORIZONTAL
-                    llp.setMargins(
-                        0, 0, 0, TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_PX,
-                            context.resources.getDimension(R.dimen.normal_padding),
-                            context.resources.displayMetrics
-                        ).toInt()
-                    )
-                    check.layoutParams = llp
-                    check.buttonTintList = ContextCompat.getColorStateList(
-                        context, R.color.check_box_selector
-                    )
-                    check.setTextColor(ContextCompat.getColor(context, R.color.black_white))
-                    check.setTextSize(
+            } else if (type == "confirm_log_out") {
+                val llp = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                llp.gravity = Gravity.CENTER_HORIZONTAL
+                llp.setMargins(
+                    0, 0, 0, TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        context.resources.getDimension(R.dimen.normal_text)
-                    )
-                    check.text = context.getString(R.string.log_out_everywhere)
-                }
+                        context.resources.getDimension(R.dimen.normal_padding),
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+                check.layoutParams = llp
+                check.buttonTintList = ContextCompat.getColorStateList(
+                    context, R.color.check_box_selector
+                )
+                check.setTextColor(ContextCompat.getColor(context, R.color.black_white))
+                check.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
+                )
+                check.text = context.getString(R.string.log_out_everywhere)
             }
         }
     }
@@ -326,7 +340,7 @@ class BottomSheetDialogFragment(
             positiveButton = v.findViewById(R.id.positive_button)
             negativeButton = v.findViewById(R.id.negative_button)
 
-            if (type == "identification_document_review") {
+            if (type == "identification_document_review" || type == "successful_investment" || type == "potential_value_explanation" || type == "potential_earnings_explanation") {
                 positiveButton.setOnClickListener {
                     dismiss()
                 }

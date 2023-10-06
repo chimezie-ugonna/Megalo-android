@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doOnTextChanged
 import com.airbnb.lottie.LottieAnimationView
 import com.android.volley.Request
@@ -35,6 +35,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class EditProfileActivity : AppCompatActivity() {
+    private lateinit var parent: LinearLayout
+    private lateinit var title: TextView
     private lateinit var back: ImageView
     private lateinit var emailEdit: ImageView
     private lateinit var phoneEdit: ImageView
@@ -54,14 +56,12 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var ccp: CountryCodePicker
     private lateinit var update: AppCompatButton
     private lateinit var loader: CustomLoader
-    private lateinit var scrollView: ScrollView
+    private lateinit var scroll: NestedScrollView
     private lateinit var errorContainer: LinearLayout
     private lateinit var errorIcon: ImageView
     private lateinit var errorTitle: TextView
     private lateinit var errorDescription: TextView
     private lateinit var pageLoader: LottieAnimationView
-    private lateinit var parent: LinearLayout
-    private lateinit var title: TextView
     private val updateDataResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -277,14 +277,13 @@ class EditProfileActivity : AppCompatActivity() {
 
         parent = findViewById(R.id.parent)
         title = findViewById(R.id.title)
+        findViewById<ImageView>(R.id.logo).visibility = View.GONE
+        title.text = getString(R.string.edit_profile)
         back = findViewById(R.id.back)
         back.visibility = View.VISIBLE
         back.setOnClickListener { finish() }
 
         loader = CustomLoader(this)
-
-        findViewById<ImageView>(R.id.logo).visibility = View.GONE
-        title.text = getString(R.string.edit_profile)
 
         update = findViewById(R.id.button)
         update.text = getString(R.string.update)
@@ -468,7 +467,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         ccp = findViewById(R.id.ccp)
         ccp.registerCarrierNumberEditText(phone)
-        scrollView = findViewById(R.id.scrollView)
+        scroll = findViewById(R.id.scroll)
         errorContainer = findViewById(R.id.error_container)
         errorIcon = findViewById(R.id.error_icon)
         errorTitle = findViewById(R.id.error_title)
@@ -483,21 +482,23 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun load() {
         if (InternetCheck(this, parent, false).status()) {
-            scrollView.visibility = View.GONE
+            scroll.visibility = View.GONE
             errorContainer.visibility = View.GONE
             pageLoader.visibility = View.VISIBLE
+            pageLoader.playAnimation()
             ServerConnection(
                 this, "fetchUserData", Request.Method.GET, "user/read", JSONObject()
             )
         } else {
-            scrollView.visibility = View.GONE
+            scroll.visibility = View.GONE
             errorContainer.visibility = View.VISIBLE
             pageLoader.visibility = View.GONE
+            pageLoader.cancelAnimation()
         }
     }
 
     fun userDataFetched(
-        l: Int, jsonArray: JSONArray = JSONArray()
+        l: Int, statusCode: Int? = 0, jsonArray: JSONArray = JSONArray()
     ) {
         if (l == 1) {
             firstName.setText(jsonArray.getJSONObject(0).getString("first_name"))
@@ -526,13 +527,20 @@ class EditProfileActivity : AppCompatActivity() {
                 dob.setTextColor(ContextCompat.getColor(this, R.color.darkGrey_lightGrey))
                 update.visibility = View.GONE
             }
-            scrollView.visibility = View.VISIBLE
+            scroll.visibility = View.VISIBLE
             errorContainer.visibility = View.GONE
             pageLoader.visibility = View.GONE
+            pageLoader.cancelAnimation()
         } else {
-            scrollView.visibility = View.GONE
-            errorContainer.visibility = View.VISIBLE
-            pageLoader.visibility = View.GONE
+            if (statusCode == 420) {
+                finish()
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                scroll.visibility = View.GONE
+                errorContainer.visibility = View.VISIBLE
+                pageLoader.visibility = View.GONE
+                pageLoader.cancelAnimation()
+            }
         }
     }
 

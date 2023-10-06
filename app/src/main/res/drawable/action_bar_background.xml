@@ -1,7 +1,7 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="@dimen/stroke_removed"
-    android:insetTop="@dimen/stroke_removed"
-    android:insetRight="@dimen/stroke_removed">
+    android:insetLeft="@dimen/tiny_stroke_removed"
+    android:insetTop="@dimen/tiny_stroke_removed"
+    android:insetRight="@dimen/tiny_stroke_removed">
     <shape>
         <stroke
             android:width="@dimen/tiny_stroke_size"

@@ -70,6 +70,7 @@ class ProfileChildListAdapter(
         val forward: ImageView = v.findViewById(R.id.forward)
         val text: TextView = v.findViewById(R.id.text)
         val notificationsDot: TextView = v.findViewById(R.id.notifications_dot)
+        val value: TextView = v.findViewById(R.id.value)
 
         if (context is HomeActivity) {
             text.setTextSize(
@@ -83,17 +84,24 @@ class ProfileChildListAdapter(
 
             forward.contentDescription = context.getString(R.string.go_forward)
             forward.setImageResource(R.drawable.arrow_forward)
+            forward.visibility = View.VISIBLE
 
             notificationsDot.background = ContextCompat.getDrawable(
                 context, R.drawable.notification_dot
             )
+            notificationsDot.visibility = View.GONE
 
-            if (id.equals(
-                    "log_out", true
-                ) || id.equals(
-                    "delete_account", true
+            value.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
+            )
+            value.setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.darkGrey_lightGrey
                 )
-            ) {
+            )
+            value.visibility = View.GONE
+
+            if (id == "log_out" || id == "delete_account") {
                 img.visibility = View.GONE
                 val rlp = RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -111,10 +119,7 @@ class ProfileChildListAdapter(
                 )
                 text.layoutParams = rlp
 
-                if (id.equals(
-                        "log_out", true
-                    )
-                ) {
+                if (id == "log_out") {
                     parent.background = ContextCompat.getDrawable(
                         context, R.drawable.profile_list_item_background
                     )
@@ -148,10 +153,8 @@ class ProfileChildListAdapter(
                         )
                     }
                 }
-                when {
-                    id.equals(
-                        "verification_status", true
-                    ) -> {
+                when (id) {
+                    "verification_status" -> {
                         text.text = context.getString(R.string.verification_status)
                         img.setImageResource(R.drawable.identification)
                         forward.visibility = View.INVISIBLE
@@ -162,39 +165,42 @@ class ProfileChildListAdapter(
                         }
                     }
 
-                    id.equals(
-                        "payment_methods", true
-                    ) -> {
+                    "payment_methods" -> {
                         text.text = context.getString(R.string.payment_methods)
                         img.setImageResource(R.drawable.credit_card)
                     }
 
-                    id.equals(
-                        "terms_&_conditions", true
-                    ) -> {
+                    "terms_&_conditions" -> {
                         text.text = context.getString(R.string.terms_conditions)
                         img.setImageResource(R.drawable.document)
                     }
 
-                    id.equals(
-                        "privacy_policy", true
-                    ) -> {
+                    "privacy_policy" -> {
                         text.text = context.getString(R.string.privacy_policy)
                         img.setImageResource(R.drawable.lock_document)
                     }
 
-                    id.equals(
-                        "refer_&_earn", true
-                    ) -> {
+                    "refer_&_earn" -> {
                         text.text = context.getString(R.string.refer_earn)
                         img.setImageResource(R.drawable.gift)
                     }
 
-                    id.equals(
-                        "write_a_review", true
-                    ) -> {
+                    "write_a_review" -> {
                         text.text = context.getString(R.string.write_a_review)
                         img.setImageResource(R.drawable.star)
+                    }
+
+                    "email_us" -> {
+                        text.text = context.getString(R.string.email_us)
+                        img.setImageResource(R.drawable.envelope)
+                    }
+
+                    "app_version" -> {
+                        text.text = context.getString(R.string.app_version_text)
+                        img.setImageResource(R.drawable.app)
+                        forward.visibility = View.GONE
+                        value.visibility = View.VISIBLE
+                        value.text = context.getString(R.string.app_version)
                     }
                 }
             }
@@ -242,10 +248,7 @@ class ProfileChildListAdapter(
             notificationsDot.background = ContextCompat.getDrawable(
                 context, R.drawable.notification_dot
             )
-            if (id.equals(
-                    "email_verification", true
-                )
-            ) {
+            if (id == "email_verification") {
                 text.text = context.getString(R.string.email_verification)
                 if (context.emailVerified) {
                     img.setImageResource(R.drawable.success_green_check_circle)
@@ -254,10 +257,7 @@ class ProfileChildListAdapter(
                     img.setImageResource(R.drawable.dark_red_light_red_body_white_center_close_circle)
                     forward.visibility = View.VISIBLE
                 }
-            } else if (id.equals(
-                    "identity_verification", true
-                )
-            ) {
+            } else if (id == "identity_verification") {
                 text.text = context.getString(R.string.identity_verification)
                 if (context.identityVerificationStatus != "unverified") {
                     if (context.identityVerificationStatus == "verified") {

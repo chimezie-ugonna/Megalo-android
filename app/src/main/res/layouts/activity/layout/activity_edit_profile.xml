@@ -21,8 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:id="@+id/scrollView"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
@@ -171,7 +171,7 @@
                         android:layout_alignEnd="@+id/email"
                         android:layout_alignBottom="@+id/email"
                         android:layout_marginEnd="@dimen/normal_padding"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/update_email"
                         android:src="@drawable/edit" />
                 </RelativeLayout>
 
@@ -245,7 +245,7 @@
                         android:layout_alignEnd="@+id/phone"
                         android:layout_alignBottom="@+id/phone"
                         android:layout_marginEnd="@dimen/normal_padding"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/update_phone_number"
                         android:src="@drawable/edit" />
                 </RelativeLayout>
 
@@ -255,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/large_padding" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/error_container"
@@ -300,7 +300,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/normal_padding"
-            app:lottie_autoPlay="true"
             app:lottie_fileName="loader_animation.json"
             app:lottie_loop="true" />
     </FrameLayout>

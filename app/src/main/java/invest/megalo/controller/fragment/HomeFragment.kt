@@ -1,5 +1,6 @@
 package invest.megalo.controller.fragment
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.TypedValue
@@ -13,7 +14,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -22,6 +22,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import invest.megalo.R
 import invest.megalo.adapter.PropertyListAdapter
 import invest.megalo.controller.activity.HomeActivity
+import invest.megalo.controller.activity.VerticalListActivity
 import invest.megalo.data.PropertyListData
 import org.json.JSONObject
 
@@ -38,10 +39,10 @@ class HomeFragment : Fragment() {
     private lateinit var errorIcon: ImageView
     private lateinit var emptyIcon: ImageView
     lateinit var list: RecyclerView
-    lateinit var listItems: ArrayList<PropertyListData>
+    private lateinit var listItems: ArrayList<PropertyListData>
     private lateinit var error: LinearLayout
     private lateinit var empty: LinearLayout
-    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private lateinit var shimmerViewContainer: ShimmerFrameLayout
     private lateinit var parent: RelativeLayout
     private lateinit var shimmerImg: ShapeableImageView
     private lateinit var nextShimmerImg: ShapeableImageView
@@ -132,10 +133,12 @@ class HomeFragment : Fragment() {
         notificationsIcon = v.findViewById(R.id.notifications_icon)
 
         v.findViewById<FrameLayout>(R.id.notifications_container).setOnClickListener {
-
+            val intent = Intent(requireContext(), VerticalListActivity::class.java)
+            intent.putExtra("heading", R.string.notifications)
+            startActivity(intent)
         }
         listItems = ArrayList()
-        shimmerFrameLayout = v.findViewById(R.id.shimmer_view_container)
+        shimmerViewContainer = v.findViewById(R.id.shimmer_view_container)
         shimmerImg = v.findViewById(R.id.shimmer_img)
         nextShimmerImg = v.findViewById(R.id.next_shimmer_img)
         shimmerText = v.findViewById(R.id.shimmer_text)
@@ -164,18 +167,14 @@ class HomeFragment : Fragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                    if (linearLayoutManager != null) {
-                        if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == listItems.size - 1) {
-                            if (!isLoadingMore) {
-                                isLoadingMore = true
-                                (activity as HomeActivity).propertiesAdapter.addLoadMoreView()
-                            }
-                        }
+                    if (!isLoadingMore && !list.canScrollHorizontally(1)) {
+                        isLoadingMore = true
+                        (activity as HomeActivity).propertiesAdapter.addLoadMoreView()
                     }
                 }
             })
         }
+        showShimmer()
         return v
     }
 
@@ -197,32 +196,76 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showList() {
-        list.visibility = View.VISIBLE
-        shimmerFrameLayout.visibility = View.GONE
-        error.visibility = View.GONE
-        empty.visibility = View.GONE
+    fun showList() {
+        if (list.visibility != View.VISIBLE) {
+            list.visibility = View.VISIBLE
+        }
+        if (shimmerViewContainer.isShimmerStarted) {
+            shimmerViewContainer.stopShimmer()
+        }
+        if (shimmerViewContainer.visibility != View.GONE) {
+            shimmerViewContainer.visibility = View.GONE
+        }
+        if (error.visibility != View.GONE) {
+            error.visibility = View.GONE
+        }
+        if (empty.visibility != View.GONE) {
+            empty.visibility = View.GONE
+        }
     }
 
     private fun showShimmer() {
-        list.visibility = View.GONE
-        shimmerFrameLayout.visibility = View.VISIBLE
-        error.visibility = View.GONE
-        empty.visibility = View.GONE
+        if (list.visibility != View.GONE) {
+            list.visibility = View.GONE
+        }
+        if (!shimmerViewContainer.isShimmerStarted) {
+            shimmerViewContainer.startShimmer()
+        }
+        if (shimmerViewContainer.visibility != View.VISIBLE) {
+            shimmerViewContainer.visibility = View.VISIBLE
+        }
+        if (error.visibility != View.GONE) {
+            error.visibility = View.GONE
+        }
+        if (empty.visibility != View.GONE) {
+            empty.visibility = View.GONE
+        }
     }
 
     fun showError() {
-        list.visibility = View.GONE
-        shimmerFrameLayout.visibility = View.GONE
-        error.visibility = View.VISIBLE
-        empty.visibility = View.GONE
+        if (list.visibility != View.GONE) {
+            list.visibility = View.GONE
+        }
+        if (shimmerViewContainer.isShimmerStarted) {
+            shimmerViewContainer.stopShimmer()
+        }
+        if (shimmerViewContainer.visibility != View.GONE) {
+            shimmerViewContainer.visibility = View.GONE
+        }
+        if (error.visibility != View.VISIBLE) {
+            error.visibility = View.VISIBLE
+        }
+        if (empty.visibility != View.GONE) {
+            empty.visibility = View.GONE
+        }
     }
 
     fun showEmpty() {
-        list.visibility = View.GONE
-        shimmerFrameLayout.visibility = View.GONE
-        error.visibility = View.GONE
-        empty.visibility = View.VISIBLE
+        if (list.visibility != View.GONE) {
+            list.visibility = View.GONE
+        }
+        if (shimmerViewContainer.isShimmerStarted) {
+            shimmerViewContainer.stopShimmer()
+        }
+        if (shimmerViewContainer.visibility != View.GONE) {
+            shimmerViewContainer.visibility = View.GONE
+        }
+        if (error.visibility != View.GONE) {
+            error.visibility = View.GONE
+        }
+        if (empty.visibility != View.VISIBLE) {
+            empty.visibility = View.VISIBLE
+        }
     }
 
     fun addListItem(
@@ -268,6 +311,31 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun setListItem(
+        propertyId: String,
+        address: String,
+        imageUrls: String,
+        description: String,
+        valueUsd: Double,
+        percentageAvailable: Double,
+        monthlyEarningUsd: Double,
+        sizeSf: Int,
+        valueAverageAnnualChangePercentage: Double,
+        index: Int
+    ) {
+        listItems[index] = PropertyListData(
+            propertyId,
+            address,
+            imageUrls,
+            description,
+            valueUsd,
+            percentageAvailable,
+            monthlyEarningUsd,
+            sizeSf,
+            valueAverageAnnualChangePercentage,
+        )
+    }
+
     fun removeListItem(index: Int) {
         listItems.removeAt(index)
     }
@@ -305,7 +373,6 @@ class HomeFragment : Fragment() {
         (activity as HomeActivity).propertiesAdapter =
             PropertyListAdapter(requireContext(), listItems)
         list.adapter = (activity as HomeActivity).propertiesAdapter
-        showList()
     }
 
     fun checkIfExists(ignoredPropertyId: String): Boolean {
@@ -327,9 +394,7 @@ class HomeFragment : Fragment() {
                         index, itemCount
                     )
                 }
-                if (list.visibility == View.INVISIBLE) {
-                    showList()
-                }
+                showList()
             }
 
             "remove" -> {

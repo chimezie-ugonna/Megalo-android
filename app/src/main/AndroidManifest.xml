@@ -16,6 +16,13 @@
             <data android:scheme="https" />
         </intent>
     </queries>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"
@@ -30,11 +37,32 @@
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".controller.activity.PropertyDetailActivity"
+            android:name=".controller.activity.VerticalListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.ReferralActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.InvestmentActivity"
+            android:configChanges="keyboard|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".controller.activity.PropertyDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|fontScale|layoutDirection|locale|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".controller.activity.WebActivity"

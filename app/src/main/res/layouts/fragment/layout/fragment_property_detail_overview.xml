@@ -64,13 +64,40 @@
             android:textColor="@color/black_white"
             android:textSize="@dimen/normal_text" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+        <LinearLayout
+            android:id="@+id/detail_list_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_padding"
+            android:divider="@drawable/divider"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:showDividers="middle">
+
+            <include
+                android:id="@+id/property_value_layout"
+                layout="@layout/content_title_value" />
+
+            <include
+                android:id="@+id/percentage_available_layout"
+                layout="@layout/content_title_value" />
+
+            <include
+                android:id="@+id/monthly_earning_layout"
+                layout="@layout/content_title_value" />
+
+            <include
+                android:id="@+id/size_layout"
+                layout="@layout/content_title_value" />
+
+            <include
+                android:id="@+id/average_annual_change_layout"
+                layout="@layout/content_title_value" />
+
+            <include
+                android:id="@+id/address_layout"
+                layout="@layout/content_title_value" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

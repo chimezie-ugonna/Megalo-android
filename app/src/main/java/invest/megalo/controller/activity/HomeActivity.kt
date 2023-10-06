@@ -38,8 +38,8 @@ import invest.megalo.adapter.ProfileParentListAdapter
 import invest.megalo.adapter.PropertyListAdapter
 import invest.megalo.controller.ConnectivityObserver
 import invest.megalo.controller.fragment.BottomSheetDialogFragment
-import invest.megalo.controller.fragment.ExploreFragment
 import invest.megalo.controller.fragment.HomeFragment
+import invest.megalo.controller.fragment.PortfolioFragment
 import invest.megalo.controller.fragment.ProfileFragment
 import invest.megalo.model.CustomLoader
 import invest.megalo.model.CustomSnackBar
@@ -60,10 +60,10 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
     private lateinit var homeTitle: TextView
     private lateinit var homeDot: TextView
     lateinit var homeFragment: HomeFragment
-    private lateinit var explore: LinearLayout
-    private lateinit var exploreIcon: ImageView
-    private lateinit var exploreTitle: TextView
-    private lateinit var exploreFragment: ExploreFragment
+    private lateinit var portfolio: LinearLayout
+    private lateinit var portfolioIcon: ImageView
+    private lateinit var portfolioTitle: TextView
+    private lateinit var portfolioFragment: PortfolioFragment
     private lateinit var profile: FrameLayout
     private lateinit var profileIcon: ImageView
     private lateinit var profileTitle: TextView
@@ -141,11 +141,11 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
             TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.bottom_nav_text)
         )
         homeIcon.contentDescription = getString(R.string.home)
-        exploreTitle.text = getString(R.string.explore)
-        exploreTitle.setTextSize(
+        portfolioTitle.text = getString(R.string.portfolio)
+        portfolioTitle.setTextSize(
             TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.bottom_nav_text)
         )
-        exploreIcon.contentDescription = getString(R.string.explore)
+        portfolioIcon.contentDescription = getString(R.string.portfolio)
         profileTitle.text = getString(R.string.profile)
         profileTitle.setTextSize(
             TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.bottom_nav_text)
@@ -154,8 +154,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
         if (homeFragment.isVisible) {
             homeIcon.setImageResource(R.drawable.home_filled)
             homeTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
-            exploreIcon.setImageResource(R.drawable.explore_outline)
-            exploreTitle.setTextColor(
+            portfolioIcon.setImageResource(R.drawable.portfolio_outline)
+            portfolioTitle.setTextColor(
                 ContextCompat.getColor(
                     this, R.color.darkHint_lightHint
                 )
@@ -166,15 +166,15 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                     this, R.color.darkHint_lightHint
                 )
             )
-        } else if (exploreFragment.isVisible) {
+        } else if (portfolioFragment.isVisible) {
             homeIcon.setImageResource(R.drawable.home_outline)
             homeTitle.setTextColor(
                 ContextCompat.getColor(
                     this, R.color.darkHint_lightHint
                 )
             )
-            exploreIcon.setImageResource(R.drawable.explore_filled)
-            exploreTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
+            portfolioIcon.setImageResource(R.drawable.portfolio_filled)
+            portfolioTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
             profileIcon.setImageResource(R.drawable.profile_outline)
             profileTitle.setTextColor(
                 ContextCompat.getColor(
@@ -188,8 +188,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                     this, R.color.darkHint_lightHint
                 )
             )
-            exploreIcon.setImageResource(R.drawable.explore_outline)
-            exploreTitle.setTextColor(
+            portfolioIcon.setImageResource(R.drawable.portfolio_outline)
+            portfolioTitle.setTextColor(
                 ContextCompat.getColor(
                     this, R.color.darkHint_lightHint
                 )
@@ -243,11 +243,11 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
             replaceFragment(homeFragment, it)
         }
 
-        exploreIcon = findViewById(R.id.explore_icon)
-        exploreTitle = findViewById(R.id.explore_title)
-        explore = findViewById(R.id.explore)
-        explore.setOnClickListener {
-            replaceFragment(exploreFragment, it)
+        portfolioIcon = findViewById(R.id.portfolio_icon)
+        portfolioTitle = findViewById(R.id.portfolio_title)
+        portfolio = findViewById(R.id.portfolio)
+        portfolio.setOnClickListener {
+            replaceFragment(portfolioFragment, it)
         }
 
         profileIcon = findViewById(R.id.profile_icon)
@@ -259,7 +259,7 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
         }
 
         homeFragment = HomeFragment()
-        exploreFragment = ExploreFragment()
+        portfolioFragment = PortfolioFragment()
         profileFragment = ProfileFragment()
         replaceFragment(homeFragment)
 
@@ -459,18 +459,48 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                                     jsonArray.getJSONObject(i).getString("property_id")
                                 ) == false
                             ) {
-                                (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.addListItem(
-                                    jsonArray.getJSONObject(i).getString("property_id"),
-                                    jsonArray.getJSONObject(i).getString("address"),
-                                    jsonArray.getJSONObject(i).getString("image_urls"),
-                                    jsonArray.getJSONObject(i).getString("description"),
-                                    jsonArray.getJSONObject(i).getDouble("value_usd"),
-                                    jsonArray.getJSONObject(i).getDouble("percentage_available"),
-                                    jsonArray.getJSONObject(i).getDouble("monthly_earning_usd"),
-                                    jsonArray.getJSONObject(i).getInt("size_sf"),
-                                    jsonArray.getJSONObject(i)
-                                        .getDouble("value_average_annual_change_percentage")
-                                )
+                                var addItem = true
+                                if (i == 0) {
+                                    if ((fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.isLoadingMore == true) {
+                                        val index =
+                                            (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.getIndexById(
+                                                "null"
+                                            )
+                                        if (index != null && index != -1) {
+                                            (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.setListItem(
+                                                jsonArray.getJSONObject(i).getString("property_id"),
+                                                jsonArray.getJSONObject(i).getString("address"),
+                                                jsonArray.getJSONObject(i).getString("image_urls"),
+                                                jsonArray.getJSONObject(i).getString("description"),
+                                                jsonArray.getJSONObject(i).getDouble("value_usd"),
+                                                jsonArray.getJSONObject(i)
+                                                    .getDouble("percentage_available"),
+                                                jsonArray.getJSONObject(i)
+                                                    .getDouble("monthly_earning_usd"),
+                                                jsonArray.getJSONObject(i).getInt("size_sf"),
+                                                jsonArray.getJSONObject(i)
+                                                    .getDouble("value_average_annual_change_percentage"),
+                                                index
+                                            )
+                                            addItem = false
+                                        }
+                                    }
+                                }
+                                if (addItem) {
+                                    (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.addListItem(
+                                        jsonArray.getJSONObject(i).getString("property_id"),
+                                        jsonArray.getJSONObject(i).getString("address"),
+                                        jsonArray.getJSONObject(i).getString("image_urls"),
+                                        jsonArray.getJSONObject(i).getString("description"),
+                                        jsonArray.getJSONObject(i).getDouble("value_usd"),
+                                        jsonArray.getJSONObject(i)
+                                            .getDouble("percentage_available"),
+                                        jsonArray.getJSONObject(i).getDouble("monthly_earning_usd"),
+                                        jsonArray.getJSONObject(i).getInt("size_sf"),
+                                        jsonArray.getJSONObject(i)
+                                            .getDouble("value_average_annual_change_percentage")
+                                    )
+                                }
                                 addedListItemCount++
                             }
                         }
@@ -481,6 +511,7 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                                 "insert", propertiesAdapter.itemCount, addedListItemCount
                             )
                         }
+                        (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.showList()
                     } else {
                         if (propertiesCurrentPage == 1) {
                             (fragmentManager.findFragmentByTag(getString(R.string.home)) as HomeFragment?)?.showEmpty()
@@ -859,8 +890,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                                 R.id.fragment_container, homeFragment, getString(R.string.home)
                             )
                         }
-                        if (exploreFragment.isAdded) {
-                            fragmentTransaction.hide(exploreFragment)
+                        if (portfolioFragment.isAdded) {
+                            fragmentTransaction.hide(portfolioFragment)
                         }
                         if (profileFragment.isAdded) {
                             fragmentTransaction.hide(profileFragment)
@@ -868,8 +899,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
 
                         homeIcon.setImageResource(R.drawable.home_filled)
                         homeTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
-                        exploreIcon.setImageResource(R.drawable.explore_outline)
-                        exploreTitle.setTextColor(
+                        portfolioIcon.setImageResource(R.drawable.portfolio_outline)
+                        portfolioTitle.setTextColor(
                             ContextCompat.getColor(
                                 this, R.color.darkHint_lightHint
                             )
@@ -882,14 +913,14 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                         )
                     }
 
-                    is ExploreFragment -> {
-                        if (exploreFragment.isAdded) {
-                            fragmentTransaction.show(exploreFragment)
+                    is PortfolioFragment -> {
+                        if (portfolioFragment.isAdded) {
+                            fragmentTransaction.show(portfolioFragment)
                         } else {
                             fragmentTransaction.add(
                                 R.id.fragment_container,
-                                exploreFragment,
-                                getString(R.string.explore)
+                                portfolioFragment,
+                                getString(R.string.portfolio)
                             )
                         }
                         if (homeFragment.isAdded) {
@@ -905,8 +936,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                                 this, R.color.darkHint_lightHint
                             )
                         )
-                        exploreIcon.setImageResource(R.drawable.explore_filled)
-                        exploreTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
+                        portfolioIcon.setImageResource(R.drawable.portfolio_filled)
+                        portfolioTitle.setTextColor(ContextCompat.getColor(this, R.color.appGreen))
                         profileIcon.setImageResource(R.drawable.profile_outline)
                         profileTitle.setTextColor(
                             ContextCompat.getColor(
@@ -934,8 +965,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                         if (homeFragment.isAdded) {
                             fragmentTransaction.hide(homeFragment)
                         }
-                        if (exploreFragment.isAdded) {
-                            fragmentTransaction.hide(exploreFragment)
+                        if (portfolioFragment.isAdded) {
+                            fragmentTransaction.hide(portfolioFragment)
                         }
 
                         homeIcon.setImageResource(R.drawable.home_outline)
@@ -944,8 +975,8 @@ class HomeActivity : AppCompatActivity(), ConnectionEventListener, SubscriptionE
                                 this, R.color.darkHint_lightHint
                             )
                         )
-                        exploreIcon.setImageResource(R.drawable.explore_outline)
-                        exploreTitle.setTextColor(
+                        portfolioIcon.setImageResource(R.drawable.portfolio_outline)
+                        portfolioTitle.setTextColor(
                             ContextCompat.getColor(
                                 this, R.color.darkHint_lightHint
                             )

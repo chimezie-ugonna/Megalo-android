@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import invest.megalo.R
 
-class ExploreFragment : Fragment() {
+class PortfolioFragment : Fragment() {
     private lateinit var parent: LinearLayout
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -20,7 +20,7 @@ class ExploreFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_explore, container, false)
+        val v = inflater.inflate(R.layout.fragment_portfolio, container, false)
         parent = v.findViewById(R.id.parent)
         return v
     }

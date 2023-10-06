@@ -1,5 +1,6 @@
 package invest.megalo.controller.activity
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.TypedValue
@@ -23,7 +24,10 @@ import invest.megalo.adapter.PropertyViewPagerFragmentAdapter
 import invest.megalo.controller.fragment.PropertyDetailCalculatorFragment
 import invest.megalo.controller.fragment.PropertyDetailMetricFragment
 import invest.megalo.controller.fragment.PropertyDetailOverviewFragment
+import invest.megalo.model.CustomLoader
+import invest.megalo.model.CustomSnackBar
 import invest.megalo.model.SetAppTheme
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -35,7 +39,7 @@ class PropertyDetailActivity : AppCompatActivity() {
     private lateinit var adapter: PropertyViewPagerFragmentAdapter
     private lateinit var fragments: ArrayList<Fragment>
     private lateinit var fragmentManager: FragmentManager
-    private lateinit var parent: RelativeLayout
+    lateinit var parent: RelativeLayout
     private lateinit var title: TextView
     private lateinit var buttonContainer: LinearLayout
     var propertyId = ""
@@ -47,6 +51,8 @@ class PropertyDetailActivity : AppCompatActivity() {
     var monthlyEarningUsd = 0.0
     var sizeSf = 0
     var valueAverageAnnualChangePercentage = 0.0
+    lateinit var loader: CustomLoader
+    var investmentCalculatorYears = 0
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         SetAppTheme(this)
@@ -101,12 +107,16 @@ class PropertyDetailActivity : AppCompatActivity() {
         invest.setTextSize(
             TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
         )
+
+        loader.onConfigurationChanged()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         SetAppTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_detail)
+
+        loader = CustomLoader(this)
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -188,7 +198,9 @@ class PropertyDetailActivity : AppCompatActivity() {
         invest = findViewById(R.id.button)
         invest.text = getString(R.string.invest_now)
         invest.setOnClickListener {
-
+            val intent = Intent(this, InvestmentActivity::class.java)
+            intent.putExtra("property_id", propertyId)
+            startActivity(intent)
         }
 
         if (percentageAvailable != 0.0) {
@@ -201,7 +213,7 @@ class PropertyDetailActivity : AppCompatActivity() {
     }
 
     fun propertyMetricFetched(
-        l: Int, jsonObject: JSONObject = JSONObject()
+        l: Int, statusCode: Int? = 0, jsonObject: JSONObject = JSONObject()
     ) {
         if (l == 1) {
             (fragmentManager.findFragmentByTag("f1") as PropertyDetailMetricFragment).showContent(
@@ -212,7 +224,63 @@ class PropertyDetailActivity : AppCompatActivity() {
                 jsonObject.getDouble("value_percentage_increase")
             )
         } else {
-            (fragmentManager.findFragmentByTag("f1") as PropertyDetailMetricFragment).showError()
+            if (statusCode == 420) {
+                finish()
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                (fragmentManager.findFragmentByTag("f1") as PropertyDetailMetricFragment).showError()
+            }
+        }
+    }
+
+    fun potentialCalculated(
+        l: Int, statusCode: Int? = 0, message: String = "", jsonArray: JSONArray = JSONArray()
+    ) {
+        loader.dismiss()
+        if (l == 1) {
+            (fragmentManager.findFragmentByTag("f2") as PropertyDetailCalculatorFragment).loadResult(
+                jsonArray
+            )
+        } else {
+            if (message != "") {
+                CustomSnackBar(
+                    this@PropertyDetailActivity, parent, message, "error"
+                )
+            } else {
+                when (statusCode) {
+                    0 -> {
+                        CustomSnackBar(
+                            this@PropertyDetailActivity,
+                            parent,
+                            getString(R.string.unusual_error_message),
+                            "error"
+                        )
+                    }
+
+                    in 400..499 -> {
+                        if (statusCode == 420) {
+                            finish()
+                            startActivity(Intent(this, MainActivity::class.java))
+                        } else {
+                            CustomSnackBar(
+                                this@PropertyDetailActivity,
+                                parent,
+                                getString(R.string.client_error_message),
+                                "error"
+                            )
+                        }
+                    }
+
+                    else -> {
+                        CustomSnackBar(
+                            this@PropertyDetailActivity,
+                            parent,
+                            getString(R.string.server_error_message),
+                            "error"
+                        )
+                    }
+                }
+            }
         }
     }
 

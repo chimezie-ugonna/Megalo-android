@@ -66,7 +66,7 @@ class PropertyListAdapter(
             viewHolder.description.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
             )
-            val formatter = DecimalFormat("#.##")
+            val formatter = DecimalFormat("#,###.##")
             if (dataItem.percentageAvailable > 0) {
                 viewHolder.percentageAvailableImg.setImageResource(R.drawable.success_green_home_outline)
                 viewHolder.percentageAvailable.setTextColor(
@@ -91,7 +91,8 @@ class PropertyListAdapter(
             viewHolder.percentageAvailable.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.normal_text)
             )
-            val formatter2 = DecimalFormat("#,###.##")
+            val formatter2 = DecimalFormat("#,##0.0#")
+            formatter2.minimumFractionDigits = 2
             viewHolder.propertyValueImg.setImageResource(R.drawable.dollar_sign_square)
             viewHolder.propertyValue.setTextColor(
                 ContextCompat.getColor(
@@ -148,6 +149,24 @@ class PropertyListAdapter(
                 )
                 context.startActivity(intent)
             }
+        } else {
+            val viewHolder = (holder as LoadMoreViewHolder)
+            viewHolder.shimmerImg.setImageResource(R.color.darkGrey_lightGrey)
+            viewHolder.shimmerText.background = ContextCompat.getDrawable(
+                context, R.drawable.dark_grey_light_grey_solid_curved_corners
+            )
+            viewHolder.shimmerText2.background = ContextCompat.getDrawable(
+                context, R.drawable.dark_grey_light_grey_solid_curved_corners
+            )
+            viewHolder.shimmerText3.background = ContextCompat.getDrawable(
+                context, R.drawable.dark_grey_light_grey_solid_curved_corners
+            )
+            viewHolder.shimmerText4.background = ContextCompat.getDrawable(
+                context, R.drawable.dark_grey_light_grey_solid_curved_corners
+            )
+            viewHolder.shimmerText5.background = ContextCompat.getDrawable(
+                context, R.drawable.dark_grey_light_grey_solid_curved_corners
+            )
         }
     }
 
@@ -183,15 +202,24 @@ class PropertyListAdapter(
                         (context.fragmentManager.findFragmentByTag(context.getString(R.string.home)) as HomeFragment?)?.getIndexById(
                             "null"
                         )
-                    index?.let { data.removeAt(it) }
+                    if (index != null && index != -1) {
+                        data.removeAt(index)
+                        notifyItemRemoved(index)
+                    }
                     isLoadMoreViewAdded = false
-                    index?.let { notifyItemRemoved(it) }
                 }
             }
         }
     }
 
-    class LoadMoreViewHolder(v: View) : RecyclerView.ViewHolder(v)
+    class LoadMoreViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        var shimmerImg: ShapeableImageView = v.findViewById(R.id.shimmer_img)
+        var shimmerText: TextView = v.findViewById(R.id.shimmer_text)
+        var shimmerText2: TextView = v.findViewById(R.id.shimmer_text_2)
+        var shimmerText3: TextView = v.findViewById(R.id.shimmer_text_3)
+        var shimmerText4: TextView = v.findViewById(R.id.shimmer_text_4)
+        var shimmerText5: TextView = v.findViewById(R.id.shimmer_text_5)
+    }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var parent: RelativeLayout = v.findViewById(R.id.parent)

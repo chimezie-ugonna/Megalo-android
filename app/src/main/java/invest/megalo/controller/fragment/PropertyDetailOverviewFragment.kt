@@ -1,5 +1,6 @@
 package invest.megalo.controller.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -11,29 +12,33 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import invest.megalo.R
-import invest.megalo.adapter.PropertyDetailListAdapter
 import invest.megalo.controller.activity.GalleryActivity
 import invest.megalo.controller.activity.PropertyDetailActivity
-import invest.megalo.model.ListItemDecoration
+import java.text.DecimalFormat
 
 class PropertyDetailOverviewFragment : Fragment() {
     private lateinit var img: ShapeableImageView
     private lateinit var imageCount: TextView
     private lateinit var title: TextView
     private lateinit var description: TextView
-    private lateinit var list: RecyclerView
-    private lateinit var titleResources: ArrayList<Int>
-    private lateinit var valueResources: ArrayList<Int>
-    private lateinit var valuesString: ArrayList<String?>
-    private lateinit var valuesDouble: ArrayList<Double?>
-    private lateinit var valuesInt: ArrayList<Int?>
     private lateinit var subParent: LinearLayout
-    private lateinit var propertyDetailListAdapter: PropertyDetailListAdapter
-    private lateinit var itemDecoration: ListItemDecoration
+    private lateinit var propertyValueTitle: TextView
+    private lateinit var propertyValueValue: TextView
+    private lateinit var percentageAvailableTitle: TextView
+    private lateinit var percentageAvailableValue: TextView
+    private lateinit var monthlyEarningTitle: TextView
+    private lateinit var monthlyEarningValue: TextView
+    private lateinit var sizeTitle: TextView
+    private lateinit var sizeValue: TextView
+    private lateinit var averageAnnualChangeTitle: TextView
+    private lateinit var averageAnnualChangeValue: TextView
+    private lateinit var addressTitle: TextView
+    private lateinit var addressValue: TextView
+    private lateinit var v: View
+    private lateinit var df: DecimalFormat
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -58,20 +63,152 @@ class PropertyDetailOverviewFragment : Fragment() {
             TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
         )
 
-        list.removeItemDecoration(itemDecoration)
-        itemDecoration = ListItemDecoration(
+        df = DecimalFormat("#,##0.0#")
+        df.minimumFractionDigits = 2
+
+        propertyValueTitle.text = getString(R.string.property_value)
+        propertyValueTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        propertyValueTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        propertyValueValue.text = getString(
+            R.string.dollar_value, df.format((activity as PropertyDetailActivity).valueUsd)
+        )
+        propertyValueValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        propertyValueValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        percentageAvailableTitle.text = getString(R.string.percentage_available)
+        percentageAvailableTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        percentageAvailableTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        percentageAvailableValue.text = getString(
+            R.string.percentage_value,
+            DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).percentageAvailable)
+        )
+        percentageAvailableValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        percentageAvailableValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        monthlyEarningTitle.text = getString(R.string.monthly_earning)
+        monthlyEarningTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        monthlyEarningTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        monthlyEarningValue.text = getString(
+            R.string.dollar_value, df.format((activity as PropertyDetailActivity).monthlyEarningUsd)
+        )
+        monthlyEarningValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        monthlyEarningValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        sizeTitle.text = getString(R.string.size)
+        sizeTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        sizeTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        sizeValue.text = getString(
+            R.string.square_foot_value,
+            DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).sizeSf)
+        )
+        sizeValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        sizeValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        averageAnnualChangeTitle.text = getString(R.string.average_annual_change)
+        averageAnnualChangeTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        averageAnnualChangeTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        averageAnnualChangeValue.text = getString(
+            R.string.percentage_value,
+            DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).valueAverageAnnualChangePercentage)
+        )
+        averageAnnualChangeValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        averageAnnualChangeValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        addressTitle.text = getString(R.string.address)
+        addressTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.darkGrey_lightGrey
+            )
+        )
+        addressTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        addressValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(), R.color.black_white
+            )
+        )
+        addressValue.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.normal_text)
+        )
+
+        v.findViewById<LinearLayout>(R.id.detail_list_container).dividerDrawable =
             ContextCompat.getDrawable(
                 requireContext(), R.drawable.divider
             )
-        )
-        list.addItemDecoration(itemDecoration)
-        propertyDetailListAdapter.notifyItemRangeChanged(0, propertyDetailListAdapter.itemCount)
     }
 
+    @SuppressLint("CutPasteId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_property_detail_overview, container, false)
+    ): View {
+        v = inflater.inflate(R.layout.fragment_property_detail_overview, container, false)
 
         subParent = v.findViewById(R.id.sub_parent)
         img = v.findViewById(R.id.img)
@@ -100,67 +237,74 @@ class PropertyDetailOverviewFragment : Fragment() {
             imageCount.visibility = View.GONE
         }
 
+        df = DecimalFormat("#,##0.0#")
+        df.minimumFractionDigits = 2
+
         title = v.findViewById(R.id.title)
         description = v.findViewById(R.id.description)
         description.text = (activity as PropertyDetailActivity).descriptionText
 
-        titleResources = ArrayList()
-        titleResources.add(R.string.property_value)
-        titleResources.add(R.string.percentage_available)
-        titleResources.add(R.string.monthly_earning)
-        titleResources.add(R.string.size)
-        titleResources.add(R.string.average_annual_change)
-        titleResources.add(R.string.address)
+        v.findViewById<View>(R.id.property_value_layout).apply {
+            propertyValueTitle = findViewById(R.id.title_value_title)
+            propertyValueValue = findViewById(R.id.title_value_value)
 
-        valueResources = ArrayList()
-        valueResources.add(R.string.dollar_value)
-        valueResources.add(R.string.percentage_value)
-        valueResources.add(R.string.dollar_value)
-        valueResources.add(R.string.square_foot_value)
-        valueResources.add(R.string.percentage_value)
-        valueResources.add(0)
-
-        valuesString = ArrayList()
-        valuesString.add(null)
-        valuesString.add(null)
-        valuesString.add(null)
-        valuesString.add(null)
-        valuesString.add(null)
-        valuesString.add((activity as PropertyDetailActivity).address)
-
-        valuesDouble = ArrayList()
-        valuesDouble.add((activity as PropertyDetailActivity).valueUsd)
-        valuesDouble.add((activity as PropertyDetailActivity).percentageAvailable)
-        valuesDouble.add((activity as PropertyDetailActivity).monthlyEarningUsd)
-        valuesDouble.add(null)
-        valuesDouble.add((activity as PropertyDetailActivity).valueAverageAnnualChangePercentage)
-        valuesDouble.add(null)
-
-        valuesInt = ArrayList()
-        valuesInt.add(null)
-        valuesInt.add(null)
-        valuesInt.add(null)
-        valuesInt.add((activity as PropertyDetailActivity).sizeSf)
-        valuesInt.add(null)
-        valuesInt.add(null)
-
-        propertyDetailListAdapter = PropertyDetailListAdapter(
-            requireContext(), titleResources, valueResources, valuesString, valuesDouble, valuesInt
-        )
-        list = v.findViewById(R.id.list)
-        itemDecoration = ListItemDecoration(
-            ContextCompat.getDrawable(
-                requireContext(), R.drawable.divider
+            propertyValueTitle.text = getString(R.string.property_value)
+            propertyValueValue.text = getString(
+                R.string.dollar_value, df.format((activity as PropertyDetailActivity).valueUsd)
             )
-        )
-        list.apply {
-            addItemDecoration(
-                itemDecoration
-            )
-            adapter = propertyDetailListAdapter
-            isNestedScrollingEnabled = false
         }
 
+        v.findViewById<View>(R.id.percentage_available_layout).apply {
+            percentageAvailableTitle = findViewById(R.id.title_value_title)
+            percentageAvailableValue = findViewById(R.id.title_value_value)
+
+            percentageAvailableTitle.text = getString(R.string.percentage_available)
+            percentageAvailableValue.text = getString(
+                R.string.percentage_value,
+                DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).percentageAvailable)
+            )
+        }
+
+        v.findViewById<View>(R.id.monthly_earning_layout).apply {
+            monthlyEarningTitle = findViewById(R.id.title_value_title)
+            monthlyEarningValue = findViewById(R.id.title_value_value)
+
+            monthlyEarningTitle.text = getString(R.string.monthly_earning)
+            monthlyEarningValue.text = getString(
+                R.string.dollar_value,
+                df.format((activity as PropertyDetailActivity).monthlyEarningUsd)
+            )
+        }
+
+        v.findViewById<View>(R.id.size_layout).apply {
+            sizeTitle = findViewById(R.id.title_value_title)
+            sizeValue = findViewById(R.id.title_value_value)
+
+            sizeTitle.text = getString(R.string.size)
+            sizeValue.text = getString(
+                R.string.square_foot_value,
+                DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).sizeSf)
+            )
+        }
+
+        v.findViewById<View>(R.id.average_annual_change_layout).apply {
+            averageAnnualChangeTitle = findViewById(R.id.title_value_title)
+            averageAnnualChangeValue = findViewById(R.id.title_value_value)
+
+            averageAnnualChangeTitle.text = getString(R.string.average_annual_change)
+            averageAnnualChangeValue.text = getString(
+                R.string.percentage_value,
+                DecimalFormat("#,###.##").format((activity as PropertyDetailActivity).valueAverageAnnualChangePercentage)
+            )
+        }
+
+        v.findViewById<View>(R.id.address_layout).apply {
+            addressTitle = findViewById(R.id.title_value_title)
+            addressValue = findViewById(R.id.title_value_value)
+
+            addressTitle.text = getString(R.string.address)
+            addressValue.text = (activity as PropertyDetailActivity).address
+        }
         return v
     }
 }

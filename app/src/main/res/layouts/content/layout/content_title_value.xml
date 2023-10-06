@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/normal_padding"
+    android:paddingBottom="@dimen/normal_padding">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/title_value_img"
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:layout_marginEnd="@dimen/normal_padding"
+            android:contentDescription="@null"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/title_value_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="@color/darkGrey_lightGrey"
+            android:textSize="@dimen/normal_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_padding"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <TextView
+            android:id="@+id/title_value_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/black_white"
+            android:textSize="@dimen/normal_text" />
+
+        <ImageView
+            android:id="@+id/title_value_img2"
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:contentDescription="@null"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

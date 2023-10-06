@@ -17,10 +17,11 @@
     <dimen name="list_icon_size">20dp</dimen>
     <dimen name="divider_margin">40dp</dimen>
     <dimen name="stroke_size">1dp</dimen>
+    <dimen name="chart_line_circle_radius">1.5dp</dimen>
+    <dimen name="chart_text_size">4sp</dimen>
     <dimen name="tiny_stroke_size">0.5dp</dimen>
-    <dimen name="stroke_removed">-2dp</dimen>
+    <dimen name="tiny_stroke_removed">-0.5dp</dimen>
     <dimen name="progress_indicator">2dp</dimen>
-    <dimen name="vector_dimension">200dp</dimen>
     <dimen name="dialog_width">300dp</dimen>
     <dimen name="loader_animation_height">100dp</dimen>
 </resources>

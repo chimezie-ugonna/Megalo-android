@@ -11,6 +11,10 @@
     <string name="plus" translatable="false">+%s</string>
     <string name="percentage_value" translatable="false">%s%%</string>
     <string name="square_foot_value" translatable="false">%s sqft</string>
+    <string name="_10" translatable="false">10</string>
+    <string name="support_email" translatable="false">support@investmegalo.com</string>
+    <string name="app_version_text" translatable="false">App Version</string>
+    <string name="download_link" translatable="false">https://rb.gy/ro454</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
     <string name="welcome_to_megalo">Welcome to Megalo</string>
@@ -50,7 +54,6 @@
     <string name="select_your_birth_date">Select your birth date</string>
     <string name="please_select_your_birth_date">Please select your birth date.</string>
     <string name="home">Home</string>
-    <string name="explore">Explore</string>
     <string name="profile">Profile</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
@@ -124,9 +127,10 @@
     <string name="_0_0">%s/%s</string>
     <string name="more_options">More Options</string>
     <string name="refresh_page">Refresh Page</string>
-    <string name="share">Share…</string>
+    <string name="share_">Share…</string>
     <string name="open_in_browser">Open in Browser</string>
     <string name="we_could_not_find_any_available_browser">We could not find an available browser.</string>
+    <string name="we_could_not_find_an_available_email_app">We could not find an available email app.</string>
     <string name="we_do_not_have_any_properties_listed_yet_when_we_do_they_will_appear_here">We do not have any properties listed yet. When we do, they will appear here.</string>
     <string name="property_detail">Property Detail</string>
     <string name="invest_now">Invest Now</string>
@@ -146,4 +150,53 @@
     <string name="total_dividends_paid">Total Dividends Paid</string>
     <string name="dividend_percentage_increase">Dividend Percentage Increase</string>
     <string name="property_value_percentage_increase">Property Value Percentage Increase</string>
+    <string name="investment">Investment</string>
+    <string name="amount">Amount</string>
+    <string name="_0_00">$0.00</string>
+    <string name="percentage_of_value">&lt;b>%s%%&lt;/b> of $%s</string>
+    <string name="available_balance_">Available Balance: &lt;b>$%s&lt;/b></string>
+    <string name="invest">Invest</string>
+    <string name="percentage_available_">Percentage Available: &lt;b>%s%%&lt;/b></string>
+    <string name="please_enter_an_amount">Please enter an amount.</string>
+    <string name="you_can_only_invest_a_minimum_of_0_50">You can only invest a minimum of $0.50.</string>
+    <string name="processing_investment">Processing investment…</string>
+    <string name="you_do_not_have_sufficient_funds_in_your_balance_for_this_investment">You do not have sufficient funds in your balance for this investment.</string>
+    <string name="this_amount_exceeds_the_percentage_available_for_investment">This amount exceeds the percentage available for investment.</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="investment_successful">Investment Successful</string>
+    <string name="congratulations_your_investment_was_successful_and_you_now_own_s_of_this_property_you_can_view_your_investments_any_time_at_the_portfolio_tab_on_the_home_page">Congratulations! Your investment of &lt;b>$%s&lt;/b> was successful and you now own &lt;b>%s%%&lt;/b> of this property. You can view your investments at any time from the \"Portfolio\" tab on the home page.</string>
+    <string name="you_can_only_invest_a_maximum_of_999_999_99">You can only invest a maximum of $999,999.99.</string>
+    <string name="investment_calculator">Investment Calculator</string>
+    <string name="year_s">Year(s)</string>
+    <string name="potential_returns">Potential Returns</string>
+    <string name="calculate">Calculate</string>
+    <string name="please_enter_number_of_years">Please enter number of years.</string>
+    <string name="the_number_of_years_can_not_be_less_than_1">The number of years can not be less than 1.</string>
+    <string name="the_number_of_years_can_not_be_greater_than_50">The number of years can not be greater than 50.</string>
+    <string name="calculating_investment_potential">Calculating investment potential…</string>
+    <string name="potential_value_after_x_years">Potential value after %s years</string>
+    <string name="potential_earnings_after_x_years">Potential earnings after %s years</string>
+    <string name="potential_value_after_x_year">Potential value after %s year</string>
+    <string name="potential_earnings_after_x_year">Potential earnings after %s year</string>
+    <string name="potential_value">Potential value</string>
+    <string name="potential_Value">Potential Value</string>
+    <string name="potential_earnings">Potential earnings</string>
+    <string name="potential_value_refers_to_the_estimated_financial_growth_that_a_property_may_achieve_over_a_specific_period_of_time_considering_the_amount_invested_ppv_cpv_1_aac_100_tp_piv_ip_100_ppv_terms_ppv_potential_property_value_estimated_value_of_a_property_after_a_given_period_of_time_cpv_current_property_value_current_value_of_a_property_aac_average_annual_change_average_annual_change_in_value_of_a_property_over_a_period_of_time_tp_time_period_duration_of_your_investment_ip_investment_percentage_percentage_of_property_owned_by_you_piv_potential_investment_value_estimated_return_value_of_your_investment_after_a_period_of_time">Potential value refers to the estimated financial growth that a property may achieve over a specific period of time considering the amount invested.&lt;br/&gt;&lt;br/&gt; &lt;b>PPV&lt;/b> = &lt;b>CPV&lt;/b> * (1 + (&lt;b>AAC&lt;/b> / 100)) ^ &lt;b>TP&lt;/b>&lt;br/&gt; &lt;b>PIV&lt;/b> = (&lt;b>IP&lt;/b> / 100) * &lt;b>PPV&lt;/b>&lt;br/&gt;&lt;br/&gt; &lt;b>Terms&lt;/b>&lt;br/&gt;&lt;br/&gt; &lt;b>PPV&lt;/b> = Potential Property Value: Estimated value of a property after a given period of time.&lt;br/&gt;&lt;br/&gt; &lt;b>CPV&lt;/b> = Current Property Value: Current value of a property.&lt;br/&gt;&lt;br/&gt; &lt;b>AAC&lt;/b> = Average Annual Change: Average annual change in value of a property over a period of time.&lt;br/&gt;&lt;br/&gt; &lt;b>TP&lt;/b> = Time Period: Duration of your investment.&lt;br/&gt;&lt;br/&gt; &lt;b>IP&lt;/b> = Investment Percentage: Percentage of property owned by you.&lt;br/&gt;&lt;br/&gt; &lt;b>PIV&lt;/b> = Potential Investment Value: Estimated return value of your investment after a period of time.</string>
+    <string name="potential_earnings_refers_to_the_estimated_financial_return_that_a_property_may_generate_over_a_specific_period_of_time_considering_the_amount_invested_ppe_cpme_tp_12_pe_ip_100_ppe_terms_ppe_potential_property_earning_estimated_amount_of_revenue_a_property_will_generate_after_a_period_of_time_cpme_current_property_monthly_earning_current_amount_of_revenue_a_property_currently_generates_every_month_tp_time_period_duration_of_your_investment_pe_potential_earning_estimated_return_accumulated_from_the_monthly_earnings_of_a_property_ip_investment_percentage_percentage_of_property_owned_by_you">Potential earnings refers to the estimated financial return that a property may generate over a specific period of time considering the amount invested.&lt;br/&gt;&lt;br/&gt; &lt;b>PPE&lt;/b> = &lt;b>CPME&lt;/b> * (&lt;b>TP&lt;/b> * 12)&lt;br/&gt; &lt;b>PE&lt;/b> = (&lt;b>IP&lt;/b> / 100) * &lt;b>PPE&lt;/b>&lt;br/&gt;&lt;br/&gt; &lt;b>Terms&lt;/b>&lt;br/&gt;&lt;br/&gt; &lt;b>PPE&lt;/b> = Potential Property Earning: Estimated amount of revenue a property will generate after a period of time.&lt;br/&gt;&lt;br/&gt; &lt;b>CPME&lt;/b> = Current Property Monthly Earning: Current amount of revenue a property currently generates every month.&lt;br/&gt;&lt;br/&gt; &lt;b>TP&lt;/b> = Time Period: Duration of your investment.&lt;br/&gt;&lt;br/&gt; &lt;b>PE&lt;/b> = Potential Earning: Estimated return accumulated from the monthly earnings of a property.&lt;br/&gt;&lt;br/&gt; &lt;b>IP&lt;/b> = Investment Percentage: Percentage of property owned by you.</string>
+    <string name="email_us">Email Us</string>
+    <string name="help_required">Help Required</string>
+    <string name="please_clear_this_auto_generated_text_and_then_tell_us_what_you_need_help_with">Please clear this auto-generated text and then tell us what you need help with. We will respond as soon as possible.</string>
+    <string name="you_and_the_person_you_invite_will_each_earn_s_when_they_create_an_account_using_your_referral_code_and_then_make_an_investment_of_at_least_s">You and the person you refer will each earn &lt;b>$%s&lt;/b> when they create an account using your referral code and then make an investment of at least &lt;b>$%s&lt;/b>.</string>
+    <string name="total_referrals">Total Referrals</string>
+    <string name="total_completed">Total Completed</string>
+    <string name="total_pending">Total Pending</string>
+    <string name="total_earnings">Total Earnings</string>
+    <string name="refer_to_your_friends_and_earn_money">Refer to your friends and earn money</string>
+    <string name="refer">Refer</string>
+    <string name="Referral_Code">Referral Code</string>
+    <string name="copy_referral_code">Copy referral code</string>
+    <string name="view_information">View Information</string>
+    <string name="referral_code_copied_successfully">Referral code copied successfully.</string>
+    <string name="hello_do_you_want_to_begin_your_journey_to_financial_freedom_if_so_download_the_s_app_with_this_link_s_create_an_account_with_my_referral_code_s_and_get_the_opportunity_to_invest_in_properties_with_as_little_as_s">Hello! Do you want to begin your journey to financial freedom? If so, download the %s app with this link: %s, create an account with my referral code: %s and get the opportunity to invest in properties with as little as $%s.</string>
+    <string name="nothing_to_see_here">Nothing to see here.</string>
 </resources>

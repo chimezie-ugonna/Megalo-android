@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white_black"
     android:orientation="vertical"
-    tools:context=".controller.fragment.ExploreFragment"
+    tools:context=".controller.fragment.PortfolioFragment"
     tools:ignore="Overdraw">
 
 </LinearLayout>

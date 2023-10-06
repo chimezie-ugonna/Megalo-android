@@ -1,0 +1,181 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_black"
+    android:orientation="vertical"
+    tools:context=".controller.activity.VerticalListActivity"
+    tools:ignore="Overdraw">
+
+    <include
+        android:id="@+id/branding_container"
+        layout="@layout/content_branding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:id="@+id/error_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/error_icon"
+                android:layout_width="@dimen/big_icon_size"
+                android:layout_height="@dimen/big_icon_size"
+                android:contentDescription="@null"
+                android:src="@drawable/arrow_clockwise" />
+
+            <TextView
+                android:id="@+id/error_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:gravity="center"
+                android:text="@string/something_went_wrong"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/big_text" />
+
+            <TextView
+                android:id="@+id/error_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:gravity="center"
+                android:text="@string/we_are_having_issues_loading_this_page_please_tap_to_retry"
+                android:textColor="@color/darkGrey_lightGrey"
+                android:textSize="@dimen/normal_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/empty_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding"
+            android:visibility="gone"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/empty_icon"
+                android:layout_width="@dimen/big_icon_size"
+                android:layout_height="@dimen/big_icon_size"
+                android:contentDescription="@null"
+                android:src="@drawable/trash_circle" />
+
+            <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:gravity="center"
+                android:text="@string/nothing_to_see_here"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/big_text" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/shimmer_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="false">
+
+                <LinearLayout
+                    android:id="@+id/shimmer_item_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/shimmer_divider"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <include
+                        android:id="@+id/shimmer_layout_1"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_2"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_3"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_4"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_5"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_6"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_7"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_8"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_9"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_10"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_11"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_12"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_13"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_14"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                    <include
+                        android:id="@+id/shimmer_layout_15"
+                        layout="@layout/content_title_subtitle_shimmer" />
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+</LinearLayout>
